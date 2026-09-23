@@ -47,7 +47,7 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
 
         connect(removeDelegate, &NotificationRemoveDelegate::removeClicked, this, [=, this](long long rowId) {
 
-            if(!ModalDialogBuilder::askDialog("Are you sure you want to delete the reminder?")){
+            if(!ModalDialogBuilder::askDialog(tr("Are you sure you want to delete the reminder?").toStdString())){
                 return;
             }
 
@@ -109,13 +109,13 @@ void NotificationListDialog::appointmentLogic(long long patientRowid, long long 
 
     result = ModalDialogBuilder::openButtonDialog(
         {
-            "Schedule New Appointment",
-            "New Dental Visit",
-            "New Invoice",
-            "New Periodontal Measurment",
-            "Patient History"
+            tr("Schedule New Appointment").toStdString(),
+            tr("New Dental Visit").toStdString(),
+            tr("New Invoice").toStdString(),
+            tr("New Periodontal Measurment").toStdString(),
+            tr("Patient History").toStdString()
         },
-        "Open"
+        tr("Open").toStdString()
         );
 
         if (result == -1) return;
@@ -143,7 +143,7 @@ void NotificationListDialog::appointmentLogic(long long patientRowid, long long 
 
     close();
 
-    if(!ModalDialogBuilder::askDialog("Do you want to delete the reminder?")){
+    if(!ModalDialogBuilder::askDialog(tr("Do you want to delete the reminder?").toStdString())){
         return;
     }
 

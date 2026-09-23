@@ -60,7 +60,7 @@ QDate NotificationDialog::recalculateDate()
         case 2: result =  m_currentDate.addYears(value); break;
     }
 
-    ui->dateLabel->setText("Date: " + result.toString("dd.MM.yyyy"));
+    ui->dateLabel->setText(tr("Date: ") + result.toString("dd.MM.yyyy"));
 
     return result;
 }

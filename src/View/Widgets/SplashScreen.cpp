@@ -9,7 +9,7 @@ void SplashScreen::createAndShow()
 {
 	s_splash = new QSplashScreen(QPixmap(":/other/splash.png"));
     s_splash->show();
-    s_splash->showMessage("Loading QDento, please wait...", Qt::AlignLeft | Qt::AlignBottom, Qt::darkGray);
+    s_splash->showMessage(QObject::tr("Loading QDento, please wait..."), Qt::AlignLeft | Qt::AlignBottom, Qt::darkGray);
     QApplication::instance()->processEvents();
 }
 

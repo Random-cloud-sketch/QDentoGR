@@ -15,7 +15,7 @@ BuisnessOperationDialog::BuisnessOperationDialog(const std::optional<BusinessOpe
 
 	if (op.has_value()) {
 
-		setWindowTitle("Edit Unit");
+		setWindowTitle(tr("Edit Unit"));
 
 		ui.nameEdit->setText(op->activity_name.c_str());
 		ui.codeEdit->setText(op->activity_code.c_str());

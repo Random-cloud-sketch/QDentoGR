@@ -278,7 +278,7 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 	});
 	main_menu->addAction(action);
 
-	action = (new QAction("Delete", main_menu));
+	action = (new QAction(tr("Delete"), main_menu));
 	connect(action, &QAction::triggered, this, [=, this] { presenter.deleteCurrentSelection(); });
 	action->setIcon(QIcon(":/icons/icon_remove.png"));
 	main_menu->addAction(action);

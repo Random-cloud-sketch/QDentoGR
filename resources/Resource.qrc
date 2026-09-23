@@ -87,4 +87,8 @@
         <file>db_migrateTo1.txt</file>
         <file>db_migrateTo2.txt</file>
     </qresource>
+    <qresource prefix="/translations">
+        <file alias="Translation_el_GR.qm">../translations/Translation_el_GR.qm</file>
+        <file alias="qtbase_el.qm">../translations/qtbase_el.qm</file>
+    </qresource>
 </RCC>

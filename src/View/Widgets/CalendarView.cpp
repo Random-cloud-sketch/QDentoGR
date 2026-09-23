@@ -9,6 +9,8 @@
 #include "Presenter/CalendarPresenter.h"
 #include "View/Theme.h"
 #include "View/uiComponents/CalendarWidget.h"
+#include "GlobalSettings.h"
+#include <QLocale>
 
 CalendarView::CalendarView(QWidget* parent)
     : QWidget(parent)
@@ -169,7 +171,8 @@ void CalendarView::updateWeekView(QDate from, QDate to, int currentDayColumn)
 
         text += "</b><br>";
 
-        text += date.toString();
+        //Greek interface shows Greek day/month names, otherwise the original format
+        text += GlobalSettings::isGreekUi() ? QLocale(QLocale::Greek, QLocale::Greece).toString(date, "ddd d MMM yyyy") : date.toString();
 
         text += "</p>";
 

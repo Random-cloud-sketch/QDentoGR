@@ -14,7 +14,7 @@ DoctorSettingsDialog::DoctorSettingsDialog(DentistDialogPresenter& presenter, QW
 {
 	ui.setupUi(this);
 
-	setWindowTitle("Dentist");
+	setWindowTitle(tr("Dentist"));
 	setWindowIcon(QIcon{ ":/icons/icon_user.png" });
 
 	ui.fNameEdit->setInputValidator(&fieldValidator);

@@ -4,6 +4,7 @@
 #include "Database.h"
 #include "DbProcedure.h"
 #include <map>
+#include <QObject>
 
 std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
 {
@@ -12,10 +13,10 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
     
     rows.reserve(50);
 
-    tableView.addColumn({"Identifier",150,PlainColumn::Center});
-    tableView.addColumn({"Patient Name",250});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"),150,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Patient Name"),250});
     tableView.indicator_column = 2;
-    tableView.addColumn({"Patient Phone",120,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Patient Phone"),120,PlainColumn::Center});
 
     std::string query =
         "SELECT rowid, id, fname, lname , phone,  "
@@ -54,12 +55,12 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
     std::vector<RowInstance> rows;
     PlainTable tableView;
 
-    tableView.addColumn({"Date",120,PlainColumn::Center});
-    tableView.addColumn({"Number",110,PlainColumn::Center});
-    tableView.addColumn({"Identifier",120,PlainColumn::Center});
-    tableView.addColumn({"Patient Name",240});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Date"),120,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Number"),110,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"),120,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Patient Name"),240});
     tableView.indicator_column = 4;
-    tableView.addColumn({"Phone Number",120,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Phone Number"),120,PlainColumn::Center});
 
     rows.reserve(50);
 
@@ -125,11 +126,11 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
     PlainTable tableView;
     rows.reserve(50);
 
-    tableView.addColumn({"Date",120,PlainColumn::Center});
-    tableView.addColumn({"Identifier",150,PlainColumn::Center});
-    tableView.addColumn({"Patient Name",250,});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Date"),120,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"),150,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Patient Name"),250,});
     tableView.indicator_column = 3;
-    tableView.addColumn({"Phone Number",120,PlainColumn::Center });
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Phone Number"),120,PlainColumn::Center });
 
     std::string query =
         "SELECT periostatus.rowid, periostatus.date, patient.rowid, patient.id, patient.fname, patient.lname, patient.phone, "
@@ -182,11 +183,11 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
     std::vector<RowInstance> rows;
     PlainTable tableView;
 
-    tableView.addColumn({"Date", 120, PlainColumn::Right});
-    tableView.addColumn({"Number", 110, PlainColumn::Center});
-    tableView.addColumn({"Identifier", 100, PlainColumn::Center});
-    tableView.addColumn({"Recipient Name", 250 });
-    tableView.addColumn({"Phone Number", 100, PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Date"), 120, PlainColumn::Right});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Number"), 110, PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"), 100, PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Recipient Name"), 250 });
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Phone Number"), 100, PlainColumn::Center});
 
     std::string query =
         "SELECT rowid, num, "
@@ -227,10 +228,10 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
 
     std::vector<RowInstance> rowidData;
 
-    table.addColumn({"Date",120,PlainColumn::Center});
-    table.addColumn({"Document",180});
-    table.addColumn({"Number", 150, PlainColumn::Center});
-    table.addColumn({"Issued by", 100, PlainColumn::Center });
+    table.addColumn({QT_TRANSLATE_NOOP("QObject", "Date"),120,PlainColumn::Center});
+    table.addColumn({QT_TRANSLATE_NOOP("QObject", "Document"),180});
+    table.addColumn({QT_TRANSLATE_NOOP("QObject", "Number"), 150, PlainColumn::Center});
+    table.addColumn({QT_TRANSLATE_NOOP("QObject", "Issued by"), 100, PlainColumn::Center });
 
     Db db;
 
@@ -260,15 +261,15 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
 
         switch (type) {
             case 1: 
-                docTypeString = "Dental Visit";
+                docTypeString = QObject::tr("Dental Visit").toStdString();
                 docTypeIcon = CommonIcon::DENTALVISIT;
                 break;
             case 2:
-                docTypeString = "Periodontal Measurment";
+                docTypeString = QObject::tr("Periodontal Measurment").toStdString();
                 docTypeIcon = CommonIcon::PERIO;
                 break;
             case 3:
-                docTypeString = "Financial Document";
+                docTypeString = QObject::tr("Financial Document").toStdString();
                 docTypeIcon = CommonIcon::INVOICE;
                 break;
         }

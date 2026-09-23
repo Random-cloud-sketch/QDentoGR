@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <qabstractitemmodel.h>
 #include <vector>
+#include <QCoreApplication>
 #include "Model/Financial/BusinessOperation.h"
 
 struct PrintOperation
@@ -10,6 +11,8 @@ struct PrintOperation
 
 class BusinessOperationModel : public QAbstractTableModel
 {
+    Q_DECLARE_TR_FUNCTIONS(BusinessOperationModel)
+
     std::vector<PrintOperation> m_operations;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

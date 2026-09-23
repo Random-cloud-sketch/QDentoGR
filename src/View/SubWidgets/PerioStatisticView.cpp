@@ -4,8 +4,18 @@
 #include "View/Graphics/HexagonGraphicsItem.h"
 #include "View/Theme.h"
 #include <QPainter>
-constexpr std::string_view perioStage[5]{ "Healthy tissue", "Initial" , "Moderate", "Severe", "Progressed" };
-constexpr std::string_view perioRisk[3]{ "Low", "Medium", "High" };
+constexpr std::string_view perioStage[5]{
+	QT_TRANSLATE_NOOP("PerioStatisticView", "Healthy tissue"),
+	QT_TRANSLATE_NOOP("PerioStatisticView", "Initial"),
+	QT_TRANSLATE_NOOP("PerioStatisticView", "Moderate"),
+	QT_TRANSLATE_NOOP("PerioStatisticView", "Severe"),
+	QT_TRANSLATE_NOOP("PerioStatisticView", "Progressed")
+};
+constexpr std::string_view perioRisk[3]{
+	QT_TRANSLATE_NOOP("PerioStatisticView", "Low"),
+	QT_TRANSLATE_NOOP("PerioStatisticView", "Medium"),
+	QT_TRANSLATE_NOOP("PerioStatisticView", "High")
+};
 
 QString getComparisonStr(double value, double prevValue, const char* suffix, bool lowerIsBetter = true)
 {

@@ -1,6 +1,7 @@
 ﻿#include "CommonValidators.h"
+#include <QObject>
 
-const std::string NotEmptyValidator::couldntBeEmpty{ "The field is mandatory" };
+const std::string NotEmptyValidator::couldntBeEmpty{ QT_TRANSLATE_NOOP("LineEdit", "The field is mandatory") };
 
 NotEmptyValidator::NotEmptyValidator()
 {
@@ -12,7 +13,7 @@ bool NotEmptyValidator::validateInput(const std::string& text)
     return text.size() > 0;
 }
 
-const std::string mustBeNumber{ "The field should contain only digits" };
+const std::string mustBeNumber{ QT_TRANSLATE_NOOP("LineEdit", "The field should contain only digits") };
 
 bool DigitsOnlyValidator::validateInput(const std::string& text)
 {

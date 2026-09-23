@@ -16,13 +16,27 @@ int main(int argc, char *argv[])
     GlobalSettings::createCfgIfNotExists();
 
     QTranslator translator;
+    QTranslator qtTranslator;
 
     auto ts_path = GlobalSettings::getTranslationPath();
 
-    if (ts_path.size()) {
-        
-        translator.load(ts_path.c_str());
+    bool customTranslation = ts_path.size() && translator.load(ts_path.c_str());
+
+    if (customTranslation) {
         a.installTranslator(&translator);
+    }
+    else if (GlobalSettings::getLanguage() == "el") {
+
+        //built-in Greek interface (default); "en" keeps the original English texts
+        if (translator.load(":/translations/Translation_el_GR.qm")) {
+            a.installTranslator(&translator);
+            GlobalSettings::setGreekUi(true);
+        }
+
+        //standard Qt dialog buttons and context menus
+        if (qtTranslator.load(":/translations/qtbase_el.qm")) {
+            a.installTranslator(&qtTranslator);
+        }
     }
 
     if (!initFunction()) {  return 0;  }

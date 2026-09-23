@@ -2,6 +2,7 @@
 #include "View/ModalDialogBuilder.h"
 #include <sqlite3.h>
 #include "Resources.h"
+#include <QObject>
 
 
 constexpr const char* database_error_msg = "Write permission error. Start program as administrator";
@@ -106,7 +107,7 @@ bool Db::execute(const std::string& query)
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
 
     if (err && s_showError) {
-        ModalDialogBuilder::showError("Database Error Code: " + std::to_string(i));
+        ModalDialogBuilder::showError(QObject::tr("Database Error Code: %1").arg(i).toStdString());
     }
 
     finalizeStatement();
@@ -227,7 +228,7 @@ bool Db::execute()
     if (stmt == nullptr) {
 
         if (s_showError) {
-            ModalDialogBuilder::showError("Invalid query");
+            ModalDialogBuilder::showError(QT_TRANSLATE_NOOP("QMessageBox", "Invalid query"));
         }
 
         return false;
@@ -236,7 +237,7 @@ bool Db::execute()
     if (total_bindings != successful_bindings)
     {
         if (s_showError) {
-            ModalDialogBuilder::showError("Invalid query");
+            ModalDialogBuilder::showError(QT_TRANSLATE_NOOP("QMessageBox", "Invalid query"));
         }
 
         finalizeStatement();
@@ -247,7 +248,7 @@ bool Db::execute()
     finalizeStatement();
 
     if (result != SQLITE_DONE && s_showError) {
-        ModalDialogBuilder::showError("Database Error Code: " + std::to_string(result));
+        ModalDialogBuilder::showError(QObject::tr("Database Error Code: %1").arg(result).toStdString());
     }
 
     return result == SQLITE_DONE;
@@ -302,7 +303,7 @@ bool Db::crudQuery(const std::string& query)
     i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
     if (err && s_showError) {
-        ModalDialogBuilder::showError("Databse Error Code: " + std::to_string(i));
+        ModalDialogBuilder::showError(QObject::tr("Database Error Code: %1").arg(i).toStdString());
     }
 
     return i == SQLITE_OK;

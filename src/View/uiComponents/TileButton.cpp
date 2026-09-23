@@ -176,7 +176,7 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	painter->setFont(info);
 	painter->drawText(20 + horizontalAdvance(idLabel), rowYPos[0], id);
-	painter->drawText(20 + horizontalAdvance("Sex: "), rowYPos[1], sex);
+	painter->drawText(20 + horizontalAdvance(tr("Sex: ")), rowYPos[1], sex);
 	painter->drawText(20 + horizontalAdvance(tr("Date of birth: ")), rowYPos[2], birthDate);
 
 

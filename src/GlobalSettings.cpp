@@ -79,6 +79,10 @@ void GlobalSettings::createCfgIfNotExists()
         settings["translation_path"] = "";
     }
 
+    if (!settings.isMember("language")) {
+        settings["language"] = "el";
+    }
+
     if (!settings.isMember("db_path"))
     {
         settings["db_path"] = dataFolder.filePath("database.db").toUtf8().toStdString();
@@ -98,7 +102,7 @@ std::string GlobalSettings::setDbPath()
 {
     auto str = QFileDialog::getOpenFileName(
         nullptr, 
-        "Pick database location", 
+        QObject::tr("Pick database location"),
         getDbPath().c_str(), "sqlite3 file (*.db)"
     );
 
@@ -139,7 +143,7 @@ std::string GlobalSettings::setTranslationPath()
 {
     auto str = QFileDialog::getOpenFileName(
         nullptr,
-        "Choose translation file",
+        QObject::tr("Choose translation file"),
         getTranslationPath().c_str(), "(*.qm)"
     );
 
@@ -153,6 +157,34 @@ std::string GlobalSettings::setTranslationPath()
     }
 
     return getTranslationPath();
+}
+
+std::string GlobalSettings::getLanguage()
+{
+    auto language = getSettingsAsJson()["language"].asString();
+
+    return language == "en" ? "en" : "el";
+}
+
+void GlobalSettings::setLanguage(const std::string& language)
+{
+    auto settings = getSettingsAsJson();
+
+    settings["language"] = language;
+
+    rewriteCfg(settings);
+}
+
+static bool s_greekUi{ false };
+
+bool GlobalSettings::isGreekUi()
+{
+    return s_greekUi;
+}
+
+void GlobalSettings::setGreekUi(bool greek)
+{
+    s_greekUi = greek;
 }
 
 bool GlobalSettings::isADANum()

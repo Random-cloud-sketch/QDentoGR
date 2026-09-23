@@ -182,7 +182,7 @@ std::string ProcedureInput::isValid()
 {
 	if (ui.surfaceGroup->isVisible()) {
 
-		if (!getRestorationData().isValid()){ return "Select at least one surface"; }
+		if (!getRestorationData().isValid()){ return tr("Select at least one surface").toStdString(); }
 	}
 
 	if (ui.rangeGroup->isVisible())
@@ -192,12 +192,12 @@ std::string ProcedureInput::isValid()
 
 		if (!constructionRange.isFromSameJaw()) {
 
-			return "Teeth must be from the same jaw";
+			return tr("Teeth must be from the same jaw").toStdString();
 		}
 
 		if (!m_allow_singleRange && constructionRange.getTeethCount() == 1)
 		{
-			return "The range of the procedure must include multiple teeth";
+			return tr("The range of the procedure must include multiple teeth").toStdString();
 		}
 
 	}

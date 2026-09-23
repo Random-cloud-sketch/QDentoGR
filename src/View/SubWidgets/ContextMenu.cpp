@@ -16,7 +16,7 @@ ContextMenu::ContextMenu()
     addAction(details);
     connect(details, &QAction::triggered, [&] {if (presenter) presenter->openDetails(); });
     
-    QMenu* statusMenu = addMenu("Add Status");
+    QMenu* statusMenu = addMenu(tr("Add Status"));
 
     QString otherActionNames[otherInputsCount]
     {

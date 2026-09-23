@@ -29,9 +29,9 @@ bool TabInstance::premissionToClose()
 {
 	if (!isNew() && !edited) return true;
 
-	std::string question = QObject::tr("Do you wish to save changes to ").toStdString();
-	question += getTabName().toString();
-	question += "?";
+	std::string question = QObject::tr("Do you wish to save changes to %1?")
+		.arg(QString::fromStdString(getTabName().toString()))
+		.toStdString();
 
 	DialogAnswer answer = ModalDialogBuilder::YesNoCancelDailog(question);
 

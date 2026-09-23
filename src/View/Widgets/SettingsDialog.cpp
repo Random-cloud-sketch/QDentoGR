@@ -150,6 +150,14 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	ui.tsEdit->setText(GlobalSettings::getTranslationPath().c_str());
 
+	//index 0 - Greek, index 1 - English
+	ui.languageCombo->setCurrentIndex(GlobalSettings::getLanguage() == "en" ? 1 : 0);
+
+	connect(ui.languageCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
+		GlobalSettings::setLanguage(index == 1 ? "en" : "el");
+		ModalDialogBuilder::showMessage(QObject::tr("Changes will take effect after restart").toStdString());
+	});
+
 	User::ADA_num ? ui.adaButton->setChecked(true) : ui.fdiButton->setChecked(true);
 
 	presenter.setView(this);

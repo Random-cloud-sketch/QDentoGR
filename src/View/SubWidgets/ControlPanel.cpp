@@ -53,7 +53,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.Temporary, Dental::Temporary);
 	lambdaConnect(ui.falseTooth, Dental::Denture);
 
-	ui.Mobility->setStateNames({ "Mobility", "Mobility I", "Mobility II", "Mobility III" });
+	ui.Mobility->setStateNames({ tr("Mobility"), tr("Mobility I"), tr("Mobility II"), tr("Mobility III") });
 
     connect(ui.Mobility, &StatusMultiButton::stateChanged, this, [this](int state)
 		{

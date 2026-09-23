@@ -9,7 +9,7 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 {
 	ui.setupUi(this);
 
-	setWindowTitle("Patient History");
+	setWindowTitle(tr("Patient History"));
 	setWindowIcon(QIcon(":/icons/icon_history.png"));
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
 

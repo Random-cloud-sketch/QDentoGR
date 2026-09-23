@@ -1,10 +1,11 @@
 ﻿#include "FinancialValidator.h"
+#include <QObject>
 #include <regex>
 #include <sstream>
 
 bool IbanValidator::validateInput(const std::string& text)
 {
-    static const std::string ibanError = { "Invalid IBAN" };
+    static const std::string ibanError = { QT_TRANSLATE_NOOP("LineEdit", "Invalid IBAN") };
 
     _errorMsg = &ibanError;
 
@@ -50,7 +51,7 @@ bool IbanValidator::validateInput(const std::string& text)
 
 bool BICValidator::validateInput(const std::string& text)
 {
-    static const std::string error = { "Invalid BIC(SWIFT)" };
+    static const std::string error = { QT_TRANSLATE_NOOP("LineEdit", "Invalid BIC(SWIFT)") };
 
     _errorMsg = &error;
 

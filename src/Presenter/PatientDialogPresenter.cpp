@@ -4,6 +4,7 @@
 #include "Database/DbPatient.h"
 #include "Model/User.h"
 #include <QString>
+#include <QObject>
 #include <QRegularExpression>
 
 PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle, std::string patientData) :
@@ -44,7 +45,7 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	rowid(patient.rowid),
 	teeth_notes(patient.teethNotes),
 	patientNotes(patient.patientNotes),
-	dialogTitle("Edit Patient")
+	dialogTitle(QT_TRANSLATE_NOOP("PatientFormDialog", "Edit Patient"))
 {}
 
 std::optional<Patient> PatientDialogPresenter::open()

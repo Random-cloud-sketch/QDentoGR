@@ -1,5 +1,7 @@
 #pragma once
 #include <QObject>
+#include <QCoreApplication>
+#include <string>
 #include <string_view>
 //Some important enums and string literals
 namespace Dental
@@ -43,50 +45,66 @@ namespace Dental
 		StatusCount
 	};
 
-	inline const std::string statusNames[StatusCount]
+	//The names are translated when accessed (not at static initialization),
+	//so the translator installed in main() applies to them
+	struct TranslatedNames
 	{
-		QObject::tr("Healthy Tooth").toStdString(), 
-		QObject::tr("Primary Tooth").toStdString(), 
-		QObject::tr("Restoration").toStdString(),
-		QObject::tr("Caries").toStdString(),
-		QObject::tr("Defective Restoration").toStdString(),
-		QObject::tr("Non-Caries Lesion").toStdString(),
-		QObject::tr("Pulpitis").toStdString(),
-		QObject::tr("Necrosis").toStdString(),
-		QObject::tr("Resorption").toStdString(),
-		QObject::tr("Apical Lesion").toStdString(),
-		QObject::tr("Root Canal Treatment").toStdString(),
-		QObject::tr("Radicular Post").toStdString(),
-		QObject::tr("Rood / Severely Destroyed Tooth").toStdString(),
-		QObject::tr("Fracture").toStdString(),
-		QObject::tr("Missing Tooth").toStdString(),
-		QObject::tr("Periodontitis").toStdString(),
-		QObject::tr("Mobility").toStdString(),
-		QObject::tr("Crown").toStdString(),
-		QObject::tr("Bridge").toStdString(),
-		QObject::tr("Splint / Adhesive Bridge").toStdString(),
-		QObject::tr("Implant").toStdString(),
-		QObject::tr("Supernumeral Tooth").toStdString(),
-		QObject::tr("Impacted Tooth").toStdString(),
-		QObject::tr("Denture").toStdString(),
-		QObject::tr("Calculus").toStdString()
+		const char* const* source;
+
+		std::string operator[](int index) const
+		{
+			return QCoreApplication::translate("QObject", source[index]).toStdString();
+		}
 	};
 
-	inline const  std::string mobilityNames[MobilityCount]
+	inline constexpr const char* statusNamesSource[StatusCount]
 	{
-		QObject::tr("Mobility I").toStdString(), 
-		QObject::tr("Mobility II").toStdString(),
-		QObject::tr("Mobility III").toStdString()
+		QT_TRANSLATE_NOOP("QObject", "Healthy Tooth"), 
+		QT_TRANSLATE_NOOP("QObject", "Primary Tooth"), 
+		QT_TRANSLATE_NOOP("QObject", "Restoration"),
+		QT_TRANSLATE_NOOP("QObject", "Caries"),
+		QT_TRANSLATE_NOOP("QObject", "Defective Restoration"),
+		QT_TRANSLATE_NOOP("QObject", "Non-Caries Lesion"),
+		QT_TRANSLATE_NOOP("QObject", "Pulpitis"),
+		QT_TRANSLATE_NOOP("QObject", "Necrosis"),
+		QT_TRANSLATE_NOOP("QObject", "Resorption"),
+		QT_TRANSLATE_NOOP("QObject", "Apical Lesion"),
+		QT_TRANSLATE_NOOP("QObject", "Root Canal Treatment"),
+		QT_TRANSLATE_NOOP("QObject", "Radicular Post"),
+		QT_TRANSLATE_NOOP("QObject", "Rood / Severely Destroyed Tooth"),
+		QT_TRANSLATE_NOOP("QObject", "Fracture"),
+		QT_TRANSLATE_NOOP("QObject", "Missing Tooth"),
+		QT_TRANSLATE_NOOP("QObject", "Periodontitis"),
+		QT_TRANSLATE_NOOP("QObject", "Mobility"),
+		QT_TRANSLATE_NOOP("QObject", "Crown"),
+		QT_TRANSLATE_NOOP("QObject", "Bridge"),
+		QT_TRANSLATE_NOOP("QObject", "Splint / Adhesive Bridge"),
+		QT_TRANSLATE_NOOP("QObject", "Implant"),
+		QT_TRANSLATE_NOOP("QObject", "Supernumeral Tooth"),
+		QT_TRANSLATE_NOOP("QObject", "Impacted Tooth"),
+		QT_TRANSLATE_NOOP("QObject", "Denture"),
+		QT_TRANSLATE_NOOP("QObject", "Calculus")
 	};
 
-	inline const  std::string surfaceNames[SurfaceCount]
+	inline constexpr const char* mobilityNamesSource[MobilityCount]
 	{
-		QObject::tr("Occlusal/Incisal").toStdString(), 
-		QObject::tr("Medial").toStdString(), 
-		QObject::tr("Distal").toStdString(),
-		QObject::tr("Vestibular").toStdString(),
-		QObject::tr("Lingual").toStdString(),
-		QObject::tr("Cervical").toStdString()
+		QT_TRANSLATE_NOOP("QObject", "Mobility I"), 
+		QT_TRANSLATE_NOOP("QObject", "Mobility II"),
+		QT_TRANSLATE_NOOP("QObject", "Mobility III")
 	};
+
+	inline constexpr const char* surfaceNamesSource[SurfaceCount]
+	{
+		QT_TRANSLATE_NOOP("QObject", "Occlusal/Incisal"), 
+		QT_TRANSLATE_NOOP("QObject", "Medial"), 
+		QT_TRANSLATE_NOOP("QObject", "Distal"),
+		QT_TRANSLATE_NOOP("QObject", "Vestibular"),
+		QT_TRANSLATE_NOOP("QObject", "Lingual"),
+		QT_TRANSLATE_NOOP("QObject", "Cervical")
+	};
+
+	inline const TranslatedNames statusNames{ statusNamesSource };
+	inline const TranslatedNames mobilityNames{ mobilityNamesSource };
+	inline const TranslatedNames surfaceNames{ surfaceNamesSource };
 
 }

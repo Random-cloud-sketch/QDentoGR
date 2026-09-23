@@ -67,11 +67,11 @@ TableView::TableView(QWidget* parent)
 
     QAction* action;
 
-    action = (new QAction("Редактирай", menu));
+    action = (new QAction(tr("Edit"), menu));
     connect(action, &QAction::triggered, this, [&] { emit editPressed(selectedRow()); });
     action->setIcon(QIcon(":/icons/icon_edit.png"));
     menu->addAction(action);
-    action = (new QAction("Изтрий", menu));
+    action = (new QAction(tr("Delete"), menu));
     connect(action, &QAction::triggered, this, [&] { emit deletePressed(selectedRow()); });
     action->setIcon(QIcon(":/icons/icon_remove.png"));
     menu->addAction(action);

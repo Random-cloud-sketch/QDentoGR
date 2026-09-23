@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QGridLayout>
 #include <QMouseEvent>
+#include <QCoreApplication>
 
 #include "Model/Patient.h"
 
@@ -41,6 +42,7 @@ public:
 
 struct PatientTile : public TileButton
 {
+    Q_DECLARE_TR_FUNCTIONS(PatientTile)
 
 public:
     IconButton* notesButton;

@@ -72,37 +72,37 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
     auto getOcclusalName = [&] {
 
         //canine
-        if (index == 5 || index == 10 || index == 21 || index == 26) return "Cuspidal";
+        if (index == 5 || index == 10 || index == 21 || index == 26) return QObject::tr("Cuspidal").toStdString();
 
         //incisor
-        if (getToothType(index) == Dental::Type::Frontal) return "Incisal";
+        if (getToothType(index) == Dental::Type::Frontal) return QObject::tr("Incisal").toStdString();
 
         //molar and premolar
-        return "Occlusal";
+        return QObject::tr("Occlusal").toStdString();
     };
 
     auto getBuccalName = [&] {
-        if (getToothType(index) == Dental::Type::Frontal) return "Labial";
+        if (getToothType(index) == Dental::Type::Frontal) return QObject::tr("Labial").toStdString();
 
-        return "Buccal";
+        return QObject::tr("Buccal").toStdString();
 
     };
 
     auto getLingualName = [&] {
 
-        if (index < 16) return "Palatal";
+        if (index < 16) return QObject::tr("Palatal").toStdString();
 
-        return "Lingual";
+        return QObject::tr("Lingual").toStdString();
     };
 
 
     return std::array<std::string, 6>{
         getOcclusalName(),
-            "Medial",
-            "Distal",
+            QObject::tr("Medial").toStdString(),
+            QObject::tr("Distal").toStdString(),
             getBuccalName(),
             getLingualName(),
-            "Cervical"
+            QObject::tr("Cervical").toStdString()
     };
 
 

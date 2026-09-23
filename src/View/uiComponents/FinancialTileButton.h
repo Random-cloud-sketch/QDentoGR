@@ -6,6 +6,8 @@ struct Issuer;
 
 class RecipientTileButton : public TileButton
 {
+	Q_DECLARE_TR_FUNCTIONS(RecipientTileButton)
+
 	QString name;
 	QString id;
 	QString address;
@@ -20,6 +22,8 @@ public:
 
 class IssuerTileButton : public TileButton
 {
+	Q_DECLARE_TR_FUNCTIONS(IssuerTileButton)
+
 	QString name;
 	QString id;
 	QString address;

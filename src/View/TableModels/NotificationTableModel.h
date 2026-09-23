@@ -3,10 +3,13 @@
 #include <QAbstractTableModel>
 #include <QItemDelegate>
 #include <QIcon>
+#include <QCoreApplication>
 #include "Model/Dental/Notification.h"
 
 class NotificationTableModel : public QAbstractTableModel
 {
+    Q_DECLARE_TR_FUNCTIONS(NotificationTableModel)
+
     std::vector<Notification> m_notif;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include <string>
+#include <QCoreApplication>
 
-constexpr const char* doctorPrefix = "dr. ";
+constexpr const char* doctorPrefix = QT_TRANSLATE_NOOP("QObject", "dr. ");
 
 struct Dentist
 {
@@ -13,7 +14,7 @@ struct Dentist
 	std::string getFullName(bool prefix = true) const
 	{
 		return prefix ?
-			doctorPrefix + fname + " " + lname
+			QCoreApplication::translate("QObject", doctorPrefix).toStdString() + fname + " " + lname
 			:
 			fname + " " + lname;
 	}

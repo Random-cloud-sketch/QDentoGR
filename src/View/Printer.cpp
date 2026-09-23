@@ -156,7 +156,7 @@ void Printer::printInvoice(const Invoice& i)
 
     auto issuer = i.issuer();
 
-    QString result = header
+    QString result = QString(header).replace("<title>Invoice</title>", "<title>" + title + "</title>")
         .arg(title)
         .arg(subtitle)
         .arg(mainDoc)
