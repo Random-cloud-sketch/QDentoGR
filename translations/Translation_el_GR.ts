@@ -2971,7 +2971,7 @@
         <translation>Επιλογή αρχείου μετάφρασης</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="+84"/>
+        <location filename="../src/main.cpp" line="+91"/>
         <source>Can&apos;t create database. Be sure to start the program as administrator.</source>
         <translation>Δεν ήταν δυνατή η δημιουργία της βάσης δεδομένων. Βεβαιωθείτε ότι εκκινήσατε το πρόγραμμα ως διαχειριστής.</translation>
     </message>

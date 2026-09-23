@@ -199,7 +199,7 @@ QString Theme::getFancyStylesheet()
 QString Theme::getPopupMenuStylesheet()
 {
 	return
-		"QMenu{background-color:white; border:1px solid #ccc; "
+		"QMenu{background-color:white; color:black; border:1px solid #ccc; "
 #ifdef Q_OS_OSX
 		"border-radius:10px; "
 #endif
@@ -207,6 +207,7 @@ QString Theme::getPopupMenuStylesheet()
 		"QMenu::icon{ padding-left:6px; padding-right:8px; }"
 		"QMenu::item{ padding:6px 28px 6px 6px; margin:2px 0px; border-radius:6px; }"
 		"QMenu::item:selected{ background-color:" + colorToString(Theme::buttonFrame) + "; color:black; }"
+		"QMenu::item:disabled{ color:gray; }"
 		"QMenu::right-arrow{ image:url(:/icons/nextMonth.png); width:15px; height:15px; }"
 		;
 }

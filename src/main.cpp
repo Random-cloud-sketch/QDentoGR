@@ -2,6 +2,7 @@
 #include "View/Widgets/QDento.h"
 #include <QtGlobal>
 #include <QTranslator>
+#include <QStyleHints>
 #include "GlobalSettings.h"
 #include "View/ModalDialogBuilder.h"
 
@@ -10,6 +11,12 @@ bool initFunction();
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    //QDento's theme (Theme.h colors, stylesheets and custom painting) is light-only.
+    //Otherwise Qt follows the Windows dark mode for the standard widgets only,
+    //resulting in mixed dark/light windows and white-on-white text.
+    QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
+
     a.setApplicationName("QDento");
     a.setWindowIcon(QIcon(":/icons/icon_app.png"));
 
