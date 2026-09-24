@@ -86,6 +86,7 @@
     <qresource prefix="/migrations">
         <file>db_migrateTo1.txt</file>
         <file>db_migrateTo2.txt</file>
+        <file>db_migrateTo3.txt</file>
     </qresource>
     <qresource prefix="/translations">
         <file alias="Translation_el_GR.qm">../translations/Translation_el_GR.qm</file>

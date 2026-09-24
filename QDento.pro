@@ -36,6 +36,7 @@ HEADERS += \
     src/Database/DbDiagnosis.h \
     src/Database/DbInvoice.h \
     src/Database/DbNotes.h \
+    src/Database/DbMedicalHistory.h \
     src/Database/DbNotification.h \
     src/Database/DbPatient.h \
     src/Database/DbPatientSummary.h \
@@ -69,6 +70,7 @@ HEADERS += \
     src/Model/FreeFunctions.h \
     src/Model/NumenclatureTemplate.h \
     src/Model/Parser.h \
+    src/Model/MedicalHistory.h \
     src/Model/Patient.h \
     src/Model/PlainTable.h \
     src/Model/Settings.h \
@@ -175,6 +177,7 @@ HEADERS += \
     src/View/Widgets/MultilineDialog.h \
     src/View/Widgets/NewDocDialog.h \
     src/View/Widgets/NotificationDialog.h \
+    src/View/Widgets/MedicalHistoryDialog.h \
     src/View/Widgets/NotificationListDialog.h \
     src/View/Widgets/PatientFormDialog.h \
     src/View/Widgets/PatientHistoryDialog.h \
@@ -245,6 +248,7 @@ SOURCES += \
     src/Database/DbDiagnosis.cpp \
     src/Database/DbInvoice.cpp \
     src/Database/DbNotes.cpp \
+    src/Database/DbMedicalHistory.cpp \
     src/Database/DbNotification.cpp \
     src/Database/DbPatient.cpp \
     src/Database/DbPatientSummary.cpp \
@@ -269,6 +273,7 @@ SOURCES += \
     src/Model/Financial/Recipient.cpp \
     src/Model/FreeFunctions.cpp \
     src/Model/Parser.cpp \
+    src/Model/MedicalHistory.cpp \
     src/Model/Patient.cpp \
     src/Model/PlainTable.cpp \
     src/Model/Time.cpp \
@@ -360,6 +365,7 @@ SOURCES += \
     src/View/Widgets/MultilineDialog.cpp \
     src/View/Widgets/NewDocDialog.cpp \
     src/View/Widgets/NotificationDialog.cpp \
+    src/View/Widgets/MedicalHistoryDialog.cpp \
     src/View/Widgets/NotificationListDialog.cpp \
     src/View/Widgets/PatientFormDialog.cpp \
     src/View/Widgets/PatientHistoryDialog.cpp \

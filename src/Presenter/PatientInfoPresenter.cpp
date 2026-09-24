@@ -10,6 +10,8 @@
 #include "Model/TableRows.h"
 #include "View/Widgets/NotificationDialog.h"
 #include "View/SubWidgets/PatientTileInfo.h"
+#include "View/Widgets/MedicalHistoryDialog.h"
+#include "Database/DbMedicalHistory.h"
 
 PatientInfoPresenter::PatientInfoPresenter(PatientTileInfo* view, std::shared_ptr<Patient> p) :
     patient(p), view(view), doc_date(Date::currentDate())
@@ -40,6 +42,8 @@ void PatientInfoPresenter::patientTileClicked()
     TabPresenter::get().refreshPatientTabNames(patient->rowid);
 
     view->setPatient(*patient, patient->getAge(doc_date));
+
+    refreshMedicalHistory();
 
     if (m_parent) {
         m_parent->patientDataChanged();
@@ -76,6 +80,8 @@ void PatientInfoPresenter::setCurrent(bool isCurrent)
     view->setPresenter(this);
 
     view->setPatient(*patient, patient->getAge(doc_date));
+
+    refreshMedicalHistory();
 }
 
 void PatientInfoPresenter::notificationClicked()
@@ -90,6 +96,26 @@ void PatientInfoPresenter::notificationClicked()
     result->patientRowid = patient->rowid;
 
     DbNotification::insert(result.value());
+}
+
+void PatientInfoPresenter::medicalHistoryRequested()
+{
+    if (patient == nullptr || patient->rowid <= 0) return;
+
+    MedicalHistoryDialog d(patient->rowid, QString::fromStdString(patient->firstLastName()));
+    d.exec();
+
+    refreshMedicalHistory();
+}
+
+void PatientInfoPresenter::refreshMedicalHistory()
+{
+    if (patient == nullptr || patient->rowid <= 0) {
+        view->setMedicalHistory({});
+        return;
+    }
+
+    view->setMedicalHistory(DbMedicalHistory::getCurrent(patient->rowid));
 }
 
 void PatientInfoPresenter::openDocument(TabType type)

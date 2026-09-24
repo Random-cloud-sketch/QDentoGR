@@ -28,5 +28,7 @@ public:
 	void setCurrent(bool current);
     void notificationClicked();
     void openDocument(TabType type);
+	void medicalHistoryRequested();
+	void refreshMedicalHistory();
 	void setParent(TabInstance* p) { m_parent = p; }
 };

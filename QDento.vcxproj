@@ -115,6 +115,7 @@
     <ClCompile Include="src\Database\DbDiagnosis.cpp" />
     <ClCompile Include="src\Database\DbInvoice.cpp" />
     <ClCompile Include="src\Database\DbNotes.cpp" />
+    <ClCompile Include="src\Database\DbMedicalHistory.cpp" />
     <ClCompile Include="src\Database\DbNotification.cpp" />
     <ClCompile Include="src\Database\DbPatient.cpp" />
     <ClCompile Include="src\Database\DbPatientSummary.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="src\Model\Financial\Issuer.cpp" />
     <ClCompile Include="src\Model\Financial\Recipient.cpp" />
     <ClCompile Include="src\Model\FreeFunctions.cpp" />
+    <ClCompile Include="src\Model\MedicalHistory.cpp" />
     <ClCompile Include="src\Model\Parser.cpp" />
     <ClCompile Include="src\Model\Patient.cpp" />
     <ClCompile Include="src\Model\PlainTable.cpp" />
@@ -270,6 +272,7 @@
     <ClCompile Include="src\View\Widgets\MultilineDialog.cpp" />
     <ClCompile Include="src\View\Widgets\NewDocDialog.cpp" />
     <ClCompile Include="src\View\Widgets\NotificationDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\MedicalHistoryDialog.cpp" />
     <ClCompile Include="src\View\Widgets\NotificationListDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PatientFormDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PatientHistoryDialog.cpp" />
@@ -300,6 +303,8 @@
     <ClInclude Include="src\Database\DbDiagnosis.h" />
     <ClInclude Include="src\Database\DbInvoice.h" />
     <ClInclude Include="src\Database\DbNotes.h" />
+    <ClInclude Include="src\Database\DbMedicalHistory.h" />
+    <ClInclude Include="src\Model\MedicalHistory.h" />
     <ClInclude Include="src\Database\DbNotification.h" />
     <ClInclude Include="src\Database\DbPatient.h" />
     <ClInclude Include="src\Database\DbPatientSummary.h" />
@@ -433,6 +438,7 @@
     <QtMoc Include="src\View\Widgets\PerioStatusView.h" />
     <QtMoc Include="src\View\Widgets\PatientHistoryDialog.h" />
     <QtMoc Include="src\View\Widgets\PatientFormDialog.h" />
+    <QtMoc Include="src\View\Widgets\MedicalHistoryDialog.h" />
     <QtMoc Include="src\View\Widgets\NotificationListDialog.h" />
     <QtMoc Include="src\View\Widgets\NotificationDialog.h" />
     <QtMoc Include="src\View\Widgets\NewDocDialog.h" />

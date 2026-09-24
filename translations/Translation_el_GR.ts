@@ -1513,6 +1513,757 @@
     </message>
 </context>
 <context>
+    <name>MedicalHistory</name>
+    <message>
+        <location filename="../src/Model/MedicalHistory.cpp" line="+12"/>
+        <location line="+31"/>
+        <source>Cardiovascular disease</source>
+        <translation>Καρδιαγγειακά νοσήματα</translation>
+    </message>
+    <message>
+        <location line="-30"/>
+        <source>Hypertension</source>
+        <translation>Υπέρταση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+30"/>
+        <source>Diabetes mellitus</source>
+        <translation>Σακχαρώδης διαβήτης</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Respiratory disease</source>
+        <translation>Αναπνευστικά νοσήματα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Kidney disease</source>
+        <translation>Νεφρική νόσος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Liver disease</source>
+        <translation>Ηπατική νόσος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Gastrointestinal disease</source>
+        <translation>Γαστρεντερικά νοσήματα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Blood disorders</source>
+        <translation>Αιματολογικά νοσήματα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Endocrine disorders</source>
+        <translation>Ενδοκρινολογικά νοσήματα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Neurological disorders</source>
+        <translation>Νευρολογικά νοσήματα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Psychiatric history</source>
+        <translation>Ψυχιατρικό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Immune / autoimmune disorders</source>
+        <translation>Ανοσολογικά / αυτοάνοσα νοσήματα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Osteoporosis</source>
+        <translation>Οστεοπόρωση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cancer / history of malignancy</source>
+        <translation>Καρκίνος / ιστορικό κακοήθειας</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Infectious diseases</source>
+        <translation>Λοιμώδη νοσήματα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other conditions</source>
+        <translation>Άλλες παθήσεις</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Drug allergies</source>
+        <translation>Αλλεργία σε φάρμακα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Food allergies</source>
+        <translation>Τροφικές αλλεργίες</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other allergies (e.g. latex)</source>
+        <translation>Άλλες αλλεργίες (π.χ. λάτεξ)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>History of abnormal bleeding</source>
+        <translation>Ιστορικό παθολογικής αιμορραγίας</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bleeding disorders</source>
+        <translation>Αιμορραγική διάθεση / διαταραχές πήξης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Anticoagulant / antiplatelet medication</source>
+        <translation>Αντιπηκτική / αντιαιμοπεταλιακή αγωγή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Complications after previous surgery</source>
+        <translation>Επιπλοκές μετά από προηγούμενη χειρουργική επέμβαση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Problems with anaesthesia</source>
+        <translation>Προβλήματα με την αναισθησία</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other relevant medical risks</source>
+        <translation>Άλλοι σχετικοί ιατρικοί κίνδυνοι</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Alcohol consumption</source>
+        <translation>Κατανάλωση αλκοόλ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recreational drug use</source>
+        <translation>Χρήση εξαρτησιογόνων ουσιών</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Cancer</source>
+        <translation>Καρκίνος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Periodontal disease</source>
+        <translation>Περιοδοντική νόσος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other hereditary conditions</source>
+        <translation>Άλλες κληρονομικές παθήσεις</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Previous periodontal treatment</source>
+        <translation>Προηγούμενη περιοδοντική θεραπεία</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Previous dental treatment</source>
+        <translation>Προηγούμενη οδοντιατρική θεραπεία</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Previous periodontal surgery</source>
+        <translation>Προηγούμενη περιοδοντική χειρουργική</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Previous oral / dental surgery</source>
+        <translation>Προηγούμενη χειρουργική στόματος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Complications after dental treatment</source>
+        <translation>Επιπλοκές μετά από οδοντιατρική θεραπεία</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Previous orthodontic treatment</source>
+        <translation>Προηγούμενη ορθοδοντική θεραπεία</translation>
+    </message>
+    <message>
+        <location line="+51"/>
+        <source>Allergies: %1</source>
+        <translation>Αλλεργίες: %1</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>No</source>
+        <translation>Όχι</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+2"/>
+        <source>Yes</source>
+        <translation>Ναι</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Good</source>
+        <translation>Καλή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Fair</source>
+        <translation>Μέτρια</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Poor</source>
+        <translation>Κακή</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Non-smoker</source>
+        <translation>Δεν καπνίζει</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Former smoker</source>
+        <translation>Πρώην καπνιστής</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Smoker</source>
+        <translation>Καπνιστής</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Dose</source>
+        <translation>Δόση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Frequency</source>
+        <translation>Συχνότητα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Indication</source>
+        <translation>Ένδειξη</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Date</source>
+        <translation>Ημερομηνία</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Reason</source>
+        <translation>Αιτία</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hospital</source>
+        <translation>Νοσοκομείο</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>General information</source>
+        <translation>Γενικά στοιχεία</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+59"/>
+        <source>Date of medical history</source>
+        <translation>Ημερομηνία λήψης ιστορικού</translation>
+    </message>
+    <message>
+        <location line="-58"/>
+        <location line="+59"/>
+        <source>General health status</source>
+        <translation>Γενική κατάσταση υγείας</translation>
+    </message>
+    <message>
+        <location line="-58"/>
+        <location line="+59"/>
+        <source>Primary physician</source>
+        <translation>Θεράπων ιατρός</translation>
+    </message>
+    <message>
+        <location line="-58"/>
+        <location line="+59"/>
+        <source>Physician contact information</source>
+        <translation>Στοιχεία επικοινωνίας ιατρού</translation>
+    </message>
+    <message>
+        <location line="-57"/>
+        <source>Medical conditions</source>
+        <translation>Νοσήματα</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Medications</source>
+        <translation>Φαρμακευτική αγωγή</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Allergies</source>
+        <translation>Αλλεργίες</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location line="+55"/>
+        <source>Description of reaction</source>
+        <translation>Περιγραφή αντίδρασης</translation>
+    </message>
+    <message>
+        <location line="-53"/>
+        <source>Previous surgeries and hospitalizations</source>
+        <translation>Προηγούμενες επεμβάσεις και νοσηλείες</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Bleeding and medical risk</source>
+        <translation>Αιμορραγία και ιατρικοί κίνδυνοι</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Lifestyle and social history</source>
+        <translation>Τρόπος ζωής και κοινωνικό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+50"/>
+        <source>Smoking</source>
+        <translation>Κάπνισμα</translation>
+    </message>
+    <message>
+        <location line="-49"/>
+        <location line="+50"/>
+        <source>Cigarettes per day</source>
+        <translation>Τσιγάρα ημερησίως</translation>
+    </message>
+    <message>
+        <location line="-49"/>
+        <location line="+50"/>
+        <source>Years of smoking</source>
+        <translation>Έτη καπνίσματος</translation>
+    </message>
+    <message>
+        <location line="-49"/>
+        <location line="+50"/>
+        <source>Smoking cessation</source>
+        <translation>Διακοπή καπνίσματος</translation>
+    </message>
+    <message>
+        <location line="-48"/>
+        <location line="+49"/>
+        <source>Other lifestyle information</source>
+        <translation>Άλλες πληροφορίες τρόπου ζωής</translation>
+    </message>
+    <message>
+        <location line="-47"/>
+        <source>Family history</source>
+        <translation>Οικογενειακό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Dental history</source>
+        <translation>Οδοντιατρικό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location line="+43"/>
+        <source>Oral hygiene habits</source>
+        <translation>Συνήθειες στοματικής υγιεινής</translation>
+    </message>
+    <message>
+        <location line="-42"/>
+        <location line="+43"/>
+        <source>Other dental history</source>
+        <translation>Άλλο οδοντιατρικό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="-41"/>
+        <location line="+42"/>
+        <source>Clinical notes</source>
+        <translation>Κλινικές σημειώσεις</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Medication</source>
+        <translation>Φάρμακο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Surgery / hospitalization</source>
+        <translation>Επέμβαση / νοσηλεία</translation>
+    </message>
+</context>
+<context>
+    <name>MedicalHistoryDialog</name>
+    <message>
+        <location filename="../src/View/Widgets/MedicalHistoryDialog.cpp" line="+37"/>
+        <source>Medical history</source>
+        <translation>Ιατρικό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Date of medical history:</source>
+        <translation>Ημερομηνία λήψης ιστορικού:</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Good</source>
+        <translation>Καλή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Fair</source>
+        <translation>Μέτρια</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Poor</source>
+        <translation>Κακή</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>General health status:</source>
+        <translation>Γενική κατάσταση υγείας:</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Primary physician:</source>
+        <translation>Θεράπων ιατρός:</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Phone, address, e-mail</source>
+        <translation>Τηλέφωνο, διεύθυνση, e-mail</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Physician contact information:</source>
+        <translation>Στοιχεία επικοινωνίας ιατρού:</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>General information</source>
+        <translation>Γενικά στοιχεία</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Does the patient have, or has had, any of the following conditions?</source>
+        <translation>Έχει ή είχε ο ασθενής κάποιο από τα παρακάτω νοσήματα;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Details (type, date of diagnosis, treatment)</source>
+        <translation>Λεπτομέρειες (τύπος, χρόνος διάγνωσης, θεραπεία)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Medical conditions</source>
+        <translation>Νοσήματα</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Current medications</source>
+        <translation>Τρέχουσα φαρμακευτική αγωγή</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Name</source>
+        <translation>Φάρμακο</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Dose</source>
+        <translation>Δόση</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Frequency</source>
+        <translation>Συχνότητα</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Reason / indication</source>
+        <translation>Αιτία / ένδειξη</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+17"/>
+        <source>Notes</source>
+        <translation>Σημειώσεις</translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <source>Add medication</source>
+        <translation>Προσθήκη φαρμάκου</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Remove medication</source>
+        <translation>Αφαίρεση φαρμάκου</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Medications</source>
+        <translation>Φαρμακευτική αγωγή</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Does the patient have any allergies?</source>
+        <translation>Έχει ο ασθενής κάποια αλλεργία;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allergen (e.g. penicillin)</source>
+        <translation>Αλλεργιογόνο (π.χ. πενικιλίνη)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Description of reaction:</source>
+        <translation>Περιγραφή αντίδρασης:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Allergies</source>
+        <translation>Αλλεργίες</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+5"/>
+        <source>Previous surgeries and hospitalizations</source>
+        <translation>Προηγούμενες επεμβάσεις και νοσηλείες</translation>
+    </message>
+    <message>
+        <location line="-3"/>
+        <source>Surgery / procedure</source>
+        <translation>Επέμβαση / πράξη</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Date</source>
+        <translation>Ημερομηνία</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Reason</source>
+        <translation>Αιτία</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Hospital</source>
+        <translation>Νοσοκομείο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Add entry</source>
+        <translation>Προσθήκη εγγραφής</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Remove entry</source>
+        <translation>Αφαίρεση εγγραφής</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+3"/>
+        <source>Bleeding and medical risk</source>
+        <translation>Αιμορραγία και ιατρικοί κίνδυνοι</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Details</source>
+        <translation>Λεπτομέρειες</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Smoking</source>
+        <translation>Κάπνισμα</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Non-smoker</source>
+        <translation>Δεν καπνίζει</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Former smoker</source>
+        <translation>Πρώην καπνιστής</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Smoker</source>
+        <translation>Καπνιστής</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Cigarettes per day:</source>
+        <translation>Τσιγάρα ημερησίως:</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Years of smoking:</source>
+        <translation>Έτη καπνίσματος:</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>e.g. 2018, or 5 years ago</source>
+        <translation>π.χ. 2018 ή πριν από 5 έτη</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Smoking cessation:</source>
+        <translation>Διακοπή καπνίσματος:</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Details (quantity, frequency)</source>
+        <translation>Λεπτομέρειες (ποσότητα, συχνότητα)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Other relevant lifestyle information:</source>
+        <translation>Άλλες σχετικές πληροφορίες τρόπου ζωής:</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Lifestyle and social history</source>
+        <translation>Τρόπος ζωής και κοινωνικό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Is there a family history of:</source>
+        <translation>Υπάρχει οικογενειακό ιστορικό:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Relative, details</source>
+        <translation>Συγγενής, λεπτομέρειες</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Family history</source>
+        <translation>Οικογενειακό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+6"/>
+        <source>Dental history</source>
+        <translation>Οδοντιατρικό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="-5"/>
+        <source>Details (when, what)</source>
+        <translation>Λεπτομέρειες (πότε, τι)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Oral hygiene habits:</source>
+        <translation>Συνήθειες στοματικής υγιεινής:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>e.g. brushing twice a day, interdental brushes, floss</source>
+        <translation>π.χ. βούρτσισμα δύο φορές ημερησίως, μεσοδόντια βουρτσάκια, οδοντικό νήμα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other relevant dental history:</source>
+        <translation>Άλλο σχετικό οδοντιατρικό ιστορικό:</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Clinical notes:</source>
+        <translation>Κλινικές σημειώσεις:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Clinical notes</source>
+        <translation>Κλινικές σημειώσεις</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Saved versions</source>
+        <translation>Αποθηκευμένες εκδόσεις</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Change history</source>
+        <translation>Ιστορικό αλλαγών</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Save</source>
+        <translation>Αποθήκευση</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Close</source>
+        <translation>Κλείσιμο</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>No</source>
+        <translation>Όχι</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yes</source>
+        <translation>Ναι</translation>
+    </message>
+    <message>
+        <location line="+229"/>
+        <source>The medical history could not be saved</source>
+        <translation>Δεν ήταν δυνατή η αποθήκευση του ιατρικού ιστορικού</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Do you want to save the changes to the medical history?</source>
+        <translation>Θέλετε να αποθηκεύσετε τις αλλαγές στο ιατρικό ιστορικό;</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>No medical history has been recorded for this patient yet.</source>
+        <translation>Δεν έχει καταχωριστεί ακόμη ιατρικό ιστορικό για τον ασθενή.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No saved versions.</source>
+        <translation>Δεν υπάρχουν αποθηκευμένες εκδόσεις.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Created: %1    Last updated: %2    Versions: %3</source>
+        <translation>Δημιουργία: %1    Τελευταία ενημέρωση: %2    Εκδόσεις: %3</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Version of %1</source>
+        <translation>Έκδοση %1</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Changes compared to the previous version:</source>
+        <translation>Αλλαγές σε σχέση με την προηγούμενη έκδοση:</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>First record of the medical history.</source>
+        <translation>Πρώτη καταχώριση του ιατρικού ιστορικού.</translation>
+    </message>
+</context>
+<context>
     <name>MultilineDialog</name>
     <message>
         <location filename="../src/View/Widgets/MultilineDialog.ui" line="+14"/>
@@ -1919,7 +2670,7 @@
 <context>
     <name>PatientTileInfo</name>
     <message>
-        <location filename="../src/View/SubWidgets/PatientTileInfo.cpp" line="+20"/>
+        <location filename="../src/View/SubWidgets/PatientTileInfo.cpp" line="+25"/>
         <source>Edit</source>
         <translation>Επεξεργασία</translation>
     </message>
@@ -1947,6 +2698,39 @@
         <location line="+5"/>
         <source>Patient History</source>
         <translation>Ιστορικό ασθενή</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+16"/>
+        <location line="+83"/>
+        <source>Medical history</source>
+        <translation>Ιατρικό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="-18"/>
+        <source>No medical history recorded</source>
+        <translation>Δεν έχει καταχωριστεί ιατρικό ιστορικό</translation>
+    </message>
+    <message>
+        <location line="+38"/>
+        <source>Record the medical history of the patient</source>
+        <translation>Καταχώριση του ιατρικού ιστορικού του ασθενή</translation>
+    </message>
+    <message>
+        <location line="-30"/>
+        <source>Conditions: %1</source>
+        <translation>Νοσήματα: %1</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+7"/>
+        <source>Updated %1</source>
+        <translation>Ενημέρωση: %1</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>(+%1 more)</source>
+        <translation>(+%1 ακόμη)</translation>
     </message>
 </context>
 <context>
@@ -3726,7 +4510,7 @@
         <translation>Το έγγραφο δεν μπορεί να ανοιχτεί, επειδή δεν έχει δημιουργηθεί από τον τρέχοντα χρήστη.</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/PatientInfoPresenter.cpp" line="+58"/>
+        <location filename="../src/Presenter/PatientInfoPresenter.cpp" line="+62"/>
         <source>Patient notes</source>
         <translation>Σημειώσεις ασθενή</translation>
     </message>

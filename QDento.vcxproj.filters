@@ -50,6 +50,9 @@
     <ClCompile Include="src\Database\DbNotes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Database\DbMedicalHistory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Database\DbNotification.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -120,6 +123,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\FreeFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\MedicalHistory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Parser.cpp">
@@ -473,6 +479,9 @@
     <ClCompile Include="src\View\Widgets\NotificationDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Widgets\MedicalHistoryDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\View\Widgets\NotificationListDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -596,6 +605,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbNotes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbMedicalHistory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\MedicalHistory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbNotification.h">
@@ -1129,6 +1144,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\NotificationDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\MedicalHistoryDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\NotificationListDialog.h">
