@@ -290,7 +290,7 @@
         <translation>Κυρ</translation>
     </message>
     <message>
-        <location line="+157"/>
+        <location line="+176"/>
         <source>Previous month</source>
         <translation>Προηγούμενος μήνας</translation>
     </message>

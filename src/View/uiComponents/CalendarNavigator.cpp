@@ -230,12 +230,31 @@ CalendarNavigator::CalendarNavigator(QWidget* parent) : QWidget(parent)
 	);
 
 	auto layout = new QVBoxLayout(this);
-	layout->setContentsMargins(0, 12, 0, 0);
-	layout->setSpacing(10);
+	layout->setContentsMargins(0, 0, 0, 0);
+	layout->setSpacing(0);
+
+	//the header and the month cards are one block, vertically centered in the sidebar.
+	//When the sidebar is not high enough the block scrolls instead of being squeezed.
+	auto scroll = new QScrollArea(this);
+	scroll->setObjectName("navScroll");
+	scroll->setWidgetResizable(true);
+	scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	scroll->setFrameShape(QFrame::NoFrame);
+
+	auto contents = new QWidget(scroll);
+	contents->setObjectName("navScrollContents");
+
+	//the same gap between the header and the first card as between the cards
+	auto block = new QVBoxLayout(contents);
+	block->setContentsMargins(14, 12, 14, 12);
+	block->setSpacing(12);
+
+	//extra height goes above and below the block, the cards keep their natural height
+	block->addStretch(1);
 
 	//navigation between months: equal buttons on both sides keep the title centered
 	auto header = new QHBoxLayout();
-	header->setContentsMargins(14, 0, 14, 0);
+	header->setContentsMargins(0, 0, 0, 0);
 	header->setSpacing(8);
 
 	auto arrow = QPixmap(":/icons/icon_downArrow.png");
@@ -260,29 +279,17 @@ CalendarNavigator::CalendarNavigator(QWidget* parent) : QWidget(parent)
 	header->addWidget(rangeLabel, 1);
 	header->addWidget(nextButton);
 
-	layout->addLayout(header);
+	block->addLayout(header);
 
 	connect(prevButton, &QPushButton::clicked, this, [this] { showMonths(m_firstMonth.addMonths(-1)); });
 	connect(nextButton, &QPushButton::clicked, this, [this] { showMonths(m_firstMonth.addMonths(1)); });
 
-	//month cards (scrollable when the window is not high enough for all of them)
-	auto scroll = new QScrollArea(this);
-	scroll->setObjectName("navScroll");
-	scroll->setWidgetResizable(true);
-	scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	scroll->setFrameShape(QFrame::NoFrame);
-
-	auto contents = new QWidget(scroll);
-	contents->setObjectName("navScrollContents");
-
-	auto cards = new QVBoxLayout(contents);
-	cards->setContentsMargins(14, 4, 14, 14);
-	cards->setSpacing(12);
-
+	//month cards
 	for (int i = 0; i < monthCount; i++)
 	{
 		auto card = new QFrame(contents);
 		card->setObjectName("navMonthCard");
+		card->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed); //never stretched to fill the height
 
 		auto shadow = new QGraphicsDropShadowEffect(card);
 		shadow->setBlurRadius(12);
@@ -305,10 +312,10 @@ CalendarNavigator::CalendarNavigator(QWidget* parent) : QWidget(parent)
 		cardLayout->addWidget(grid);
 		months.push_back(grid);
 
-		cards->addWidget(card);
+		block->addWidget(card);
 	}
 
-	cards->addStretch();
+	block->addStretch(1);
 
 	scroll->setWidget(contents);
 	scroll->viewport()->setAutoFillBackground(false);
