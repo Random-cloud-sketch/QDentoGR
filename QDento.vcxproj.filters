@@ -134,6 +134,9 @@
     <ClCompile Include="src\Model\Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\UpperCase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Model\PatientFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -626,6 +629,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbPatientFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\UpperCase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\uiComponents\UpperCaseValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\PatientFile.h">

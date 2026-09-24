@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>310</width>
-    <height>327</height>
+    <height>357</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
      <property name="minimumSize">
       <size>
        <width>241</width>
-       <height>261</height>
+       <height>291</height>
       </size>
      </property>
      <property name="frameShape">
@@ -133,13 +133,36 @@
        </widget>
       </item>
       <item row="5" column="0">
+       <widget class="QLabel" name="referringDoctorLabel">
+        <property name="text">
+         <string>Referring doctor:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="LineEdit" name="referringDoctorEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
          <string>Birth:</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="6" column="1">
        <widget class="DateEdit" name="birthEdit">
         <property name="buttonSymbols">
          <enum>QAbstractSpinBox::ButtonSymbols::UpDownArrows</enum>
@@ -179,14 +202,14 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="7" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
          <string>Sex:</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="7" column="1">
        <widget class="ComboBox" name="sexCombo">
         <property name="maxVisibleItems">
          <number>2</number>
@@ -203,14 +226,14 @@
         </item>
        </widget>
       </item>
-      <item row="7" column="0">
+      <item row="8" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
          <string>Color code:</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="8" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="ColorPicker" name="colorPicker">
@@ -309,6 +332,7 @@
   <tabstop>lNameEdit</tabstop>
   <tabstop>phoneEdit</tabstop>
   <tabstop>addressEdit</tabstop>
+  <tabstop>referringDoctorEdit</tabstop>
   <tabstop>birthEdit</tabstop>
   <tabstop>sexCombo</tabstop>
   <tabstop>colorPicker</tabstop>

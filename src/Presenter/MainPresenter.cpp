@@ -54,6 +54,8 @@ void MainPresenter::setView(QDento* view)
         User::company().name
     );
 
+    //the application starts in the calendar
+    openCalendar();
 }
 
 void MainPresenter::newAmbPressed()
@@ -149,6 +151,7 @@ void MainPresenter::logOut()
     if (login.successful() == false)
     {
         view->exitProgram();
+        return;
     }
 
     view->setUserLabel(
@@ -157,6 +160,8 @@ void MainPresenter::logOut()
         );
 
     view->setNotificationIcon(DbNotification::hasNotifications());
+
+    openCalendar();
 }
 
 void MainPresenter::userSettingsPressed()

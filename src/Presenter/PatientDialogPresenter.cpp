@@ -3,6 +3,7 @@
 #include "View/Widgets/PatientFormDialog.h"
 #include "Database/DbPatient.h"
 #include "Model/User.h"
+#include "Model/UpperCase.h"
 #include <QString>
 #include <QObject>
 #include <QRegularExpression>
@@ -26,15 +27,10 @@ PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle, std::str
 			m_patient->phone = word.toStdString();
 		}
 		else if (m_patient->firstName.empty()) {
-			auto name = word.toLower();
-			name[0] = name[0].toUpper();
-			m_patient->firstName = name.toStdString();
-
+			m_patient->firstName = UpperCase::convert(word).toStdString();
 		}
 		else if (m_patient->lastName.empty()) {
-			auto name = word.toLower();
-			name[0] = name[0].toUpper();
-			m_patient->lastName = name.toStdString();
+			m_patient->lastName = UpperCase::convert(word).toStdString();
 		}
 	}
 }

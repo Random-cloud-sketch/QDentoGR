@@ -1,5 +1,6 @@
 #include "DbAppointment.h"
 #include "Database/Database.h"
+#include "Model/UpperCase.h"
 
 long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 {
@@ -11,8 +12,8 @@ long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 	e.patient_rowid ? db.bind(2, e.patient_rowid) : db.bindNull(2);
 	db.bind(3, e.start.toString(Qt::ISODate).toStdString());
 	db.bind(4, e.end.toString(Qt::ISODate).toStdString());
-	db.bind(5, e.summary);
-	db.bind(6, e.description);
+	db.bind(5, UpperCase::convert(e.summary));
+	db.bind(6, UpperCase::convert(e.description));
 
 	db.execute();
 
@@ -28,8 +29,8 @@ void DbAppointment::update(const CalendarEvent& e)
 	e.patient_rowid ? db.bind(1, e.patient_rowid) : db.bindNull(1);
 	db.bind(2, e.start.toString(Qt::ISODate).toStdString());
 	db.bind(3, e.end.toString(Qt::ISODate).toStdString());
-	db.bind(4, e.summary);
-	db.bind(5, e.description);
+	db.bind(4, UpperCase::convert(e.summary));
+	db.bind(5, UpperCase::convert(e.description));
 	db.bind(6, e.rowid);
 
 	db.execute();

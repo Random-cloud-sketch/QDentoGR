@@ -1,5 +1,7 @@
 ﻿#include "PatientFormDialog.h"
 #include "Model/User.h"
+#include "Model/UpperCase.h"
+#include "View/uiComponents/UpperCaseValidator.h"
 
 PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     : QDialog(parent),
@@ -22,6 +24,12 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+]+"), this);
     ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
 
+
+    //names, address and referring doctor are typed and saved in capital letters
+    UpperCaseValidator::install(ui.fNameEdit);
+    UpperCaseValidator::install(ui.lNameEdit);
+    UpperCaseValidator::install(ui.addressEdit);
+    UpperCaseValidator::install(ui.referringDoctorEdit);
 
     ui.fNameEdit->setInputValidator(&notEmpty_validator);
     ui.lNameEdit->setInputValidator(&notEmpty_validator);
@@ -80,6 +88,7 @@ void PatientFormDialog::resetFields()
     ui.lNameEdit->reset();
     ui.phoneEdit->reset();
     ui.addressEdit->reset();
+    ui.referringDoctorEdit->reset();
     ui.sexCombo->setCurrentIndex(0);
 }
 
@@ -101,6 +110,7 @@ void PatientFormDialog::setPatient(const Patient& patient)
 
     ui.addressEdit->QLineEdit::setText(QString::fromStdString(patient.address));
     ui.phoneEdit->QLineEdit::setText(QString::fromStdString(patient.phone));
+    ui.referringDoctorEdit->QLineEdit::setText(QString::fromStdString(patient.referringDoctor));
 
     ui.colorPicker->setColor(QColor(patient.colorNameRgb.c_str()));
 }
@@ -117,10 +127,11 @@ Patient PatientFormDialog::getPatient()
         .id = ui.idLineEdit->text().toStdString(),
         .birth = ui.birthEdit->getDate(),
         .sex = Patient::Sex(ui.sexCombo->currentIndex()),
-        .firstName = ui.fNameEdit->text().toStdString(),
-        .lastName = ui.lNameEdit->text().toStdString(),
-        .address = ui.addressEdit->text().toStdString(),
+        .firstName = UpperCase::convert(ui.fNameEdit->text()).toStdString(),
+        .lastName = UpperCase::convert(ui.lNameEdit->text()).toStdString(),
+        .address = UpperCase::convert(ui.addressEdit->text()).toStdString(),
         .phone = ui.phoneEdit->text().toStdString(),
+        .referringDoctor = UpperCase::convert(ui.referringDoctorEdit->text().trimmed()).toStdString(),
         .colorNameRgb = colorName
     };
 }

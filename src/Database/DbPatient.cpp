@@ -1,24 +1,27 @@
 #include "DbPatient.h"
 #include "Database.h"
 #include "Database/DbNotes.h"
+#include "Model/UpperCase.h"
 
 long long DbPatient::insert(const Patient& patient)
 {
     Db db(
         "INSERT INTO patient "
         "(id, birth, sex, fname, lname, "
-        "address, phone, color) "
-        "VALUES (?,?,?,?,?,?,?,?)"
+        "address, phone, color, referring_doctor) "
+        "VALUES (?,?,?,?,?,?,?,?,?)"
     );
 
+    //names, address and referring doctor are always saved in capital letters
     db.bind(1, patient.id);
     db.bind(2, patient.birth.to8601());
     db.bind(3, patient.sex);
-    db.bind(4, patient.firstName);
-    db.bind(5, patient.lastName);
-    db.bind(6, patient.address);
+    db.bind(4, UpperCase::convert(patient.firstName));
+    db.bind(5, UpperCase::convert(patient.lastName));
+    db.bind(6, UpperCase::convert(patient.address));
     db.bind(7, patient.phone);
     db.bind(8, patient.colorNameRgb);
+    db.bind(9, UpperCase::convert(patient.referringDoctor));
 
     if (db.execute()) return db.lastInsertedRowID();
 
@@ -38,20 +41,22 @@ bool DbPatient::update(const Patient& patient)
         "lname=?,"
         "address=?,"
         "phone=?,"
-        "color=? "
+        "color=?,"
+        "referring_doctor=? "
         "WHERE rowid=?"
     );
 
     db.bind(1, patient.id);
     db.bind(2, patient.birth.to8601());
     db.bind(3, patient.sex);
-    db.bind(4, patient.firstName);
-    db.bind(5, patient.lastName);
-    db.bind(6, patient.address);
+    db.bind(4, UpperCase::convert(patient.firstName));
+    db.bind(5, UpperCase::convert(patient.lastName));
+    db.bind(6, UpperCase::convert(patient.address));
     db.bind(7, patient.phone);
     db.bind(8, patient.colorNameRgb);
+    db.bind(9, UpperCase::convert(patient.referringDoctor));
 
-    db.bind(9, patient.rowid);
+    db.bind(10, patient.rowid);
 
     return db.execute();
 
@@ -59,7 +64,7 @@ bool DbPatient::update(const Patient& patient)
 
 Patient DbPatient::get(const std::string& patientID)
 {
-    std::string query = "SELECT rowid, birth, sex, fname, lname, address, phone, color FROM patient WHERE id=?";
+    std::string query = "SELECT rowid, birth, sex, fname, lname, address, phone, color, referring_doctor FROM patient WHERE id=?";
 
     Db db(query);
 
@@ -79,6 +84,7 @@ Patient DbPatient::get(const std::string& patientID)
         patient.address = db.asString(5);
         patient.phone = db.asString(6);
         patient.colorNameRgb = db.asString(7);
+        patient.referringDoctor = db.asString(8);
     }
 
     patient.teethNotes = getToothNotes(patient.rowid);
@@ -89,7 +95,7 @@ Patient DbPatient::get(const std::string& patientID)
 
 Patient DbPatient::get(long long rowid)
 {
-    Db db("SELECT rowid, id, birth, sex, fname, lname, address, phone, color "
+    Db db("SELECT rowid, id, birth, sex, fname, lname, address, phone, color, referring_doctor "
         "FROM patient WHERE rowid = " + std::to_string(rowid)
     );
 
@@ -106,6 +112,7 @@ Patient DbPatient::get(long long rowid)
         patient.address = db.asString(6);
         patient.phone = db.asString(7);
         patient.colorNameRgb = db.asString(8);
+        patient.referringDoctor = db.asString(9);
     }
 
     patient.teethNotes = getToothNotes(patient.rowid);

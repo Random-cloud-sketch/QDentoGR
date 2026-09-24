@@ -157,7 +157,7 @@ void PatientTile::paintInfo(QPainter* painter)
     //int phonePosX = width() - fm.horizontalAdvance(phone) - 10;
     //int addressPosX = width() - fm.horizontalAdvance(address) - 10;
 
-	constexpr int rowYPos[3]{ 60,80,100 };
+	constexpr int rowYPos[4]{ 57,75,93,111 };
 
 	painter->setFont(infoLabel);
 	painter->drawText(20, rowYPos[0], idLabel);
@@ -183,6 +183,17 @@ void PatientTile::paintInfo(QPainter* painter)
 	painter->drawText(width()/2 + horizontalAdvance(tr("Phone number: ")), rowYPos[0], phone);
 	painter->drawText(width()/2 + horizontalAdvance(tr("Address: ")), rowYPos[1], address);
 	painter->drawText(width() / 2 + horizontalAdvance(tr("Age: ")), rowYPos[2], age);
+
+	//the referring doctor uses the whole row, up to the zodiac sign
+	painter->setFont(infoLabel);
+	painter->drawText(20, rowYPos[3], tr("Referring doctor: "));
+
+	int doctorX = 20 + horizontalAdvance(tr("Referring doctor: "));
+
+	painter->setFont(info);
+	painter->drawText(doctorX, rowYPos[3],
+		QFontMetrics(info).elidedText(referringDoctor, Qt::ElideRight, width() - 45 - doctorX)
+	);
 	
     painter->setFont(header);
     painter->setPen(QPen(animatedColor(Theme::fontRed, Theme::fontRedClicked)));
@@ -229,6 +240,8 @@ void PatientTile::setData(const Patient& patient, int age)
 	if (patient.phone != "")
 		phone = QString::fromStdString(patient.phone);
 	else phone = "";
+
+	referringDoctor = QString::fromStdString(patient.referringDoctor);
 
 	notesButton->setMonochrome(patient.patientNotes.empty());
 

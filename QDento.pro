@@ -72,6 +72,7 @@ HEADERS += \
     src/Model/NumenclatureTemplate.h \
     src/Model/Parser.h \
     src/Model/MedicalHistory.h \
+    src/Model/UpperCase.h \
     src/Model/PatientFile.h \
     src/Model/Patient.h \
     src/Model/PlainTable.h \
@@ -181,6 +182,7 @@ HEADERS += \
     src/View/Widgets/NotificationDialog.h \
     src/View/Widgets/MedicalHistoryDialog.h \
     src/View/Widgets/NotificationListDialog.h \
+    src/View/uiComponents/UpperCaseValidator.h \
     src/View/Widgets/PatientFilesWidget.h \
     src/View/Widgets/PatientFormDialog.h \
     src/View/Widgets/PatientHistoryDialog.h \
@@ -278,6 +280,7 @@ SOURCES += \
     src/Model/FreeFunctions.cpp \
     src/Model/Parser.cpp \
     src/Model/MedicalHistory.cpp \
+    src/Model/UpperCase.cpp \
     src/Model/PatientFile.cpp \
     src/Model/Patient.cpp \
     src/Model/PlainTable.cpp \

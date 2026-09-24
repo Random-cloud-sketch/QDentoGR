@@ -62,6 +62,7 @@ private:
     QString address;
     QString phone;
     QString sex;
+    QString referringDoctor;
     QPixmap* zodiac{ nullptr };
     bool birthday{ false };
 

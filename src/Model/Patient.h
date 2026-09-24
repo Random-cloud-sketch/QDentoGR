@@ -21,6 +21,7 @@ struct Patient
 	std::string lastName;
 	std::string address;
 	std::string phone;
+	std::string referringDoctor;
 
 	TeethNotes teethNotes;
 	std::string patientNotes;

@@ -1,5 +1,7 @@
 ﻿#include "CalendarEventDialog.h"
 #include "Database/DbPatient.h"
+#include "Model/UpperCase.h"
+#include "View/uiComponents/UpperCaseValidator.h"
 #include <QCompleter>
 #include <QPainter>
 #include <QAbstractItemView>
@@ -22,10 +24,10 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 	connect(ui.okButton, &QPushButton::clicked, this, [&] {
 
-		QString summary = ui.summaryEdit->text();
+		QString summary = UpperCase::convert(ui.summaryEdit->text());
 
 		m_result.summary = summary.toStdString();
-		m_result.description = ui.descriptionEdit->text().toStdString();
+		m_result.description = UpperCase::convert(ui.descriptionEdit->text()).toStdString();
 		m_result.start = ui.startDateTimeEdit->dateTime();
 		m_result.end = ui.endDateTimeEdit->dateTime();
 
@@ -57,7 +59,8 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 	for (auto p : DbPatient::getPatientList())
 	{
-		QString summary = QString::fromStdString(p.summary);
+		//the patient name is typed in capitals, so the list is in capitals as well
+		QString summary = UpperCase::convert(QString::fromStdString(p.summary));
 
 		completerList.push_back(summary);
 		s_completer[summary] = p.rowid;
@@ -73,6 +76,9 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	new_completer->setMaxVisibleItems(10);
 	new_completer->setModelSorting(QCompleter::UnsortedModel);
 	ui.summaryEdit->setCompleter(new_completer);
+
+	UpperCaseValidator::install(ui.summaryEdit);
+	UpperCaseValidator::install(ui.descriptionEdit);
 
 	ui.summaryEdit->setText(event.summary.c_str());
 	ui.descriptionEdit->setText(event.description.c_str());

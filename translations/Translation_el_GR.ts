@@ -198,7 +198,7 @@
 <context>
     <name>CalendarEventDialog</name>
     <message>
-        <location filename="../src/View/Widgets/CalendarEventDialog.cpp" line="+17"/>
+        <location filename="../src/View/Widgets/CalendarEventDialog.cpp" line="+19"/>
         <source>Edit Appointment</source>
         <translation>Επεξεργασία ραντεβού</translation>
     </message>
@@ -2787,6 +2787,11 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
     </message>
     <message>
         <location line="+23"/>
+        <source>Referring doctor:</source>
+        <translation>Ιατρός Παραπομπής:</translation>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>Birth:</source>
         <translation>Ημ. γέννησης:</translation>
     </message>
@@ -2826,12 +2831,12 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/PatientDialogPresenter.cpp" line="+48"/>
+        <location filename="../src/Presenter/PatientDialogPresenter.cpp" line="+44"/>
         <source>Edit Patient</source>
         <translation>Επεξεργασία ασθενή</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/PatientFormDialog.cpp" line="+12"/>
+        <location filename="../src/View/Widgets/PatientFormDialog.cpp" line="+14"/>
         <source>New document</source>
         <translation>Νέο έγγραφο</translation>
     </message>
@@ -2919,12 +2924,12 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
     <message>
         <location line="-14"/>
         <location line="+15"/>
-        <location line="+18"/>
+        <location line="+29"/>
         <source>Date of birth: </source>
         <translation>Ημ. γέννησης: </translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-42"/>
         <location line="+16"/>
         <source>Phone number: </source>
         <translation>Τηλέφωνο: </translation>
@@ -2942,7 +2947,13 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Ηλικία: </translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+4"/>
+        <location line="+2"/>
+        <source>Referring doctor: </source>
+        <translation>Ιατρός παραπομπής: </translation>
+    </message>
+    <message>
+        <location line="+37"/>
         <source>SN: </source>
         <translation>Αναγνωριστικό: </translation>
     </message>
@@ -4789,7 +4800,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Λανθασμένος κωδικός πρόσβασης</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/MainPresenter.cpp" line="+62"/>
+        <location filename="../src/Presenter/MainPresenter.cpp" line="+64"/>
         <location filename="../src/View/Widgets/BrowserDialog.cpp" line="+7"/>
         <source>New Dental Visit</source>
         <translation>Νέα οδοντιατρική επίσκεψη</translation>
@@ -4802,7 +4813,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νέα περιοδοντική μέτρηση</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+131"/>
         <source>A placeholder profile has been created. Enter your credentials from settings</source>
         <translation>Δημιουργήθηκε ένα προσωρινό προφίλ. Καταχωρίστε τα στοιχεία σας από τις Ρυθμίσεις</translation>
     </message>
