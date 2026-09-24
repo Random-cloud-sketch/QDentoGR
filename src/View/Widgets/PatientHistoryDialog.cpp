@@ -1,6 +1,7 @@
 ﻿#include "PatientHistoryDialog.h"
 #include "Presenter/PatientHistoryPresenter.h"
 #include "View/GlobalFunctions.h"
+#include "View/Widgets/PatientFilesWidget.h"
 #include <set>
 #include <array>
 
@@ -139,6 +140,23 @@ void PatientHistoryDialog::setPerioSnapshots(const std::vector<PerioSnapshot>& s
 void PatientHistoryDialog::setPatientNoteFlags(const std::array<std::string, 32>& notes)
 {
 	ui.snapshotViewer->getTeethScene()->setNotes(notes);
+}
+
+void PatientHistoryDialog::addPatientFilesTab(long long patientRowid)
+{
+	auto filesWidget = new PatientFilesWidget(patientRowid, ui.tabWidget);
+
+	auto title = [](int count) {
+		return count ? tr("Radiographs && documents (%1)").arg(count) : tr("Radiographs && documents");
+	};
+
+	int index = ui.tabWidget->addTab(filesWidget, QIcon(":/icons/icon_open.png"), title(filesWidget->fileCount()));
+
+	connect(filesWidget, &PatientFilesWidget::filesChanged, this, [=, this](int count) {
+		ui.tabWidget->setTabText(ui.tabWidget->indexOf(filesWidget), title(count));
+	});
+
+	Q_UNUSED(index);
 }
 
 PatientHistoryDialog::~PatientHistoryDialog()

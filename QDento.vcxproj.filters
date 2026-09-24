@@ -56,6 +56,9 @@
     <ClCompile Include="src\Database\DbNotification.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Database\DbPatientFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Database\DbPatient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -129,6 +132,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\PatientFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Patient.cpp">
@@ -485,6 +491,9 @@
     <ClCompile Include="src\View\Widgets\NotificationListDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Widgets\PatientFilesWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\View\Widgets\PatientFormDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -614,6 +623,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbNotification.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbPatientFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\PatientFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbPatient.h">
@@ -1150,6 +1165,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\NotificationListDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\PatientFilesWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\PatientFormDialog.h">

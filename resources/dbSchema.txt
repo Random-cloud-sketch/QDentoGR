@@ -40,4 +40,6 @@ CREATE INDEX IF NOT EXISTS medical_history_patient ON medical_history (patient_r
 CREATE TABLE IF NOT EXISTS medical_history_item (medical_history_rowid INTEGER NOT NULL REFERENCES medical_history (rowid) ON DELETE CASCADE ON UPDATE CASCADE, item TEXT NOT NULL, answer INTEGER NOT NULL, details TEXT, PRIMARY KEY (medical_history_rowid, item));
 CREATE TABLE IF NOT EXISTS medical_history_medication (rowid INTEGER NOT NULL PRIMARY KEY, medical_history_rowid INTEGER NOT NULL REFERENCES medical_history (rowid) ON DELETE CASCADE ON UPDATE CASCADE, name TEXT NOT NULL, dose TEXT, frequency TEXT, indication TEXT, notes TEXT);
 CREATE TABLE IF NOT EXISTS medical_history_surgery (rowid INTEGER NOT NULL PRIMARY KEY, medical_history_rowid INTEGER NOT NULL REFERENCES medical_history (rowid) ON DELETE CASCADE ON UPDATE CASCADE, surgery TEXT NOT NULL, date TEXT, reason TEXT, hospital TEXT, notes TEXT);
-PRAGMA user_version=3;
+CREATE TABLE IF NOT EXISTS patient_file (rowid INTEGER NOT NULL PRIMARY KEY, patient_rowid INTEGER NOT NULL REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, dentist_rowid INTEGER REFERENCES dentist (rowid) ON DELETE SET NULL ON UPDATE CASCADE, stored_name TEXT NOT NULL, original_name TEXT NOT NULL, name TEXT NOT NULL, type INTEGER NOT NULL DEFAULT 0, size INTEGER NOT NULL DEFAULT 0, uploaded TEXT NOT NULL, description TEXT);
+CREATE INDEX IF NOT EXISTS patient_file_patient ON patient_file (patient_rowid);
+PRAGMA user_version=4;

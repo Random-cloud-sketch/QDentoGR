@@ -30,5 +30,7 @@ public:
     void openDocument(TabType type);
 	void medicalHistoryRequested();
 	void refreshMedicalHistory();
+	void patientFilesRequested();
+	void refreshPatientFiles();
 	void setParent(TabInstance* p) { m_parent = p; }
 };

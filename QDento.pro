@@ -38,6 +38,7 @@ HEADERS += \
     src/Database/DbNotes.h \
     src/Database/DbMedicalHistory.h \
     src/Database/DbNotification.h \
+    src/Database/DbPatientFile.h \
     src/Database/DbPatient.h \
     src/Database/DbPatientSummary.h \
     src/Database/DbPerio.h \
@@ -71,6 +72,7 @@ HEADERS += \
     src/Model/NumenclatureTemplate.h \
     src/Model/Parser.h \
     src/Model/MedicalHistory.h \
+    src/Model/PatientFile.h \
     src/Model/Patient.h \
     src/Model/PlainTable.h \
     src/Model/Settings.h \
@@ -179,6 +181,7 @@ HEADERS += \
     src/View/Widgets/NotificationDialog.h \
     src/View/Widgets/MedicalHistoryDialog.h \
     src/View/Widgets/NotificationListDialog.h \
+    src/View/Widgets/PatientFilesWidget.h \
     src/View/Widgets/PatientFormDialog.h \
     src/View/Widgets/PatientHistoryDialog.h \
     src/View/Widgets/PerioStatusView.h \
@@ -250,6 +253,7 @@ SOURCES += \
     src/Database/DbNotes.cpp \
     src/Database/DbMedicalHistory.cpp \
     src/Database/DbNotification.cpp \
+    src/Database/DbPatientFile.cpp \
     src/Database/DbPatient.cpp \
     src/Database/DbPatientSummary.cpp \
     src/Database/DbPerio.cpp \
@@ -274,6 +278,7 @@ SOURCES += \
     src/Model/FreeFunctions.cpp \
     src/Model/Parser.cpp \
     src/Model/MedicalHistory.cpp \
+    src/Model/PatientFile.cpp \
     src/Model/Patient.cpp \
     src/Model/PlainTable.cpp \
     src/Model/Time.cpp \
@@ -367,6 +372,7 @@ SOURCES += \
     src/View/Widgets/NotificationDialog.cpp \
     src/View/Widgets/MedicalHistoryDialog.cpp \
     src/View/Widgets/NotificationListDialog.cpp \
+    src/View/Widgets/PatientFilesWidget.cpp \
     src/View/Widgets/PatientFormDialog.cpp \
     src/View/Widgets/PatientHistoryDialog.cpp \
     src/View/Widgets/PerioStatusView.cpp \

@@ -5,6 +5,7 @@
 #include "DbProcedure.h"
 #include <map>
 #include <QObject>
+#include "Database/DbPatientFile.h"
 
 std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
 {
@@ -316,5 +317,10 @@ void DbBrowser::deleteRecord(TabType type, long long rowid)
 
     auto query = "DELETE FROM " + tableName + " WHERE rowid = " + std::to_string(rowid);
 
-    Db::crudQuery(query);
+    bool deleted = Db::crudQuery(query);
+
+    //the radiographs and documents of a deleted patient are removed from the storage folder too
+    if (deleted && type == TabType::PatientSummary) {
+        DbPatientFile::removePatientFolder(rowid);
+    }
 }

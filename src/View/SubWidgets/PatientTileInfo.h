@@ -20,6 +20,7 @@ class PatientTileInfo : public RoundedFrame
     QMenu* context_menu;
 
     QPushButton* medicalHistoryButton;
+    QPushButton* patientFilesButton;
     //first line (next to the button) and second line of the medical history summary
     QLabel* medicalHistoryLabels[2];
     QStringList medicalHistoryItems;
@@ -32,6 +33,8 @@ public:
 	void setPresenter(PatientInfoPresenter* p) { presenter = p; }
 	//summary of the patient's medical history (allergies and risks are highlighted)
 	void setMedicalHistory(const std::optional<MedicalHistory>& history);
+	//number of radiographs and documents of the patient
+	void setPatientFileCount(int count);
 
 protected:
 	void resizeEvent(QResizeEvent* event) override;

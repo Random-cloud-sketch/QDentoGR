@@ -2474,6 +2474,286 @@
     </message>
 </context>
 <context>
+    <name>PatientFile</name>
+    <message>
+        <location filename="../src/Model/PatientFile.cpp" line="+31"/>
+        <source>Radiograph</source>
+        <translation>Ακτινογραφία</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+19"/>
+        <source>CBCT / DICOM</source>
+        <translation>CBCT / DICOM</translation>
+    </message>
+    <message>
+        <location line="-18"/>
+        <source>Clinical photo</source>
+        <translation>Κλινική φωτογραφία</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>PDF document</source>
+        <translation>Έγγραφο PDF</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Document</source>
+        <translation>Έγγραφο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other</source>
+        <translation>Άλλο</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Radiographs, images, CBCT and documents</source>
+        <translation>Ακτινογραφίες, εικόνες, CBCT και έγγραφα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Radiographs and images</source>
+        <translation>Ακτινογραφίες και εικόνες</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>PDF documents</source>
+        <translation>Έγγραφα PDF</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Documents</source>
+        <translation>Έγγραφα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All files</source>
+        <translation>Όλα τα αρχεία</translation>
+    </message>
+</context>
+<context>
+    <name>PatientFilesWidget</name>
+    <message>
+        <location filename="../src/View/Widgets/PatientFilesWidget.cpp" line="+83"/>
+        <source>Add files...</source>
+        <translation>Προσθήκη αρχείων...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Add radiographs, CBCT files or documents (you can also drag and drop files here)</source>
+        <translation>Προσθήκη ακτινογραφιών, αρχείων CBCT ή εγγράφων (μπορείτε επίσης να σύρετε και να αφήσετε αρχεία εδώ)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open</source>
+        <translation>Άνοιγμα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open with the default program of the computer</source>
+        <translation>Άνοιγμα με το προεπιλεγμένο πρόγραμμα του υπολογιστή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Save a copy...</source>
+        <translation>Αποθήκευση αντιγράφου...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rename / edit...</source>
+        <translation>Μετονομασία / επεξεργασία...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Delete</source>
+        <translation>Διαγραφή</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>All types</source>
+        <translation>Όλοι οι τύποι</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>List</source>
+        <translation>Λίστα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Thumbnails</source>
+        <translation>Μικρογραφίες</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Name</source>
+        <translation>Όνομα</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+274"/>
+        <source>Type</source>
+        <translation>Τύπος</translation>
+    </message>
+    <message>
+        <location line="-274"/>
+        <location line="+276"/>
+        <source>Uploaded</source>
+        <translation>Ημερομηνία προσθήκης</translation>
+    </message>
+    <message>
+        <location line="-276"/>
+        <location line="+278"/>
+        <source>Size</source>
+        <translation>Μέγεθος</translation>
+    </message>
+    <message>
+        <location line="-278"/>
+        <location line="+279"/>
+        <source>Description</source>
+        <translation>Περιγραφή</translation>
+    </message>
+    <message>
+        <location line="-253"/>
+        <source>No files yet. Add radiographs or documents with &quot;Add files...&quot; or drag and drop them here.</source>
+        <translation>Δεν υπάρχουν ακόμη αρχεία. Προσθέστε ακτινογραφίες ή έγγραφα με το «Προσθήκη αρχείων...» ή σύρετέ τα εδώ.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Double click to view the image in full size</source>
+        <translation>Διπλό κλικ για προβολή της εικόνας σε πλήρες μέγεθος</translation>
+    </message>
+    <message>
+        <location line="+204"/>
+        <source>%1 files selected</source>
+        <translation>Επιλέχθηκαν %1 αρχεία</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>A preview is not available for this type of file.
+Use &quot;Open&quot; to view it with the program of the computer.</source>
+        <translation>Δεν υπάρχει διαθέσιμη προεπισκόπηση για αυτόν τον τύπο αρχείου.
+Χρησιμοποιήστε το «Άνοιγμα» για προβολή με πρόγραμμα του υπολογιστή.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+18"/>
+        <location line="+77"/>
+        <source>The file was not found in the storage folder.</source>
+        <translation>Το αρχείο δεν βρέθηκε στον φάκελο αποθήκευσης.</translation>
+    </message>
+    <message>
+        <location line="-84"/>
+        <source>Original file name</source>
+        <translation>Αρχικό όνομα αρχείου</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Uploaded by</source>
+        <translation>Προστέθηκε από</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>Add radiographs and documents</source>
+        <translation>Προσθήκη ακτινογραφιών και εγγράφων</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>folders can not be added - add the files it contains</source>
+        <translation>δεν είναι δυνατή η προσθήκη φακέλων - προσθέστε τα αρχεία που περιέχει</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>The following files could not be added:</source>
+        <translation>Δεν ήταν δυνατή η προσθήκη των παρακάτω αρχείων:</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>No program was found on this computer to open this type of file.</source>
+        <translation>Δεν βρέθηκε πρόγραμμα στον υπολογιστή για το άνοιγμα αυτού του τύπου αρχείου.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Save a copy</source>
+        <translation>Αποθήκευση αντιγράφου</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The copy could not be saved.</source>
+        <translation>Δεν ήταν δυνατή η αποθήκευση του αντιγράφου.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Rename / edit file</source>
+        <translation>Μετονομασία / επεξεργασία αρχείου</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Name:</source>
+        <translation>Όνομα:</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Type:</source>
+        <translation>Τύπος:</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>e.g. periapical 36, panoramic, CBCT of the maxilla</source>
+        <translation>π.χ. οπισθοφατνιακή 36, πανοραμική, CBCT άνω γνάθου</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Description:</source>
+        <translation>Περιγραφή:</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>The changes could not be saved.</source>
+        <translation>Δεν ήταν δυνατή η αποθήκευση των αλλαγών.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Delete &quot;%1&quot;? The file will be permanently removed from the patient&apos;s record.</source>
+        <translation>Διαγραφή του «%1»; Το αρχείο θα αφαιρεθεί οριστικά από τον φάκελο του ασθενή.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Delete the %1 selected files? They will be permanently removed from the patient&apos;s record.</source>
+        <translation>Διαγραφή των %1 επιλεγμένων αρχείων; Θα αφαιρεθούν οριστικά από τον φάκελο του ασθενή.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>The following files could not be deleted:</source>
+        <translation>Δεν ήταν δυνατή η διαγραφή των παρακάτω αρχείων:</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Fit to window</source>
+        <translation>Προσαρμογή στο παράθυρο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Actual size</source>
+        <translation>Πραγματικό μέγεθος</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Zoom in (Ctrl +)</source>
+        <translation>Μεγέθυνση (Ctrl +)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Zoom out (Ctrl -)</source>
+        <translation>Σμίκρυνση (Ctrl -)</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <source>Radiographs &amp; documents</source>
+        <translation>Ακτινογραφίες &amp; έγγραφα</translation>
+    </message>
+</context>
+<context>
     <name>PatientFormDialog</name>
     <message>
         <location filename="../src/View/Widgets/PatientFormDialog.ui" line="+14"/>
@@ -2565,9 +2845,19 @@
 <context>
     <name>PatientHistoryDialog</name>
     <message>
-        <location filename="../src/View/Widgets/PatientHistoryDialog.cpp" line="+12"/>
+        <location filename="../src/View/Widgets/PatientHistoryDialog.cpp" line="+13"/>
         <source>Patient History</source>
         <translation>Ιστορικό ασθενή</translation>
+    </message>
+    <message>
+        <location line="+137"/>
+        <source>Radiographs &amp;&amp; documents (%1)</source>
+        <translation>Ακτινογραφίες &amp;&amp; έγγραφα (%1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Radiographs &amp;&amp; documents</source>
+        <translation>Ακτινογραφίες &amp;&amp; έγγραφα</translation>
     </message>
 </context>
 <context>
@@ -2701,13 +2991,18 @@
     </message>
     <message>
         <location line="+5"/>
-        <location line="+16"/>
-        <location line="+83"/>
+        <location line="+21"/>
+        <location line="+92"/>
         <source>Medical history</source>
         <translation>Ιατρικό ιστορικό</translation>
     </message>
     <message>
-        <location line="-18"/>
+        <location line="+28"/>
+        <source>Radiographs &amp;&amp; documents (%1)</source>
+        <translation>Ακτινογραφίες &amp;&amp; έγγραφα (%1)</translation>
+    </message>
+    <message>
+        <location line="-46"/>
         <source>No medical history recorded</source>
         <translation>Δεν έχει καταχωριστεί ιατρικό ιστορικό</translation>
     </message>
@@ -2722,13 +3017,30 @@
         <translation>Νοσήματα: %1</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-98"/>
+        <location line="+26"/>
+        <location line="+112"/>
+        <source>Radiographs &amp;&amp; documents</source>
+        <translation>Ακτινογραφίες &amp;&amp; έγγραφα</translation>
+    </message>
+    <message>
+        <location line="-37"/>
         <location line="+7"/>
         <source>Updated %1</source>
         <translation>Ενημέρωση: %1</translation>
     </message>
     <message>
         <location line="+34"/>
+        <source>%1 radiographs / documents</source>
+        <translation>%1 ακτινογραφίες / έγγραφα</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>No radiographs or documents yet</source>
+        <translation>Δεν υπάρχουν ακόμη ακτινογραφίες ή έγγραφα</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>(+%1 more)</source>
         <translation>(+%1 ακόμη)</translation>
     </message>
@@ -3666,7 +3978,7 @@
         <translation>Κωδικός σφάλματος βάσης δεδομένων: %1</translation>
     </message>
     <message>
-        <location filename="../src/Database/DbBrowser.cpp" line="+16"/>
+        <location filename="../src/Database/DbBrowser.cpp" line="+17"/>
         <location line="+44"/>
         <location line="+70"/>
         <location line="+58"/>
@@ -4505,12 +4817,12 @@
         <translation> (αρχική στοματική κατάσταση)</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+43"/>
         <source>The document could not be opened because it is not created by the current user.</source>
         <translation>Το έγγραφο δεν μπορεί να ανοιχτεί, επειδή δεν έχει δημιουργηθεί από τον τρέχοντα χρήστη.</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/PatientInfoPresenter.cpp" line="+62"/>
+        <location filename="../src/Presenter/PatientInfoPresenter.cpp" line="+65"/>
         <source>Patient notes</source>
         <translation>Σημειώσεις ασθενή</translation>
     </message>
@@ -4669,7 +4981,7 @@
         <translation>Επιλέξτε περισσότερα από ένα δόντια πριν προσθέσετε αυτή την κατάσταση</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+182"/>
         <source>Add at least one procedure</source>
         <translation>Προσθέστε τουλάχιστον μία πράξη</translation>
     </message>

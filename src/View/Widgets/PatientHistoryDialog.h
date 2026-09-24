@@ -37,6 +37,8 @@ public:
 	void setDocuments(const PlainTable& docList, const std::vector<PlainTable>& contents);
 	void setPerioSnapshots(const std::vector<PerioSnapshot>& snapshots);
 	void setPatientNoteFlags(const std::array<std::string, 32>& notes);
+	//radiographs and documents of the patient (added as the last tab)
+	void addPatientFilesTab(long long patientRowid);
 
 	~PatientHistoryDialog();
 

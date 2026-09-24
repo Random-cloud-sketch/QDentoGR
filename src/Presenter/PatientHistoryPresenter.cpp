@@ -79,6 +79,7 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 	view.setSnapshots(local_snapshots);
 	view.setPerioSnapshots(perioSnapshots);
 
+	view.addPatientFilesTab(patient.rowid);
 }
 
 void PatientHistoryPresenter::openDocuments(const std::vector<int>& selectedDocIdx)

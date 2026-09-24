@@ -58,6 +58,11 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     action->setIcon(QIcon(":/icons/icon_note.png"));
     context_menu->addAction(action);
 
+    action = (new QAction(tr("Radiographs && documents"), context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { if (presenter) presenter->patientFilesRequested(); });
+    action->setIcon(QIcon(":/icons/icon_open.png"));
+    context_menu->addAction(action);
+
     //medical history strip below the patient tile (two lines)
     auto strip = new QWidget(this);
     strip->setFixedHeight(44);
@@ -79,6 +84,11 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     );
     firstLine->addWidget(medicalHistoryButton);
 
+    patientFilesButton = new QPushButton(QIcon(":/icons/icon_open.png"), tr("Radiographs && documents"), strip);
+    patientFilesButton->setCursor(Qt::PointingHandCursor);
+    patientFilesButton->setStyleSheet(medicalHistoryButton->styleSheet());
+    firstLine->addWidget(patientFilesButton);
+
     for (auto& label : medicalHistoryLabels) {
         label = new QLabel(strip);
         label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
@@ -92,6 +102,10 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 
     connect(medicalHistoryButton, &QPushButton::clicked, this, [=, this] {
         if (presenter) presenter->medicalHistoryRequested();
+    });
+
+    connect(patientFilesButton, &QPushButton::clicked, this, [=, this] {
+        if (presenter) presenter->patientFilesRequested();
     });
 
     context_menu->setStyleSheet(Theme::getPopupMenuStylesheet());
@@ -177,6 +191,23 @@ void PatientTileInfo::setMedicalHistory(const std::optional<MedicalHistory>& his
     elideMedicalHistoryText();
 }
 
+void PatientTileInfo::setPatientFileCount(int count)
+{
+    patientFilesButton->setText(count ?
+        tr("Radiographs && documents (%1)").arg(count)
+        :
+        tr("Radiographs && documents")
+    );
+
+    patientFilesButton->setToolTip(count ?
+        tr("%1 radiographs / documents").arg(count)
+        :
+        tr("No radiographs or documents yet")
+    );
+
+    elideMedicalHistoryText();
+}
+
 void PatientTileInfo::elideMedicalHistoryText()
 {
     //fills the two lines with as many complete items as fit and shows the number of the remaining ones,
@@ -211,8 +242,8 @@ void PatientTileInfo::elideMedicalHistoryText()
             text = candidate;
         }
 
-        //a single item longer than the whole line
-        if (text.isEmpty() && next < medicalHistoryItems.size()) {
+        //a single item longer than the whole line: moved to the next line, or shortened on the last one
+        if (text.isEmpty() && next < medicalHistoryItems.size() && lastLine) {
             text = metrics.elidedText(medicalHistoryItems[next], Qt::ElideRight, width - metrics.horizontalAdvance(reserve(next + 1)));
             next++;
         }

@@ -12,6 +12,8 @@
 #include "View/SubWidgets/PatientTileInfo.h"
 #include "View/Widgets/MedicalHistoryDialog.h"
 #include "Database/DbMedicalHistory.h"
+#include "Database/DbPatientFile.h"
+#include "View/Widgets/PatientFilesWidget.h"
 
 PatientInfoPresenter::PatientInfoPresenter(PatientTileInfo* view, std::shared_ptr<Patient> p) :
     patient(p), view(view), doc_date(Date::currentDate())
@@ -44,6 +46,7 @@ void PatientInfoPresenter::patientTileClicked()
     view->setPatient(*patient, patient->getAge(doc_date));
 
     refreshMedicalHistory();
+    refreshPatientFiles();
 
     if (m_parent) {
         m_parent->patientDataChanged();
@@ -82,6 +85,7 @@ void PatientInfoPresenter::setCurrent(bool isCurrent)
     view->setPatient(*patient, patient->getAge(doc_date));
 
     refreshMedicalHistory();
+    refreshPatientFiles();
 }
 
 void PatientInfoPresenter::notificationClicked()
@@ -116,6 +120,20 @@ void PatientInfoPresenter::refreshMedicalHistory()
     }
 
     view->setMedicalHistory(DbMedicalHistory::getCurrent(patient->rowid));
+}
+
+void PatientInfoPresenter::patientFilesRequested()
+{
+    if (patient == nullptr || patient->rowid <= 0) return;
+
+    PatientFilesWidget::openDialog(patient->rowid, QString::fromStdString(patient->firstLastName()));
+
+    refreshPatientFiles();
+}
+
+void PatientInfoPresenter::refreshPatientFiles()
+{
+    view->setPatientFileCount(patient && patient->rowid > 0 ? DbPatientFile::count(patient->rowid) : 0);
 }
 
 void PatientInfoPresenter::openDocument(TabType type)

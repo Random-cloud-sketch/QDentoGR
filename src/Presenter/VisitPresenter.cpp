@@ -297,6 +297,9 @@ void VisitPresenter::historyRequested()
     pr.openDialog();
 
     view->setNotes(patient->teethNotes);
+
+    //files may have been added or removed in the patient profile
+    patient_info.refreshPatientFiles();
 }
 
 void VisitPresenter::openDetails(int toothIdx)
