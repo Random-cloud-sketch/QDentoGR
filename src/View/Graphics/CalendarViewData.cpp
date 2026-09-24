@@ -135,6 +135,18 @@ bool CalendarViewData::hasPatient(int row, int column) const
 	return false;
 }
 
+bool CalendarViewData::eventRows(int column, int row, int& firstRow, int& span) const
+{
+	auto entity = getEntity(column, row);
+
+	if (!entity) return false;
+
+	firstRow = entity->row;
+	span = entity->span;
+
+	return true;
+}
+
 std::vector<std::pair<int, int>> CalendarViewData::setHovered(int column, int row)
 {
 	std::vector<std::pair<int, int>> result;

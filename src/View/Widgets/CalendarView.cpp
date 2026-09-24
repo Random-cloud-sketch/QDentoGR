@@ -11,6 +11,8 @@
 #include <QFormLayout>
 #include <QFrame>
 #include <QLabel>
+#include <QPushButton>
+#include <QResizeEvent>
 
 #include "Presenter/CalendarPresenter.h"
 #include "View/Theme.h"
@@ -160,6 +162,43 @@ CalendarView::CalendarView(QWidget* parent)
     connect(ui.calendarTable, &CalendarTable::eventDurationChange, this, [&](int eventIdx, int duration) { presenter->durationChange(eventIdx, duration); });
     connect(ui.calendarButton, &QPushButton::clicked, this, [&]{ showCalendarWidget(); });
     connect(ui.calendarTable, &CalendarTable::newDocRequested, this, [&](int index, TabType type) { presenter->newDocRequested(index, type); });
+    connect(ui.calendarTable, &CalendarTable::eventTimeChangeRequested, this, [&](int index, const QDateTime& start, const QDateTime& end, bool moved) {
+        if (presenter) presenter->rescheduleEvent(index, start, end, moved);
+    });
+
+    //notice after drag and drop, with undo
+    notice = new QFrame(this);
+    notice->setObjectName("changeNotice");
+    notice->setStyleSheet(
+        "#changeNotice { background-color: rgba(45, 55, 60, 235); border-radius: 18px; }"
+        "#changeNotice QLabel { color: white; }"
+        "#changeNotice QPushButton { color: " + Theme::colorToString(Theme::mainBackgroundColor) + " font-weight: bold; background: transparent; border: none; padding: 4px 8px; }"
+        "#changeNotice QPushButton:hover { color: white; }"
+    );
+
+    auto noticeLayout = new QHBoxLayout(notice);
+    noticeLayout->setContentsMargins(18, 6, 10, 6);
+    noticeLayout->setSpacing(12);
+
+    notice->setMinimumHeight(36); //the rounded ends need the full height
+
+    noticeLabel = new QLabel(notice);
+    undoButton = new QPushButton(tr("Undo"), notice);
+    undoButton->setCursor(Qt::PointingHandCursor);
+
+    noticeLayout->addWidget(noticeLabel);
+    noticeLayout->addWidget(undoButton);
+
+    notice->hide();
+
+    noticeTimer = new QTimer(this);
+    noticeTimer->setSingleShot(true);
+    connect(noticeTimer, &QTimer::timeout, notice, &QWidget::hide);
+
+    connect(undoButton, &QPushButton::clicked, this, [&] {
+        notice->hide();
+        if (presenter) presenter->undoLastChange();
+    });
     connect(calendarWidget, &QCalendarWidget::clicked, this, [&](QDate date) { if (presenter)presenter->dateRequested(date); calendarWidget->close();  });
 
 
@@ -566,6 +605,74 @@ void CalendarView::setEventList(const std::vector<CalendarEvent>& list, const Ca
     table->setEvents(list, clipboard_event);
 
     timeAxis->update();
+}
+
+void CalendarView::showNotice(const QString& text, bool undo)
+{
+    noticeLabel->setText(text);
+    undoButton->setVisible(undo);
+
+    //the whole text is always shown
+    notice->ensurePolished();
+    noticeLabel->ensurePolished();
+    noticeLabel->setMinimumWidth(noticeLabel->fontMetrics().horizontalAdvance(text) + 6);
+
+    //equal padding when there is no undo button
+    notice->layout()->setContentsMargins(18, 6, undo ? 10 : 18, 6);
+
+    //the size follows the new text and the shown / hidden undo button
+    notice->layout()->invalidate();
+    notice->layout()->activate();
+    notice->resize(notice->layout()->sizeHint().expandedTo(notice->minimumSize()));
+    placeNotice();
+    notice->raise();
+    notice->show();
+
+    //long enough to use the undo
+    noticeTimer->start(undo ? 15000 : 3000);
+}
+
+void CalendarView::placeNotice()
+{
+    if (!notice) return;
+
+    //bottom center of the appointments table
+    auto area = ui.scrollArea->geometry();
+    QPoint bottomCenter = ui.scrollArea->parentWidget()->mapTo(this, QPoint(area.center().x(), area.bottom()));
+
+    notice->move(bottomCenter.x() - notice->width() / 2, bottomCenter.y() - notice->height() - 24);
+}
+
+void CalendarView::resizeEvent(QResizeEvent* event)
+{
+    QWidget::resizeEvent(event);
+
+    if (notice && notice->isVisible()) placeNotice();
+}
+
+void CalendarView::showChangeNotice(const QDateTime& start, const QDateTime& end, bool moved)
+{
+    QLocale locale = GlobalSettings::isGreekUi() ? QLocale(QLocale::Greek, QLocale::Greece) : QLocale();
+
+    QString endText = end.time() == QTime(0, 0) && end.date() > start.date() ? QString("24:00") : end.toString("HH:mm");
+
+    QString text = moved ?
+        tr("Appointment moved to %1 at %2").arg(locale.toString(start.date(), "ddd d/M")).arg(start.toString("HH:mm"))
+        :
+        tr("Appointment duration changed: %1 - %2").arg(start.toString("HH:mm")).arg(endText);
+
+    showNotice(text, true);
+}
+
+void CalendarView::showUndoneNotice()
+{
+    showNotice(tr("The change was undone"), false);
+}
+
+void CalendarView::hideChangeNotice()
+{
+    noticeTimer->stop();
+    notice->hide();
 }
 
 QDate CalendarView::navigatorFirstDay() const

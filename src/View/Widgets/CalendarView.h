@@ -11,6 +11,10 @@ class CalendarPresenter;
 class CalendarWidget;
 class CalendarNavigator;
 class IconButton;
+class QFrame;
+class QLabel;
+class QPushButton;
+class QTimer;
 
 class CalendarView : public QWidget
 {
@@ -25,6 +29,16 @@ class CalendarView : public QWidget
     QWidget* timeAxis{ nullptr };
 
     IconButton* axisButton{ nullptr };
+
+    //notice shown after an appointment is moved, with undo
+    QFrame* notice{ nullptr };
+    QLabel* noticeLabel{ nullptr };
+    QPushButton* undoButton{ nullptr };
+    QTimer* noticeTimer{ nullptr };
+
+    void showNotice(const QString& text, bool undo);
+    void placeNotice();
+    void resizeEvent(QResizeEvent* event) override;
 
     GlobalSettings::CalendarAxis m_axis;
 
@@ -68,6 +82,10 @@ public:
     QDate navigatorFirstDay() const;
     QDate navigatorLastDay() const;
     void setBusyDays(const QSet<QDate>& days);
+
+    void showChangeNotice(const QDateTime& start, const QDateTime& end, bool moved);
+    void showUndoneNotice();
+    void hideChangeNotice();
 
     ~CalendarView();
 

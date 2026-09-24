@@ -303,7 +303,7 @@
 <context>
     <name>CalendarTable</name>
     <message>
-        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+350"/>
+        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+375"/>
         <source>15 min.</source>
         <translation>15 λεπτά</translation>
     </message>
@@ -433,7 +433,12 @@
         <translation>TextLabel</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/CalendarView.cpp" line="+206"/>
+        <location filename="../src/View/Widgets/CalendarView.cpp" line="+186"/>
+        <source>Undo</source>
+        <translation>Αναίρεση</translation>
+    </message>
+    <message>
+        <location line="+59"/>
         <source>January</source>
         <translation>Ιανουαρίου</translation>
     </message>
@@ -576,6 +581,21 @@
         <location line="+1"/>
         <source>Time slot:</source>
         <translation>Χρονικό διάστημα:</translation>
+    </message>
+    <message>
+        <location line="+149"/>
+        <source>Appointment moved to %1 at %2</source>
+        <translation>Ραντεβού μετακινήθηκε στις %2 (%1)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Appointment duration changed: %1 - %2</source>
+        <translation>Η διάρκεια του ραντεβού άλλαξε: %1 - %2</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>The change was undone</source>
+        <translation>Η αλλαγή αναιρέθηκε</translation>
     </message>
 </context>
 <context>
@@ -4852,7 +4872,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Ραντεβού</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+80"/>
         <location filename="../src/Presenter/NewDocPresenter.cpp" line="+15"/>
         <source>New Patient</source>
         <translation>Νέος ασθενής</translation>

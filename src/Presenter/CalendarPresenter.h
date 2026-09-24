@@ -17,6 +17,17 @@ class CalendarPresenter : public TabInstance
 
 	CalendarEvent clipboard_event;
 
+	//the last drag and drop change, which can be undone
+	struct UndoEntry
+	{
+		long long rowid{ 0 };
+		QDateTime start;
+		QDateTime end;
+	} m_undo;
+
+	//any other change to the appointments ends the possibility to undo
+	void clearUndo();
+
 	static std::pair<QDate, QDate> getTodaysWeek();
 
 	void refreshView();
@@ -53,6 +64,8 @@ public:
 	void durationChange(int eventIdx, int duration);
 	void cancelMove();
 	void navigatorMonthsChanged();
+	void rescheduleEvent(int index, const QDateTime& start, const QDateTime& end, bool moved);
+	void undoLastChange();
 
 	~CalendarPresenter();
 };

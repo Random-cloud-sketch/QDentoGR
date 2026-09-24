@@ -37,6 +37,17 @@ void DbAppointment::update(const CalendarEvent& e)
 
 }
 
+bool DbAppointment::updateTime(long long rowid, const QDateTime& start, const QDateTime& end)
+{
+	Db db("UPDATE appointment SET start=?, end=? WHERE rowid=?");
+
+	db.bind(1, start.toString(Qt::ISODate).toStdString());
+	db.bind(2, end.toString(Qt::ISODate).toStdString());
+	db.bind(3, rowid);
+
+	return db.execute();
+}
+
 void DbAppointment::remove(long long rowid)
 {
 	Db db("DELETE FROM appointment WHERE rowid=?");

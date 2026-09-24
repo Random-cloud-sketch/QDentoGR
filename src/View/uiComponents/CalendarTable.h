@@ -3,11 +3,14 @@
 #include <QTableView>
 #include <QAbstractItemModel>
 #include <QStyledItemDelegate>
+#include <QDateTime>
 #include "View/Graphics/CalendarViewData.h"
 #include <utility>
 #include "Model/TabType.h"
 
 class CalendarTable;
+class QScrollArea;
+class QTimer;
 
 class EventDelegate : public QStyledItemDelegate
 {
@@ -83,6 +86,48 @@ class CalendarTable : public QTableView
 
 	void leaveEvent(QEvent* event) override;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
+	void mousePressEvent(QMouseEvent* event) override;
+	void mouseMoveEvent(QMouseEvent* event) override;
+	void mouseReleaseEvent(QMouseEvent* event) override;
+	void keyPressEvent(QKeyEvent* event) override;
+
+	//moving / resizing an appointment with the mouse.
+	//Nothing is changed until the appointment is dropped on a valid place.
+	struct DragState
+	{
+		enum Mode { Move, ResizeTop, ResizeBottom };
+
+		bool pending{ false }; //button pressed on an appointment, not moved enough yet
+		bool active{ false };
+		Mode mode{ Move };
+		int eventIdx{ -1 };
+		QPoint pressPos;
+		int column{ -1 };		//original day column
+		int firstRow{ -1 };		//original rows of the appointment
+		int span{ 0 };
+		int grabOffsetY{ 0 };	//distance of the cursor from the top of the appointment
+		QDateTime start;		//original time
+		QDateTime end;
+
+		int targetColumn{ -1 };
+		QDateTime newStart;		//time at the current position
+		QDateTime newEnd;
+		bool valid{ false };
+	};
+
+	DragState m_drag;
+	std::vector<CalendarEvent> m_events;
+	QTimer* m_autoScrollTimer{ nullptr };
+	QRect m_feedbackRect; //painted drag preview, for repainting only the changed area
+
+	DragState::Mode dragModeAt(const QPoint& pos, int column, int firstRow, int span) const;
+	void updateDrag(const QPoint& pos);
+	void finishDrag(bool drop);
+	void autoScroll();
+	QScrollArea* scrollArea() const;
+	QRect minutesRect(int column, int fromMinute, int toMinute) const;
+	QRect dragFeedbackRect() const;
+	void paintDragFeedback(QPainter& painter);
 
 	QMenu* context_menu{ nullptr };
 
@@ -102,6 +147,8 @@ public:
 	void setTodayColumn(int today);
 
 	int todayColumn() const { return m_today_column; }
+
+	bool isDragging() const { return m_drag.active; }
 
 	static constexpr int minutesPerRow = 15;
 
@@ -129,6 +176,8 @@ signals:
 	void deleteEventRequested(int eventIndex);
 	void eventAddRequested(const QTime& t, int daysFromMonday, int minDuration);
 	void eventDurationChange(int eventIndx, int minDuration);
+	//the appointment was dragged to another time or resized
+	void eventTimeChangeRequested(int eventIdx, const QDateTime& start, const QDateTime& end, bool moved);
 	void operationCanceled();
 
 };

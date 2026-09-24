@@ -87,6 +87,9 @@ public:
 
 	bool hasPatient(int row, int column) const;
 
+	//first row and number of rows of the appointment in the cell, false for an empty cell
+	bool eventRows(int column, int row, int& firstRow, int& span) const;
+
 	//returns the columns and rows which has to be updated
 	std::vector<std::pair<int, int>> setHovered(int column, int row);
 

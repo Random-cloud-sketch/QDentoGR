@@ -7,6 +7,14 @@
 #include <QAbstractTableModel>
 #include <QMenu>
 #include <QPainterPath>
+#include <QScrollArea>
+#include <QScrollBar>
+#include <QTimer>
+#include <QLocale>
+#include <QKeyEvent>
+#include <cmath>
+
+#include "GlobalSettings.h"
 
 #include "View/Theme.h"
 
@@ -58,7 +66,7 @@ void EventDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
         }
     }
 
-    if (column != emptyHovered.first || emptyHovered.second < 0) return;
+    if (column != emptyHovered.first || emptyHovered.second < 0 || view->isDragging()) return;
 
     //hovering the free part of a grid slot
     auto [firstRow, lastRow] = view->freeSlotRows(column, emptyHovered.second);
@@ -99,6 +107,8 @@ bool EventDelegate::editorEvent(QEvent* event, QAbstractItemModel* model, const 
 {
 
     if (event->type() == QEvent::MouseMove) {
+
+        if (view->isDragging()) return false;
 
         //the hover covers a whole grid slot, so the old and the new slot are repainted
         auto updateSlot = [&](std::pair<int, int> cell) {
@@ -150,6 +160,14 @@ CalendarTable::CalendarTable(QWidget* parent) : QTableView(parent)
     
     delegate_ptr = new EventDelegate(this, m_data);
 
+    //appointments are moved with the mouse by the table itself
+    setDragEnabled(false);
+    setDragDropMode(QAbstractItemView::NoDragDrop);
+
+    m_autoScrollTimer = new QTimer(this);
+    m_autoScrollTimer->setInterval(16);
+    connect(m_autoScrollTimer, &QTimer::timeout, this, [this] { autoScroll(); });
+
     connect(horizontalHeader(), &QHeaderView::sectionResized, this,
         [&](int logicalIndex, int oldSize, int newSize) {
             m_data.setPixelRatio(devicePixelRatioF());
@@ -171,6 +189,8 @@ void CalendarTable::leaveEvent(QEvent* event)
 
 void CalendarTable::mouseDoubleClickEvent(QMouseEvent* event)
 {
+    m_drag.pending = false;
+
     //double click on an appointment opens the patient (a new dental visit, or the one already opened)
     if (event->button() == Qt::LeftButton) {
 
@@ -190,6 +210,11 @@ void CalendarTable::mouseDoubleClickEvent(QMouseEvent* event)
 void CalendarTable::setEvents(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboardEvent)
 {
     setUpdatesEnabled(true);
+
+    //the indexes of a drag in progress are not valid for a new list
+    if (m_drag.active || m_drag.pending) finishDrag(false);
+
+    m_events = list;
 
     m_data.setEvents(list, clipboardEvent);
 
@@ -469,41 +494,370 @@ void CalendarTable::paintEvent(QPaintEvent* e)
 {
     QTableView::paintEvent(e);
 
-    if (m_today_column == -1) return;
-
-    //painting current time marker
-
     QPainter painter(viewport());
 
-    QPen pen(Qt::PenStyle::DotLine);
+    //current time marker on today's column
+    int y = m_today_column == -1 ? -1 : timeToY(QTime::currentTime());
 
-    pen.setWidth(2);
+    if (y >= 0) {
 
-    pen.setColor(Qt::darkCyan);
+        QPen pen(Qt::darkCyan);
+        pen.setWidth(2);
+        painter.setPen(pen);
 
-    painter.setPen(pen);
+        int pixelsPerDay = width() / 7;
 
-    int y = timeToY(QTime::currentTime());
+        painter.drawLine(pixelsPerDay * m_today_column, y, pixelsPerDay * (m_today_column + 1), y);
 
-    if (y < 0) return;
+        QPainterPath path;
 
- //   painter.drawLine(0, y, width(), y);
+        path.addEllipse((pixelsPerDay * m_today_column) - 5, y - 5, 10, 10);
 
-    //painting non-dashed line on current day;
+        painter.setRenderHint(QPainter::RenderHint::Antialiasing);
 
-    pen.setStyle(Qt::PenStyle::SolidLine);
+        painter.fillPath(path, Qt::darkCyan);
+    }
 
-    painter.setPen(pen);
+    paintDragFeedback(painter);
+}
 
-    int pixelsPerDay = width() / 7;
+//---------------------------------------------------------------- moving and resizing appointments with the mouse
 
-    painter.drawLine(pixelsPerDay * m_today_column, y, pixelsPerDay * (m_today_column + 1), y);
+static QDateTime dateTimeAt(const QDate& date, int minuteOfDay)
+{
+    return QDateTime(date.addDays(minuteOfDay / (24 * 60)), QTime(0, 0).addSecs((minuteOfDay % (24 * 60)) * 60));
+}
 
-    QPainterPath path;
+static int minuteOfDay(const QDateTime& dateTime, const QDate& day)
+{
+    return day.daysTo(dateTime.date()) * 24 * 60 + dateTime.time().hour() * 60 + dateTime.time().minute();
+}
 
-    path.addEllipse((pixelsPerDay * m_today_column)-5, y -5, 10, 10);
+CalendarTable::DragState::Mode CalendarTable::dragModeAt(const QPoint& pos, int column, int firstRow, int span) const
+{
+    QRect top = visualRect(m_model.index(firstRow, column));
+    QRect bottom = visualRect(m_model.index(firstRow + span - 1, column));
 
-    painter.setRenderHint(QPainter::RenderHint::Antialiasing);
+    //thin handles at the top and at the bottom edge, the rest of the appointment moves it
+    int handle = std::min(6, (bottom.bottom() - top.top()) / 4);
 
-    painter.fillPath(path, Qt::darkCyan);
+    if (pos.y() <= top.top() + handle) return DragState::ResizeTop;
+    if (pos.y() >= bottom.bottom() - handle) return DragState::ResizeBottom;
+
+    return DragState::Move;
+}
+
+void CalendarTable::mousePressEvent(QMouseEvent* event)
+{
+    auto pos = event->position().toPoint();
+    auto index = indexAt(pos);
+
+    int firstRow = -1, span = 0;
+
+    if (event->button() == Qt::LeftButton && index.isValid() &&
+        m_data.eventRows(index.column(), index.row(), firstRow, span))
+    {
+        int eventIdx = m_data.eventListIndex(index.column(), index.row());
+
+        if (eventIdx >= 0 && eventIdx < int(m_events.size()))
+        {
+            //the drag starts only after the mouse moves a little, a click stays a click
+            m_drag = DragState{};
+            m_drag.pending = true;
+            m_drag.mode = dragModeAt(pos, index.column(), firstRow, span);
+            m_drag.eventIdx = eventIdx;
+            m_drag.pressPos = pos;
+            m_drag.column = index.column();
+            m_drag.firstRow = firstRow;
+            m_drag.span = span;
+            m_drag.grabOffsetY = pos.y() - visualRect(m_model.index(firstRow, index.column())).top();
+            m_drag.start = m_events[eventIdx].start;
+            m_drag.end = m_events[eventIdx].end;
+        }
+    }
+
+    QTableView::mousePressEvent(event);
+}
+
+void CalendarTable::mouseMoveEvent(QMouseEvent* event)
+{
+    auto pos = event->position().toPoint();
+
+    if (m_drag.pending && !m_drag.active &&
+        (pos - m_drag.pressPos).manhattanLength() >= QApplication::startDragDistance())
+    {
+        m_drag.active = true;
+        m_drag.pending = false;
+
+        delegate_ptr->emptyHovered = { -1, -1 };
+
+        setFocus(); //Esc cancels the drag
+        viewport()->setCursor(m_drag.mode == DragState::Move ? Qt::ClosedHandCursor : Qt::SizeVerCursor);
+
+        m_autoScrollTimer->start();
+    }
+
+    if (m_drag.active) {
+        updateDrag(pos);
+        return;
+    }
+
+    //cursor over the appointments: move or resize
+    if (!(event->buttons() & Qt::LeftButton))
+    {
+        auto index = indexAt(pos);
+        int firstRow = -1, span = 0;
+
+        if (index.isValid() && m_data.eventRows(index.column(), index.row(), firstRow, span)) {
+            viewport()->setCursor(dragModeAt(pos, index.column(), firstRow, span) == DragState::Move ?
+                Qt::OpenHandCursor : Qt::SizeVerCursor);
+        }
+        else {
+            viewport()->unsetCursor();
+        }
+    }
+
+    QTableView::mouseMoveEvent(event);
+}
+
+void CalendarTable::mouseReleaseEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::LeftButton && m_drag.active) {
+        updateDrag(event->position().toPoint());
+        finishDrag(true);
+        return;
+    }
+
+    m_drag.pending = false;
+
+    QTableView::mouseReleaseEvent(event);
+}
+
+void CalendarTable::keyPressEvent(QKeyEvent* event)
+{
+    if (m_drag.active && event->key() == Qt::Key_Escape) {
+        finishDrag(false);
+        return;
+    }
+
+    QTableView::keyPressEvent(event);
+}
+
+QRect CalendarTable::minutesRect(int column, int fromMinute, int toMinute) const
+{
+    int first = m_firstHour * 60;
+
+    int top = (fromMinute - first) * unitHeight() / minutesPerRow;
+    int bottom = (toMinute - first) * unitHeight() / minutesPerRow;
+
+    return QRect(columnViewportPosition(column), top, columnWidth(column), std::max(bottom - top, unitHeight()));
+}
+
+void CalendarTable::updateDrag(const QPoint& pos)
+{
+    auto& d = m_drag;
+
+    int firstMinute = m_firstHour * 60;
+    int lastMinute = m_lastHour * 60;
+    int slot = m_slotMinutes;
+    QDate day = d.start.date();
+
+    int startMinute = minuteOfDay(d.start, day);
+    int endMinute = minuteOfDay(d.end, day);
+    int duration = endMinute - startMinute;
+
+    //the time under the cursor, rounded to the grid slots of the calendar
+    auto snappedMinute = [&](int y) {
+        double minute = firstMinute + double(y) * minutesPerRow / unitHeight();
+        return int(std::lround((minute - firstMinute) / slot)) * slot + firstMinute;
+    };
+
+    //dropping outside the days of the week is not possible
+    d.valid = pos.x() >= 0 && pos.x() < viewport()->width();
+
+    d.targetColumn = d.column;
+
+    switch (d.mode)
+    {
+    case DragState::Move:
+    {
+        int column = columnAt(std::clamp(pos.x(), 0, viewport()->width() - 1));
+        if (column >= 0) d.targetColumn = column;
+
+        int newStart = snappedMinute(pos.y() - d.grabOffsetY);
+
+        //the whole appointment stays in the shown hours of the day
+        newStart = std::clamp(newStart, firstMinute, std::max(firstMinute, lastMinute - duration));
+
+        if (duration > lastMinute - firstMinute) d.valid = false;
+
+        QDate newDay = day.addDays(d.targetColumn - d.column);
+
+        d.newStart = dateTimeAt(newDay, newStart);
+        d.newEnd = dateTimeAt(newDay, newStart + duration);
+        break;
+    }
+    case DragState::ResizeTop:
+    {
+        int newStart = std::clamp(snappedMinute(pos.y()), firstMinute, endMinute - minutesPerRow);
+
+        d.newStart = dateTimeAt(day, newStart);
+        d.newEnd = d.end;
+        break;
+    }
+    case DragState::ResizeBottom:
+    {
+        int newEnd = std::clamp(snappedMinute(pos.y()), startMinute + minutesPerRow, std::max(lastMinute, startMinute + minutesPerRow));
+
+        d.newStart = d.start;
+        d.newEnd = dateTimeAt(day, newEnd);
+        break;
+    }
+    }
+
+    viewport()->setCursor(!d.valid ? Qt::ForbiddenCursor : d.mode == DragState::Move ? Qt::ClosedHandCursor : Qt::SizeVerCursor);
+
+    //only the old and the new preview are repainted
+    QRect feedback = dragFeedbackRect();
+
+    viewport()->update(m_feedbackRect.united(feedback));
+
+    m_feedbackRect = feedback;
+}
+
+QRect CalendarTable::dragFeedbackRect() const
+{
+    auto& d = m_drag;
+
+    if (!d.active) return QRect();
+
+    //the original place, the preview and the day column which receives the appointment
+    QRect original = visualRect(m_model.index(d.firstRow, d.column)).united(
+        visualRect(m_model.index(d.firstRow + d.span - 1, d.column)));
+
+    QRect column(columnViewportPosition(d.targetColumn), 0, columnWidth(d.targetColumn), viewport()->height());
+
+    return original.united(column).adjusted(-2, -2, 2, 2);
+}
+
+void CalendarTable::paintDragFeedback(QPainter& painter)
+{
+    auto& d = m_drag;
+
+    if (!d.active) return;
+
+    painter.save();
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    //the original place stays visible, faded with a dashed outline
+    QRect original = visualRect(m_model.index(d.firstRow, d.column)).united(
+        visualRect(m_model.index(d.firstRow + d.span - 1, d.column))).adjusted(2, 2, -2, -2);
+
+    painter.fillRect(original, QColor(255, 255, 255, 150));
+    painter.setPen(QPen(Theme::fontTurquoise, 1, Qt::DashLine));
+    painter.setBrush(Qt::NoBrush);
+    painter.drawRoundedRect(original, 7, 7);
+
+    if (d.valid)
+    {
+        QDate day = d.newStart.date();
+
+        //the day receiving the appointment
+        painter.fillRect(QRect(columnViewportPosition(d.targetColumn), 0, columnWidth(d.targetColumn), viewport()->height()),
+            QColor(170, 215, 220, 45));
+
+        int from = minuteOfDay(d.newStart, day);
+        int to = minuteOfDay(d.newEnd, day);
+
+        QRect ghost = minutesRect(d.targetColumn, from, to).adjusted(2, 2, -2, -2);
+
+        //semi-transparent preview at the new place
+        QPainterPath path;
+        path.addRoundedRect(QRectF(ghost), 7, 7);
+        QColor fill = Theme::inactiveTabBGHover;
+        fill.setAlpha(210);
+        painter.fillPath(path, fill);
+        painter.setPen(QPen(Theme::fontTurquoise, 2));
+        painter.drawPath(path);
+
+        //the resulting day and time, then the appointment text
+        QLocale locale = GlobalSettings::isGreekUi() ? QLocale(QLocale::Greek, QLocale::Greece) : QLocale();
+
+        QString time = locale.toString(day, "ddd d/M") + "  " +
+            d.newStart.toString("HH:mm") + " - " + (to == 24 * 60 ? QString("24:00") : d.newEnd.toString("HH:mm"));
+
+        auto& e = m_events[d.eventIdx];
+        QString text = QString::fromStdString(e.summary);
+        if (e.description.size()) text += "\n" + QString::fromStdString(e.description);
+
+        QFont bold = painter.font();
+        bold.setBold(true);
+        painter.setFont(bold);
+
+        QRect textRect = ghost.adjusted(5, ghost.height() < 24 ? 0 : 3, -5, -2);
+
+        painter.setPen(Theme::fontRed);
+        painter.drawText(textRect, Qt::AlignLeft | Qt::AlignTop, time);
+
+        painter.setPen(Theme::fontTurquoise);
+        painter.drawText(textRect.adjusted(0, painter.fontMetrics().height(), 0, 0), Qt::AlignLeft | Qt::AlignTop, text);
+    }
+
+    painter.restore();
+}
+
+void CalendarTable::finishDrag(bool drop)
+{
+    auto d = m_drag;
+
+    m_drag = DragState{};
+    m_autoScrollTimer->stop();
+    viewport()->unsetCursor();
+    viewport()->update(m_feedbackRect);
+    m_feedbackRect = QRect();
+
+    if (!drop || !d.active || !d.valid) return;
+
+    if (d.newStart == d.start && d.newEnd == d.end) return;
+
+    emit eventTimeChangeRequested(d.eventIdx, d.newStart, d.newEnd, d.mode == DragState::Move);
+}
+
+QScrollArea* CalendarTable::scrollArea() const
+{
+    for (auto w = parentWidget(); w; w = w->parentWidget()) {
+        if (auto area = qobject_cast<QScrollArea*>(w)) return area;
+    }
+
+    return nullptr;
+}
+
+void CalendarTable::autoScroll()
+{
+    auto area = scrollArea();
+
+    if (!m_drag.active || !area) return;
+
+    //faster when the cursor is closer to (or beyond) the edge of the visible part
+    constexpr int edge = 50;
+    constexpr int maxStep = 24;
+
+    int y = area->viewport()->mapFromGlobal(QCursor::pos()).y();
+    int height = area->viewport()->height();
+
+    int step = 0;
+
+    if (y < edge) step = -std::min(maxStep, 2 + (edge - y) * maxStep / edge);
+    else if (y > height - edge) step = std::min(maxStep, 2 + (y - (height - edge)) * maxStep / edge);
+
+    if (!step) return;
+
+    auto bar = area->verticalScrollBar();
+    int before = bar->value();
+    bar->setValue(before + step);
+
+    //the preview follows the cursor while the calendar scrolls
+    if (bar->value() != before) {
+        updateDrag(viewport()->mapFromGlobal(QCursor::pos()));
+    }
 }

@@ -91,11 +91,15 @@ void CalendarPresenter::currentWeekRequested()
 
 void CalendarPresenter::moveEvent(int index)
 {
+    clearUndo();
+
     setClipboard(events[index]);
 }
 
 void CalendarPresenter::newDocRequested(int index, TabType type)
 {
+    clearUndo();
+
     auto& event = events[index];
 
     if (type == TabType::Calendar) {
@@ -135,6 +139,8 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
 
 void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duration)
 {
+    clearUndo();
+
     QDateTime from(shownWeek.first.addDays(daysFromMonday), t);
     QDateTime to(from.addSecs(duration * 60));
 
@@ -159,6 +165,8 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
 
 void CalendarPresenter::editEvent(int index)
 {
+    clearUndo();
+
     auto& e = events[index];
 
     CalendarEventDialog d(e);
@@ -172,6 +180,8 @@ void CalendarPresenter::editEvent(int index)
 
 void CalendarPresenter::deleteEvent(int index)
 {
+    clearUndo();
+
     DbAppointment::remove(events[index].rowid);
 
     refreshView();
@@ -186,6 +196,8 @@ void CalendarPresenter::clearClipboard()
 
 void CalendarPresenter::durationChange(int eventIdx, int duration)
 {
+    clearUndo();
+
     auto& event = events[eventIdx];
 
     event.end = event.start.addSecs(duration * 60);
@@ -219,6 +231,51 @@ void CalendarPresenter::refreshView()
     view->setEventList(events, clipboard_event);
 
     refreshBusyDays();
+}
+
+void CalendarPresenter::rescheduleEvent(int index, const QDateTime& start, const QDateTime& end, bool moved)
+{
+    if (index < 0 || index >= int(events.size())) return;
+
+    auto& e = events[index];
+
+    //nothing is changed when the new time is not valid
+    if (!start.isValid() || !end.isValid() || end <= start) return;
+
+    UndoEntry undo{ e.rowid, e.start, e.end };
+
+    if (!DbAppointment::updateTime(e.rowid, start, end)) return;
+
+    m_undo = undo;
+
+    refreshView();
+
+    view->showChangeNotice(start, end, moved);
+}
+
+void CalendarPresenter::undoLastChange()
+{
+    if (!m_undo.rowid) return;
+
+    auto undo = m_undo;
+
+    m_undo = UndoEntry{};
+
+    //only the date and time of the appointment are restored
+    DbAppointment::updateTime(undo.rowid, undo.start, undo.end);
+
+    refreshView();
+
+    view->showUndoneNotice();
+}
+
+void CalendarPresenter::clearUndo()
+{
+    if (!m_undo.rowid) return;
+
+    m_undo = UndoEntry{};
+
+    view->hideChangeNotice();
 }
 
 void CalendarPresenter::navigatorMonthsChanged()
