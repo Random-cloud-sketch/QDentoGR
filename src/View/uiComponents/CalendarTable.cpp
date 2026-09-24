@@ -788,6 +788,7 @@ void CalendarTable::paintDragFeedback(QPainter& painter)
 
         auto& e = m_events[d.eventIdx];
         QString text = QString::fromStdString(e.summary);
+        if (e.phone.size()) text += "\n" + QCoreApplication::translate("CalendarViewData", "TEL.") + " " + QString::fromStdString(e.phone);
         if (e.description.size()) text += "\n" + QString::fromStdString(e.description);
 
         QFont bold = painter.font();

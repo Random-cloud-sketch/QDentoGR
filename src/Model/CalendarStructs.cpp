@@ -4,10 +4,7 @@
 CalendarEvent::CalendarEvent(const Patient& p)
 {
 	summary = p.firstLastName();
-	if (p.phone.size()) {
-		summary += " ";
-		summary += p.phone;
-	}
+	phone = p.phone;
 
 	patient_rowid = p.rowid;
 

@@ -198,7 +198,7 @@
 <context>
     <name>CalendarEventDialog</name>
     <message>
-        <location filename="../src/View/Widgets/CalendarEventDialog.cpp" line="+19"/>
+        <location filename="../src/View/Widgets/CalendarEventDialog.cpp" line="+63"/>
         <source>Edit Appointment</source>
         <translation>Επεξεργασία ραντεβού</translation>
     </message>
@@ -206,6 +206,16 @@
         <location line="+2"/>
         <source>New Appointment</source>
         <translation>Νέο ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>The phone number must have 10 digits</source>
+        <translation>Ο αριθμός τηλεφώνου πρέπει να έχει 10 ψηφία</translation>
+    </message>
+    <message>
+        <location line="+90"/>
+        <source>e.g. 6912345678</source>
+        <translation>π.χ. 6912345678</translation>
     </message>
 </context>
 <context>
@@ -222,11 +232,16 @@
     </message>
     <message>
         <location line="+7"/>
+        <source>Phone</source>
+        <translation>Τηλέφωνο</translation>
+    </message>
+    <message>
+        <location line="+7"/>
         <source>Description</source>
         <translation>Περιγραφή</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+68"/>
         <source>Duration:</source>
         <translation>Διάρκεια:</translation>
     </message>
@@ -247,7 +262,7 @@
         <translation>έως</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+70"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -596,6 +611,15 @@
         <location line="+7"/>
         <source>The change was undone</source>
         <translation>Η αλλαγή αναιρέθηκε</translation>
+    </message>
+</context>
+<context>
+    <name>CalendarViewData</name>
+    <message>
+        <location filename="../src/View/Graphics/CalendarViewData.cpp" line="+41"/>
+        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+320"/>
+        <source>TEL.</source>
+        <translation>ΤΗΛ.</translation>
     </message>
 </context>
 <context>
@@ -4872,7 +4896,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Ραντεβού</translation>
     </message>
     <message>
-        <location line="+80"/>
+        <location line="+82"/>
         <location filename="../src/Presenter/NewDocPresenter.cpp" line="+15"/>
         <source>New Patient</source>
         <translation>Νέος ασθενής</translation>

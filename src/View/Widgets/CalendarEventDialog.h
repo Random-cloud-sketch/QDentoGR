@@ -10,6 +10,13 @@ class CalendarEventDialog : public QDialog
 
 	CalendarEvent m_result;
 
+	//the patient chosen from the list (or of the edited appointment), while the name is not changed
+	long long m_linkedRowid{ 0 };
+	QString m_linkedName;
+
+	bool isLinked(const QString& summary) const;
+	void showPhoneError(const QString& error);
+
 	void paintEvent(QPaintEvent* e) override;
 
 public:

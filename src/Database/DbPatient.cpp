@@ -164,8 +164,10 @@ std::vector<DbPatient::PatientRecord> DbPatient::getPatientList()
         PatientRecord r;
         r.fname = db.asString(0);
         r.summary = r.fname + " " + db.asString(1);
+        r.name = r.summary;
         
         auto phone = db.asString(2);
+        r.phone = phone;
 
         if (phone.size()) {
             r.summary += " ";

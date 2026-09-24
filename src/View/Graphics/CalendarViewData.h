@@ -14,7 +14,9 @@ private:
 
 		static inline qreal pixelRatio = 1;
 
-		QString text;
+		QString text;			//name (bold)
+		QString phone;			//smaller line under the name, only when there is a phone
+		QString description;	//bold, under the phone
 
 		int column = -1;
 		int row = -1;

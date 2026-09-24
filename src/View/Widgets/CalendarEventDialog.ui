@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>402</width>
-    <height>167</height>
+    <height>200</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,6 +26,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="phoneLabel">
+         <property name="text">
+          <string>Phone</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>Description</string>
@@ -38,6 +45,9 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <widget class="QLineEdit" name="summaryEdit"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="phoneLineEdit"/>
        </item>
        <item>
         <widget class="QLineEdit" name="descriptionEdit"/>
@@ -166,6 +176,16 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="phoneErrorLabel">
+       <property name="styleSheet">
+        <string notr="true">color: red;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">

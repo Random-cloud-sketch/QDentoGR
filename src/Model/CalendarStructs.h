@@ -11,6 +11,7 @@ struct CalendarEvent
 	long long rowid{ 0 };
 	std::string summary;
 	std::string description;
+	std::string phone; //10 digits or empty
 	QDateTime start;
 	QDateTime end;
 	

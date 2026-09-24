@@ -107,6 +107,7 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
         CalendarEvent newEvent;
 
         newEvent.summary = event.summary;
+        newEvent.phone = event.phone;
         newEvent.patient_rowid = event.patient_rowid;
 
         setClipboard(newEvent);
@@ -120,7 +121,9 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
 
     if (!tab.patientRowId) {
         
-        PatientDialogPresenter d(QObject::tr("New Patient").toStdString(), event.summary);
+        //the phone of the appointment fills the phone of the new patient
+        PatientDialogPresenter d(QObject::tr("New Patient").toStdString(),
+            event.phone.size() ? event.summary + " " + event.phone : event.summary);
 
         auto result = d.open();
 

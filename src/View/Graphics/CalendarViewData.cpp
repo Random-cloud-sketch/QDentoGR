@@ -3,6 +3,7 @@
 #include <QPainterPath>
 #include "View/Theme.h"
 #include <QApplication>
+#include <QCoreApplication>
 
 CalendarViewData::CalendarViewData()
 {}
@@ -36,12 +37,13 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 
 		entity->text += event.summary.c_str();
 
-		if (event.description.size()) {
-			entity->text += "\n";
-			entity->text += event.description.c_str();
+		if (event.phone.size()) {
+			entity->phone = QCoreApplication::translate("CalendarViewData", "TEL.") + " " + QString::fromStdString(event.phone);
 		}
 
-		if (entity->text.isEmpty()) {
+		entity->description = event.description.c_str();
+
+		if (entity->text.isEmpty() && entity->phone.isEmpty() && entity->description.isEmpty()) {
 			entity->text = "???";
 		}
 
@@ -254,18 +256,36 @@ void CalendarViewData::EventEntity::paintPixmap()
 	QFont font = p.font();
 	font.setBold(true);
 
-	p.setFont(font);
-
-	p.setPen(Theme::fontTurquoise);
-
 	//short appointments in the compact (30 / 60 minute) grid have little room for the text
 	int textTop = eventHeight < 24 ? 1 : 4;
 
 	QRect textRect(5, textTop, cell_width-10, eventHeight-textTop-2);
-	
+
 	p.setRenderHint(QPainter::RenderHint::TextAntialiasing);
 
-	p.drawText(textRect, text);
+	//the lines follow each other, whatever does not fit in the appointment is cut
+	p.setClipRect(textRect);
+
+	int y = textRect.top();
+
+	auto drawPart = [&](const QString& part, const QFont& partFont, const QColor& color) {
+
+		if (part.isEmpty() || y >= textRect.bottom()) return;
+
+		p.setFont(partFont);
+		p.setPen(color);
+
+		QRect r(textRect.left(), y, textRect.width(), textRect.bottom() - y);
+		QRect used;
+
+		p.drawText(r, Qt::TextWordWrap | Qt::AlignLeft | Qt::AlignTop, part, &used);
+
+		y += used.height();
+	};
+
+	drawPart(text, font, Theme::fontTurquoise);
+	drawPart(phone, font, Theme::fontTurquoise); //same as the name, as in the drag preview
+	drawPart(description, font, Theme::fontTurquoise);
 }
 
 QPixmap CalendarViewData::EventEntity::getPixmapPart(int row) const

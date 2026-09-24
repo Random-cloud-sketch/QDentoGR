@@ -9,6 +9,8 @@ namespace DbPatient
 {
     struct PatientRecord {
         std::string summary;
+        std::string name;   //first and last name
+        std::string phone;
         std::string fname;
         std::string birth;
         std::string color;

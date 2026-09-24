@@ -4,7 +4,7 @@
 
 long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 {
-	auto query = "INSERT INTO appointment (dentist_rowid, patient_rowid, start, end, summary, description) VALUES (?,?,?,?,?,?)";
+	auto query = "INSERT INTO appointment (dentist_rowid, patient_rowid, start, end, summary, description, phone) VALUES (?,?,?,?,?,?,?)";
 
 	Db db(query);
 
@@ -14,6 +14,7 @@ long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 	db.bind(4, e.end.toString(Qt::ISODate).toStdString());
 	db.bind(5, UpperCase::convert(e.summary));
 	db.bind(6, UpperCase::convert(e.description));
+	db.bind(7, e.phone);
 
 	db.execute();
 
@@ -22,7 +23,7 @@ long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 
 void DbAppointment::update(const CalendarEvent& e)
 {
-	auto query = "UPDATE appointment SET patient_rowid=?, start=?, end=?, summary=?, description=? WHERE rowid=?";
+	auto query = "UPDATE appointment SET patient_rowid=?, start=?, end=?, summary=?, description=?, phone=? WHERE rowid=?";
 
 	Db db(query);
 
@@ -31,7 +32,8 @@ void DbAppointment::update(const CalendarEvent& e)
 	db.bind(3, e.end.toString(Qt::ISODate).toStdString());
 	db.bind(4, UpperCase::convert(e.summary));
 	db.bind(5, UpperCase::convert(e.description));
-	db.bind(6, e.rowid);
+	db.bind(6, e.phone);
+	db.bind(7, e.rowid);
 
 	db.execute();
 
@@ -62,7 +64,7 @@ std::vector<CalendarEvent> DbAppointment::get(const QDate& from, const QDate& to
 	auto fromDate = from.toString(Qt::ISODate).toStdString();
 	auto toDate = to.toString(Qt::ISODate).toStdString();
 
-	auto query = "SELECT rowid, patient_rowid, start, end, summary, description FROM appointment WHERE dentist_rowid =? AND strftime('%Y-%m-%d', start) BETWEEN ? AND ? ORDER BY start ASC";
+	auto query = "SELECT rowid, patient_rowid, start, end, summary, description, phone FROM appointment WHERE dentist_rowid =? AND strftime('%Y-%m-%d', start) BETWEEN ? AND ? ORDER BY start ASC";
 
 	Db db(query);
 
@@ -82,6 +84,7 @@ std::vector<CalendarEvent> DbAppointment::get(const QDate& from, const QDate& to
 		e.end = QDateTime::fromString(db.asString(3).c_str(), Qt::DateFormat::ISODate);
 		e.summary = db.asString(4);
 		e.description = db.asString(5);
+		e.phone = db.asString(6);
 
 		result.push_back(e);
 	}
