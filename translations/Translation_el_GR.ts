@@ -255,12 +255,47 @@
 <context>
     <name>CalendarNavigator</name>
     <message>
-        <location filename="../src/View/uiComponents/CalendarNavigator.cpp" line="+45"/>
+        <location filename="../src/View/uiComponents/CalendarNavigator.cpp" line="+89"/>
+        <source>Mon</source>
+        <translation>Δευ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Tue</source>
+        <translation>Τρί</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Wed</source>
+        <translation>Τετ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Thu</source>
+        <translation>Πέμ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Fri</source>
+        <translation>Παρ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sat</source>
+        <translation>Σάβ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sun</source>
+        <translation>Κυρ</translation>
+    </message>
+    <message>
+        <location line="+157"/>
         <source>Previous month</source>
         <translation>Προηγούμενος μήνας</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+1"/>
         <source>Next month</source>
         <translation>Επόμενος μήνας</translation>
     </message>
