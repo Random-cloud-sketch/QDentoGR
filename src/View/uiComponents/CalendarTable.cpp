@@ -159,6 +159,24 @@ void CalendarTable::leaveEvent(QEvent* event)
     QWidget::leaveEvent(event);
 }
 
+void CalendarTable::mouseDoubleClickEvent(QMouseEvent* event)
+{
+    //double click on an appointment opens the patient (a new dental visit, or the one already opened)
+    if (event->button() == Qt::LeftButton) {
+
+        auto index = indexAt(event->position().toPoint());
+
+        auto eventIdx = index.isValid() ? m_data.eventListIndex(index.column(), index.row()) : -1;
+
+        if (eventIdx != -1) {
+            emit newDocRequested(eventIdx, TabType::DentalVisit);
+            return;
+        }
+    }
+
+    QTableView::mouseDoubleClickEvent(event);
+}
+
 void CalendarTable::setEvents(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboardEvent)
 {
     setUpdatesEnabled(true);
@@ -190,6 +208,10 @@ void CalendarTable::cellClicked(int column, int row, bool leftClick)
 {
 
     auto idx = m_data.eventListIndex(column, row);
+
+    //appointments: a single left click does nothing,
+    //the menu is shown with the right click and the patient is opened with a double click
+    if (idx != -1 && leftClick) return;
 
     if (idx == -1 && menu_click_guard && !leftClick){
         menu_click_guard = false;

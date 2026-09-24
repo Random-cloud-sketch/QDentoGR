@@ -255,7 +255,7 @@
 <context>
     <name>CalendarTable</name>
     <message>
-        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+239"/>
+        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+261"/>
         <source>15 min.</source>
         <translation>15 λεπτά</translation>
     </message>

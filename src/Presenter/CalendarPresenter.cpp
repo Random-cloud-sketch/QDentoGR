@@ -120,6 +120,10 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
         if (!result) return;
 
         tab.patientRowId = result->rowid;
+
+        //the appointment is linked to the patient, so next time the patient opens directly
+        event.patient_rowid = result->rowid;
+        DbAppointment::update(event);
     }
 
     TabPresenter::get().open(tab, true);

@@ -60,6 +60,7 @@ class CalendarTable : public QTableView
 	int m_today_column = -1;
 
 	void leaveEvent(QEvent* event) override;
+	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 	QMenu* context_menu{ nullptr };
 
