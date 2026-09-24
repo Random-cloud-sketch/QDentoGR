@@ -72,6 +72,7 @@ HEADERS += \
     src/Model/NumenclatureTemplate.h \
     src/Model/Parser.h \
     src/Model/MedicalHistory.h \
+    src/Model/AppointmentOverlap.h \
     src/Model/UpperCase.h \
     src/Model/PatientFile.h \
     src/Model/Patient.h \
@@ -281,6 +282,7 @@ SOURCES += \
     src/Model/FreeFunctions.cpp \
     src/Model/Parser.cpp \
     src/Model/MedicalHistory.cpp \
+    src/Model/AppointmentOverlap.cpp \
     src/Model/UpperCase.cpp \
     src/Model/PatientFile.cpp \
     src/Model/Patient.cpp \

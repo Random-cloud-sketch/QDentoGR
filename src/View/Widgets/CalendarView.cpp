@@ -607,7 +607,7 @@ void CalendarView::setEventList(const std::vector<CalendarEvent>& list, const Ca
     timeAxis->update();
 }
 
-void CalendarView::showNotice(const QString& text, bool undo)
+void CalendarView::showNotice(const QString& text, bool undo, int milliseconds)
 {
     noticeLabel->setText(text);
     undoButton->setVisible(undo);
@@ -616,6 +616,10 @@ void CalendarView::showNotice(const QString& text, bool undo)
     notice->ensurePolished();
     noticeLabel->ensurePolished();
     noticeLabel->setMinimumWidth(noticeLabel->fontMetrics().horizontalAdvance(text) + 6);
+
+    //the bold font of the button comes from the style sheet, it has to be applied before measuring
+    undoButton->ensurePolished();
+    undoButton->setMinimumWidth(undoButton->fontMetrics().horizontalAdvance(undoButton->text()) + 20);
 
     //equal padding when there is no undo button
     notice->layout()->setContentsMargins(18, 6, undo ? 10 : 18, 6);
@@ -629,7 +633,7 @@ void CalendarView::showNotice(const QString& text, bool undo)
     notice->show();
 
     //long enough to use the undo
-    noticeTimer->start(undo ? 15000 : 3000);
+    noticeTimer->start(milliseconds ? milliseconds : undo ? 15000 : 3000);
 }
 
 void CalendarView::placeNotice()
@@ -650,7 +654,26 @@ void CalendarView::resizeEvent(QResizeEvent* event)
     if (notice && notice->isVisible()) placeNotice();
 }
 
-void CalendarView::showChangeNotice(const QDateTime& start, const QDateTime& end, bool moved)
+QString CalendarView::overlapText(int shortened, int removed) const
+{
+    QStringList parts;
+
+    if (shortened == 1) parts << tr("1 overlapping appointment was shortened");
+    if (shortened > 1) parts << tr("%1 overlapping appointments were shortened").arg(shortened);
+    if (removed == 1) parts << tr("1 fully covered appointment was deleted");
+    if (removed > 1) parts << tr("%1 fully covered appointments were deleted").arg(removed);
+
+    return parts.join(", ");
+}
+
+void CalendarView::showOverlapNotice(int shortened, int removed)
+{
+    QString text = overlapText(shortened, removed);
+
+    if (text.size()) showNotice(text, false, 6000);
+}
+
+void CalendarView::showChangeNotice(const QDateTime& start, const QDateTime& end, bool moved, int shortened, int removed)
 {
     QLocale locale = GlobalSettings::isGreekUi() ? QLocale(QLocale::Greek, QLocale::Greece) : QLocale();
 
@@ -660,6 +683,10 @@ void CalendarView::showChangeNotice(const QDateTime& start, const QDateTime& end
         tr("Appointment moved to %1 at %2").arg(locale.toString(start.date(), "ddd d/M")).arg(start.toString("HH:mm"))
         :
         tr("Appointment duration changed: %1 - %2").arg(start.toString("HH:mm")).arg(endText);
+
+    QString overlaps = overlapText(shortened, removed);
+
+    if (overlaps.size()) text += " - " + overlaps;
 
     showNotice(text, true);
 }

@@ -144,6 +144,7 @@
     <ClCompile Include="src\Model\FreeFunctions.cpp" />
     <ClCompile Include="src\Model\MedicalHistory.cpp" />
     <ClCompile Include="src\Model\Parser.cpp" />
+    <ClCompile Include="src\Model\AppointmentOverlap.cpp" />
     <ClCompile Include="src\Model\UpperCase.cpp" />
     <ClCompile Include="src\Model\PatientFile.cpp" />
     <ClCompile Include="src\Model\Patient.cpp" />
@@ -312,6 +313,7 @@
     <ClInclude Include="src\Model\MedicalHistory.h" />
     <ClInclude Include="src\Database\DbNotification.h" />
     <ClInclude Include="src\Database\DbPatientFile.h" />
+    <ClInclude Include="src\Model\AppointmentOverlap.h" />
     <ClInclude Include="src\Model\UpperCase.h" />
     <ClInclude Include="src\View\uiComponents\UpperCaseValidator.h" />
     <ClInclude Include="src\Model\PatientFile.h" />

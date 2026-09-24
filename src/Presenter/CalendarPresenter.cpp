@@ -152,8 +152,10 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
 
     if (clipboard_event.rowid) { //existing event
         DbAppointment::update(clipboard_event);
+        auto overlaps = resolveOverlaps(clipboard_event);
         clipboard_event = CalendarEvent{};
         refreshView();
+        showOverlapNotice(overlaps);
         return;
     }
 
@@ -161,9 +163,15 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
 
     if (d.exec() != QDialog::Accepted) return;
 
-    DbAppointment::insert(d.result(), User::dentist().rowID);
+    auto newEvent = d.result();
+
+    newEvent.rowid = DbAppointment::insert(newEvent, User::dentist().rowID);
+
+    auto overlaps = newEvent.rowid ? resolveOverlaps(newEvent) : std::vector<AppointmentOverlap::Change>{};
 
     refreshView();
+
+    showOverlapNotice(overlaps);
 }
 
 void CalendarPresenter::editEvent(int index)
@@ -178,7 +186,11 @@ void CalendarPresenter::editEvent(int index)
 
     DbAppointment::update(d.result());
 
+    auto overlaps = resolveOverlaps(d.result());
+
     refreshView();
+
+    showOverlapNotice(overlaps);
 }
 
 void CalendarPresenter::deleteEvent(int index)
@@ -207,7 +219,11 @@ void CalendarPresenter::durationChange(int eventIdx, int duration)
 
     DbAppointment::update(event);
 
+    auto overlaps = resolveOverlaps(event);
+
     refreshView();
+
+    showOverlapNotice(overlaps);
 }
 
 void CalendarPresenter::cancelMove()
@@ -249,11 +265,23 @@ void CalendarPresenter::rescheduleEvent(int index, const QDateTime& start, const
 
     if (!DbAppointment::updateTime(e.rowid, start, end)) return;
 
+    CalendarEvent changed = e;
+    changed.start = start;
+    changed.end = end;
+
+    undo.overlaps = resolveOverlaps(changed);
+
     m_undo = undo;
 
     refreshView();
 
-    view->showChangeNotice(start, end, moved);
+    int shortened = 0, removed = 0;
+
+    for (auto& c : undo.overlaps) {
+        (c.kind == AppointmentOverlap::Change::Remove ? removed : shortened)++;
+    }
+
+    view->showChangeNotice(start, end, moved, shortened, removed);
 }
 
 void CalendarPresenter::undoLastChange()
@@ -267,6 +295,17 @@ void CalendarPresenter::undoLastChange()
     //only the date and time of the appointment are restored
     DbAppointment::updateTime(undo.rowid, undo.start, undo.end);
 
+    //the appointments it had shortened or deleted come back as they were
+    for (auto& c : undo.overlaps)
+    {
+        if (c.kind == AppointmentOverlap::Change::Remove) {
+            DbAppointment::insert(c.before, User::dentist().rowID);
+        }
+        else {
+            DbAppointment::updateTime(c.before.rowid, c.before.start, c.before.end);
+        }
+    }
+
     refreshView();
 
     view->showUndoneNotice();
@@ -279,6 +318,41 @@ void CalendarPresenter::clearUndo()
     m_undo = UndoEntry{};
 
     view->hideChangeNotice();
+}
+
+std::vector<AppointmentOverlap::Change> CalendarPresenter::resolveOverlaps(const CalendarEvent& event)
+{
+    if (!event.start.isValid() || !event.end.isValid() || event.end <= event.start) return {};
+
+    //appointments starting the day before can reach into this one
+    auto existing = DbAppointment::get(event.start.date().addDays(-1), event.end.date(), User::dentist().rowID);
+
+    auto changes = AppointmentOverlap::resolve(event, existing);
+
+    for (auto& c : changes)
+    {
+        if (c.kind == AppointmentOverlap::Change::Remove) {
+            DbAppointment::remove(c.before.rowid);
+        }
+        else {
+            DbAppointment::updateTime(c.before.rowid, c.after.start, c.after.end);
+        }
+    }
+
+    return changes;
+}
+
+void CalendarPresenter::showOverlapNotice(const std::vector<AppointmentOverlap::Change>& changes)
+{
+    if (changes.empty()) return;
+
+    int shortened = 0, removed = 0;
+
+    for (auto& c : changes) {
+        (c.kind == AppointmentOverlap::Change::Remove ? removed : shortened)++;
+    }
+
+    view->showOverlapNotice(shortened, removed);
 }
 
 void CalendarPresenter::navigatorMonthsChanged()

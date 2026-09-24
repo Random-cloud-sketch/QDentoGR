@@ -36,7 +36,8 @@ class CalendarView : public QWidget
     QPushButton* undoButton{ nullptr };
     QTimer* noticeTimer{ nullptr };
 
-    void showNotice(const QString& text, bool undo);
+    void showNotice(const QString& text, bool undo, int milliseconds = 0);
+    QString overlapText(int shortened, int removed) const;
     void placeNotice();
     void resizeEvent(QResizeEvent* event) override;
 
@@ -83,7 +84,9 @@ public:
     QDate navigatorLastDay() const;
     void setBusyDays(const QSet<QDate>& days);
 
-    void showChangeNotice(const QDateTime& start, const QDateTime& end, bool moved);
+    void showChangeNotice(const QDateTime& start, const QDateTime& end, bool moved, int shortened = 0, int removed = 0);
+    //other appointments shortened or deleted because they overlapped a new / changed one
+    void showOverlapNotice(int shortened, int removed);
     void showUndoneNotice();
     void hideChangeNotice();
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "Presenter/TabInstance.h"
 #include "Model/CalendarStructs.h"
+#include "Model/AppointmentOverlap.h"
 #include <QString>
 #include <QDate>
 
@@ -23,7 +24,12 @@ class CalendarPresenter : public TabInstance
 		long long rowid{ 0 };
 		QDateTime start;
 		QDateTime end;
+		std::vector<AppointmentOverlap::Change> overlaps; //other appointments shortened / deleted by the change
 	} m_undo;
+
+	//the appointment has priority: the appointments of the dentist which overlap it are shortened or deleted
+	std::vector<AppointmentOverlap::Change> resolveOverlaps(const CalendarEvent& event);
+	void showOverlapNotice(const std::vector<AppointmentOverlap::Change>& changes);
 
 	//any other change to the appointments ends the possibility to undo
 	void clearUndo();

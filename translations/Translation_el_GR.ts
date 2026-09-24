@@ -598,7 +598,27 @@
         <translation>Χρονικό διάστημα:</translation>
     </message>
     <message>
-        <location line="+149"/>
+        <location line="+150"/>
+        <source>1 overlapping appointment was shortened</source>
+        <translation>1 επικαλυπτόμενο ραντεβού συντομεύτηκε</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 overlapping appointments were shortened</source>
+        <translation>%1 επικαλυπτόμενα ραντεβού συντομεύτηκαν</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>1 fully covered appointment was deleted</source>
+        <translation>1 ραντεβού που καλυπτόταν πλήρως διαγράφηκε</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 fully covered appointments were deleted</source>
+        <translation>%1 ραντεβού που καλύπτονταν πλήρως διαγράφηκαν</translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Appointment moved to %1 at %2</source>
         <translation>Ραντεβού μετακινήθηκε στις %2 (%1)</translation>
     </message>
@@ -608,7 +628,7 @@
         <translation>Η διάρκεια του ραντεβού άλλαξε: %1 - %2</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+11"/>
         <source>The change was undone</source>
         <translation>Η αλλαγή αναιρέθηκε</translation>
     </message>
