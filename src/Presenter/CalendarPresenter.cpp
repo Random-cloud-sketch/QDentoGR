@@ -18,6 +18,9 @@ CalendarPresenter::CalendarPresenter(TabView* tabView) :
 
     shownWeek = getTodaysWeek();
 
+    //opening the calendar shows the current time / the start of the working day
+    view->requestScrollToWorkingTime();
+
     refreshView();
 
 }
@@ -214,6 +217,24 @@ void CalendarPresenter::refreshView()
     events = DbAppointment::get(shownWeek.first, shownWeek.second, User::dentist().rowID);
 
     view->setEventList(events, clipboard_event);
+
+    refreshBusyDays();
+}
+
+void CalendarPresenter::navigatorMonthsChanged()
+{
+    refreshBusyDays();
+}
+
+void CalendarPresenter::refreshBusyDays()
+{
+    QSet<QDate> days;
+
+    for (auto& e : DbAppointment::get(view->navigatorFirstDay(), view->navigatorLastDay(), User::dentist().rowID)) {
+        days.insert(e.start.date());
+    }
+
+    view->setBusyDays(days);
 }
 
 void CalendarPresenter::setClipboard(const CalendarEvent& e)

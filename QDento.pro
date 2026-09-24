@@ -204,6 +204,7 @@ HEADERS += \
     src/View/Widgets/WelcomeWidget.h \
     src/View/uiComponents/AutoCompleteLineEdit.h \
     src/View/uiComponents/BigPushButton.h \
+    src/View/uiComponents/CalendarNavigator.h \
     src/View/uiComponents/CalendarTable.h \
     src/View/uiComponents/CalendarWidget.h \
     src/View/uiComponents/ColorPicker.h \
@@ -395,6 +396,7 @@ SOURCES += \
     src/View/Widgets/WelcomeWidget.cpp \
     src/View/uiComponents/AutoCompleteLineEdit.cpp \
     src/View/uiComponents/BigPushButton.cpp \
+    src/View/uiComponents/CalendarNavigator.cpp \
     src/View/uiComponents/CalendarTable.cpp \
     src/View/uiComponents/CalendarWidget.cpp \
     src/View/uiComponents/ColorPicker.cpp \

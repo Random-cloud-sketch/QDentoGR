@@ -56,7 +56,24 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 
 		entity->column = event.start.date().dayOfWeek() - 1;
 
-		entity->row = QTime(0, 0, 0).secsTo(event.start.time()) / 60 / 15;
+		int startMinute = QTime(0, 0, 0).secsTo(event.start.time()) / 60;
+
+		entity->row = startMinute >= m_firstMinute ?
+			(startMinute - m_firstMinute) / 15
+			:
+			-((m_firstMinute - startMinute + 14) / 15);
+
+		//only the part inside the shown hours is painted
+		if (entity->row < 0) {
+			entity->span += entity->row;
+			entity->row = 0;
+		}
+
+		entity->span = std::min(entity->span, m_rowCount - entity->row);
+
+		if (entity->span <= 0) {
+			continue;
+		}
 
 		for (int y = entity->row; y < entity->row + entity->span; y++) {
 
@@ -66,6 +83,12 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 		}
 
 	}
+}
+
+void CalendarViewData::setTimeRange(int firstMinute, int rowCount)
+{
+	m_firstMinute = firstMinute;
+	m_rowCount = rowCount;
 }
 
 void CalendarViewData::setCellSize(int column, int cell_width, int cell_height)
@@ -223,7 +246,10 @@ void CalendarViewData::EventEntity::paintPixmap()
 
 	p.setPen(Theme::fontTurquoise);
 
-	QRect textRect(5, 4, cell_width-10, eventHeight-6);
+	//short appointments in the compact (30 / 60 minute) grid have little room for the text
+	int textTop = eventHeight < 24 ? 1 : 4;
+
+	QRect textRect(5, textTop, cell_width-10, eventHeight-textTop-2);
 	
 	p.setRenderHint(QPainter::RenderHint::TextAntialiasing);
 

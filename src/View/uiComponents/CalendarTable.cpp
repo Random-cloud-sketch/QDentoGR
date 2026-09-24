@@ -17,26 +17,7 @@ EventDelegate::EventDelegate(CalendarTable* view, CalendarViewData& data) : data
 
 QString EventDelegate::requestTime(int row) const
 {
-    QString label;
-
-    int hour = row / 4;
-
-    int minutes = row % 4 * 15;
-
-    if (hour < 10) {
-        label += "0";
-    }
-
-    label += QString::number(hour);
-    label += ":";
-    
-    if (minutes < 10) {
-        label += "0";
-    }
-    
-    label += QString::number(minutes);
-
-    return label;
+    return view->rowTime(row).toString("HH:mm");
 }
 
 
@@ -62,8 +43,14 @@ void EventDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
         return;
     }
     else {
+        //light lines around the grid slots, darker line every hour
         painter->setPen(QColor(245, 245, 245));
-        painter->drawRect(r);
+        painter->drawLine(r.topLeft(), r.bottomLeft());
+        painter->drawLine(r.topRight(), r.bottomRight());
+
+        if (row % view->rowsPerSlot() == 0) {
+            painter->drawLine(r.topLeft(), r.topRight());
+        }
 
         if (index.row() && index.row() % 4 == 0) {
             painter->setPen(QColor(224, 224, 224));
@@ -71,10 +58,17 @@ void EventDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
         }
     }
 
-    //hovering empty cell
-    if (column == emptyHovered.first && row == emptyHovered.second) {
+    if (column != emptyHovered.first || emptyHovered.second < 0) return;
+
+    //hovering the free part of a grid slot
+    auto [firstRow, lastRow] = view->freeSlotRows(column, emptyHovered.second);
+
+    if (row >= firstRow && row <= lastRow) {
 
         painter->fillRect(r, QColor(246, 245, 250));
+
+        //the time is written once, in the first row of the slot
+        if (row != firstRow) return;
 
         auto font = painter->font();
 
@@ -106,7 +100,23 @@ bool EventDelegate::editorEvent(QEvent* event, QAbstractItemModel* model, const 
 
     if (event->type() == QEvent::MouseMove) {
 
-        emptyHovered = std::make_pair(index.column(), index.row());
+        //the hover covers a whole grid slot, so the old and the new slot are repainted
+        auto updateSlot = [&](std::pair<int, int> cell) {
+            if (cell.first < 0 || cell.second < 0) return;
+            auto [first, last] = view->freeSlotRows(cell.first, cell.second);
+            for (int r = first; r <= last; r++) {
+                view->update(view->model()->index(r, cell.first));
+            }
+        };
+
+        auto newHovered = std::make_pair(index.column(), index.row());
+
+        if (newHovered != emptyHovered) {
+            updateSlot(emptyHovered);
+            updateSlot(newHovered);
+        }
+
+        emptyHovered = newHovered;
 
         auto idxToUpdate = data.setHovered(index.column(), index.row());
         
@@ -143,7 +153,7 @@ CalendarTable::CalendarTable(QWidget* parent) : QTableView(parent)
     connect(horizontalHeader(), &QHeaderView::sectionResized, this,
         [&](int logicalIndex, int oldSize, int newSize) {
             m_data.setPixelRatio(devicePixelRatioF());
-            m_data.setCellSize(logicalIndex, newSize, rowHeight(1));
+            m_data.setCellSize(logicalIndex, newSize, unitHeight());
         });
 }
 
@@ -183,7 +193,7 @@ void CalendarTable::setEvents(const std::vector<CalendarEvent>& list, const Cale
 
     m_data.setEvents(list, clipboardEvent);
 
-    auto rowSize = rowHeight(1);
+    auto rowSize = unitHeight();
     
     for (int i = 0; i < m_model.columnCount(); i++) {
         m_data.setCellSize(i, columnWidth(i), rowSize);
@@ -191,6 +201,85 @@ void CalendarTable::setEvents(const std::vector<CalendarEvent>& list, const Cale
 
     viewport()->repaint();
     
+}
+
+int CalendarTable::unitHeight() const
+{
+    //a larger slot makes the day more compact
+    switch (m_slotMinutes)
+    {
+    case 30: return 20;
+    case 60: return 16;
+    default: return 24;
+    }
+}
+
+void CalendarTable::setTimeAxis(int firstHour, int lastHour, int slotMinutes)
+{
+    m_firstHour = firstHour;
+    m_lastHour = lastHour;
+    m_slotMinutes = slotMinutes;
+
+    int rows = (lastHour - firstHour) * 60 / minutesPerRow;
+
+    m_model.setRows(rows);
+    m_data.setTimeRange(firstHour * 60, rows);
+
+    int unit = unitHeight();
+
+    verticalHeader()->setMinimumSectionSize(1);
+    verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    verticalHeader()->setDefaultSectionSize(unit);
+
+    for (int i = 0; i < rows; i++) {
+        setRowHeight(i, unit);
+    }
+
+    setMinimumHeight(0);
+    setFixedHeight(rows * unit);
+
+    delegate_ptr->emptyHovered = { -1, -1 };
+
+    viewport()->update();
+}
+
+QTime CalendarTable::rowTime(int row) const
+{
+    int minutes = m_firstHour * 60 + row * minutesPerRow;
+
+    return QTime(0, 0).addSecs(std::min(minutes, 24 * 60 - 1) * 60);
+}
+
+int CalendarTable::timeToY(const QTime& time) const
+{
+    int minutes = time.hour() * 60 + time.minute() - m_firstHour * 60;
+
+    if (minutes < 0 || minutes > (m_lastHour - m_firstHour) * 60) return -1;
+
+    return minutes * unitHeight() / minutesPerRow;
+}
+
+std::pair<int, int> CalendarTable::freeSlotRows(int column, int row) const
+{
+    //no free part when the row itself is an appointment
+    if (m_data.eventListIndex(column, row) != -1) return { row + 1, row };
+
+    int first = row - row % rowsPerSlot();
+    int last = first + rowsPerSlot() - 1;
+
+    //an appointment inside the slot limits the free part
+    for (int r = first; r < row; r++) {
+        if (m_data.eventListIndex(column, r) != -1) first = r + 1;
+    }
+
+    for (int r = row + 1; r <= last; r++) {
+        if (m_data.eventListIndex(column, r) != -1) {
+            last = r - 1;
+            break;
+        }
+    }
+
+    return { first, std::min(last, m_model.rowCount() - 1) };
 }
 
 void CalendarTable::setTodayColumn(int today)
@@ -356,7 +445,7 @@ void CalendarTable::menuRequested(int column, int row)
 
             action = new QAction(tr("Set ") + label, context_menu);
             connect(action, &QAction::triggered, context_menu, [=, this] {
-                emit eventAddRequested(QTime(row / 4, row % 4 * 15, 0), column, duration);
+                emit eventAddRequested(rowTime(freeSlotRows(column, row).first), column, duration);
 
             });
             context_menu->addAction(action);
@@ -394,13 +483,9 @@ void CalendarTable::paintEvent(QPaintEvent* e)
 
     painter.setPen(pen);
 
-    auto currentTime = QTime::currentTime();
+    int y = timeToY(QTime::currentTime());
 
-    int currentMinutes = currentTime.hour() * 60 + currentTime.minute();
-
-    double pixelsPerMinute = (double)height() / 1440; //minutes per day;
-
-    int y = pixelsPerMinute * currentMinutes;
+    if (y < 0) return;
 
  //   painter.drawLine(0, y, width(), y);
 

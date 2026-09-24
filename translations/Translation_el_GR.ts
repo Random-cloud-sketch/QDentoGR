@@ -253,9 +253,22 @@
     </message>
 </context>
 <context>
+    <name>CalendarNavigator</name>
+    <message>
+        <location filename="../src/View/uiComponents/CalendarNavigator.cpp" line="+45"/>
+        <source>Previous month</source>
+        <translation>Προηγούμενος μήνας</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Next month</source>
+        <translation>Επόμενος μήνας</translation>
+    </message>
+</context>
+<context>
     <name>CalendarTable</name>
     <message>
-        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+261"/>
+        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+350"/>
         <source>15 min.</source>
         <translation>15 λεπτά</translation>
     </message>
@@ -385,7 +398,7 @@
         <translation>TextLabel</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/CalendarView.cpp" line="+105"/>
+        <location filename="../src/View/Widgets/CalendarView.cpp" line="+206"/>
         <source>January</source>
         <translation>Ιανουαρίου</translation>
     </message>
@@ -478,6 +491,56 @@
         <location line="+0"/>
         <source>Sunday</source>
         <translation>Κυριακή</translation>
+    </message>
+    <message>
+        <location line="+74"/>
+        <source>Working hours and time slots of the calendar</source>
+        <translation>Ώρες εργασίας και χρονικά διαστήματα του ημερολογίου</translation>
+    </message>
+    <message>
+        <location line="+111"/>
+        <source>Calendar hours</source>
+        <translation>Ώρες ημερολογίου</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>15 minutes</source>
+        <translation>15 λεπτά</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>30 minutes</source>
+        <translation>30 λεπτά</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>60 minutes</source>
+        <translation>60 λεπτά</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show all 24 hours</source>
+        <translation>Εμφάνιση όλου του 24ώρου</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Appointments outside the working hours are always shown.</source>
+        <translation>Τα ραντεβού εκτός ωραρίου εμφανίζονται πάντα.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Start of working day:</source>
+        <translation>Έναρξη ημέρας εργασίας:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>End of working day:</source>
+        <translation>Λήξη ημέρας εργασίας:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Time slot:</source>
+        <translation>Χρονικό διάστημα:</translation>
     </message>
 </context>
 <context>
@@ -4749,7 +4812,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Το έγγραφο δεν μπορεί να ανοιχτεί, επειδή δεν έχει δημιουργηθεί από τον τρέχοντα χρήστη</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/CalendarPresenter.cpp" line="+40"/>
+        <location filename="../src/Presenter/CalendarPresenter.cpp" line="+43"/>
         <source>Appointments</source>
         <translation>Ραντεβού</translation>
     </message>

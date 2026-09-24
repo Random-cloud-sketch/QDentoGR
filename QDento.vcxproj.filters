@@ -347,6 +347,9 @@
     <ClCompile Include="src\View\uiComponents\BigPushButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\CalendarNavigator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\View\uiComponents\CalendarTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1042,6 +1045,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\BigPushButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\CalendarNavigator.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\CalendarTable.h">

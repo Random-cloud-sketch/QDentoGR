@@ -25,6 +25,9 @@ class CalendarPresenter : public TabInstance
 
 	void setClipboard(const CalendarEvent& e);
 
+	//marks the days with appointments in the month navigator of the view
+	void refreshBusyDays();
+
 public:
 
 	CalendarPresenter(TabView* view);
@@ -49,6 +52,7 @@ public:
 	void clearClipboard();
 	void durationChange(int eventIdx, int duration);
 	void cancelMove();
+	void navigatorMonthsChanged();
 
 	~CalendarPresenter();
 };

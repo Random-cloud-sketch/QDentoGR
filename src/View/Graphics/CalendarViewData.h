@@ -47,6 +47,10 @@ private:
 	
 	QString m_clipboardEventText;
 
+	//each row is 15 minutes, the first row starts at m_firstMinute of the day
+	int m_firstMinute = 0;
+	int m_rowCount = 96;
+
 	//ensures only one entity is hovered
 	EventEntity* current_entity_hover = nullptr;
 	
@@ -67,6 +71,9 @@ public:
 	CalendarViewData();
 
 	void setEvents(const std::vector<CalendarEvent>& eventsList, const CalendarEvent& clipboardEvent);
+
+	//the shown part of the day: first minute of the first row and number of 15 minute rows
+	void setTimeRange(int firstMinute, int rowCount);
 
 	void setCellSize(int column, int cell_width, int cell_height);
 

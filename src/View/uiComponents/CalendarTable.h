@@ -40,7 +40,24 @@ class CalendarTableModel : public QAbstractTableModel
 public:
 	CalendarTableModel() {};
 
-	int rowCount(const QModelIndex& parent = QModelIndex()) const override { return 96; }
+	int m_rows = 96;
+
+	int rowCount(const QModelIndex& parent = QModelIndex()) const override { return m_rows; }
+
+	//each row is 15 minutes of the shown part of the day
+	void setRows(int rows)
+	{
+		if (rows > m_rows) {
+			beginInsertRows(QModelIndex(), m_rows, rows - 1);
+			m_rows = rows;
+			endInsertRows();
+		}
+		else if (rows < m_rows) {
+			beginRemoveRows(QModelIndex(), rows, m_rows - 1);
+			m_rows = rows;
+			endRemoveRows();
+		}
+	}
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 7; }
 
 	~CalendarTableModel() {};
@@ -58,6 +75,11 @@ class CalendarTable : public QTableView
 	EventDelegate* delegate_ptr = nullptr;
 
 	int m_today_column = -1;
+
+	//shown part of the day and size of the grid slots
+	int m_firstHour = 0;
+	int m_lastHour = 24;
+	int m_slotMinutes = 15;
 
 	void leaveEvent(QEvent* event) override;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
@@ -80,6 +102,24 @@ public:
 	void setTodayColumn(int today);
 
 	int todayColumn() const { return m_today_column; }
+
+	static constexpr int minutesPerRow = 15;
+
+	//shows the hours from firstHour to lastHour with a grid of slotMinutes (15, 30 or 60)
+	void setTimeAxis(int firstHour, int lastHour, int slotMinutes);
+	int firstHour() const { return m_firstHour; }
+	int lastHour() const { return m_lastHour; }
+	int slotMinutes() const { return m_slotMinutes; }
+	int rowsPerSlot() const { return m_slotMinutes / minutesPerRow; }
+	int unitHeight() const;
+
+	QTime rowTime(int row) const;
+
+	//y position of a time of the day, -1 when it is outside the shown hours
+	int timeToY(const QTime& time) const;
+
+	//the free rows of the grid slot containing the row (where a new appointment is placed)
+	std::pair<int, int> freeSlotRows(int column, int row) const;
 
 signals:
 

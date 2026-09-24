@@ -1,21 +1,93 @@
-﻿#include "CalendarView.h"
+#include "CalendarView.h"
 
 #include <QDateTime>
 #include <QHeaderView>
 #include <QScrollBar>
 #include <QPainter>
 #include <QShortcut>
+#include <QTimer>
+#include <QComboBox>
+#include <QCheckBox>
+#include <QFormLayout>
+#include <QFrame>
+#include <QLabel>
 
 #include "Presenter/CalendarPresenter.h"
 #include "View/Theme.h"
 #include "View/uiComponents/CalendarWidget.h"
-#include "GlobalSettings.h"
+#include "View/uiComponents/CalendarNavigator.h"
+#include "View/uiComponents/IconButton.h"
 #include <QLocale>
+
+namespace {
+
+    constexpr int hourLabelWidth = 60;
+
+    //Hour ruler left of the appointments table, painted at the positions of the table rows
+    class TimeAxisWidget : public QWidget
+    {
+        CalendarTable* table;
+
+    public:
+        //space above and below the table, so the first and the last label are not cut
+        static constexpr int margin = 10;
+
+        TimeAxisWidget(CalendarTable* table, QWidget* parent) : QWidget(parent), table(table)
+        {
+            setFixedWidth(hourLabelWidth);
+        }
+
+        void updateSize()
+        {
+            int rows = (table->lastHour() - table->firstHour()) * 60 / CalendarTable::minutesPerRow;
+
+            setFixedHeight(rows * table->unitHeight() + 2 * margin);
+
+            update();
+        }
+
+    protected:
+        void paintEvent(QPaintEvent*) override
+        {
+            QPainter painter(this);
+
+            QFont hourFont = font();
+            hourFont.setBold(true);
+
+            QFont slotFont = font();
+            slotFont.setPointSizeF(font().pointSizeF() * 0.85);
+
+            int rowsPerHour = 60 / CalendarTable::minutesPerRow;
+            int rows = (table->lastHour() - table->firstHour()) * rowsPerHour;
+
+            //hours are always labelled, half hours only in the 30 minute grid
+            int labelStep = table->slotMinutes() == 30 ? table->rowsPerSlot() : rowsPerHour;
+
+            for (int row = 0; row <= rows; row += labelStep)
+            {
+                int minutes = table->firstHour() * 60 + row * CalendarTable::minutesPerRow;
+
+                QString text = QString("%1:%2").arg(minutes / 60, 2, 10, QChar('0')).arg(minutes % 60, 2, 10, QChar('0'));
+
+                bool fullHour = row % rowsPerHour == 0;
+
+                painter.setFont(fullHour ? hourFont : slotFont);
+                painter.setPen(fullHour ? QColor(Qt::darkCyan) : QColor(140, 140, 140));
+
+                int y = margin + row * table->unitHeight();
+
+                painter.drawText(QRect(0, y - margin, width(), 2 * margin), Qt::AlignCenter, text);
+            }
+        }
+    };
+}
 
 CalendarView::CalendarView(QWidget* parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
+
+    m_axis = GlobalSettings::getCalendarAxis();
 
     calendarWidget = new CalendarWidget();
     calendarWidget->setWindowFlag(Qt::WindowType::Popup);
@@ -32,7 +104,7 @@ CalendarView::CalendarView(QWidget* parent)
     ui.currentWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.prevWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.nextWeekButton->setHoverColor(Theme::mainBackgroundColor);
-    
+
     auto font = ui.calendarButton->font();
     font.setPointSize(font.pointSize() * 2);
     font.setBold(true);
@@ -45,16 +117,37 @@ CalendarView::CalendarView(QWidget* parent)
     ui.weekFrame->setStyleSheet("QFrame{background-color: " + Theme::colorToString(Theme::background) + ";}");
     ui.line->setStyleSheet("color: " + Theme::colorToString(Theme::border) + ";");
 
-    //setting the scrollbar to current time
-    auto scrollBar = ui.scrollArea->verticalScrollBar();
-    
-    QTime time = QTime::currentTime();
-    
-    int minutes = time.hour() * 60 + time.minute();
+    //multi-month navigator on the right side
+    navigator = new CalendarNavigator(this);
+    ui.horizontalLayout_5->addWidget(navigator);
 
-    double pixelsPerMin = (double)scrollBar->maximum() / (24 * 60);
+    connect(navigator, &CalendarNavigator::dateClicked, this, [&](QDate date) {
 
-    scrollBar->setValue((pixelsPerMin * minutes) - (15*pixelsPerMin));
+        m_selectedDate = date;
+        m_dateChosen = true;
+
+        if (presenter) presenter->dateRequested(date);
+
+        //the same week is not refreshed by the presenter
+        updateWeekView(m_weekFrom, m_weekTo, ui.calendarTable->todayColumn());
+
+        //the first appointment of the day (or the start of the working day) is scrolled into view
+        m_scrollTarget = QTime(m_axis.startHour, 0);
+
+        QTime first;
+
+        for (auto& e : m_events) {
+            if (e.start.date() == date && (!first.isValid() || e.start.time() < first)) {
+                first = e.start.time();
+            }
+        }
+
+        if (first.isValid()) m_scrollTarget = first;
+
+        requestScrollToWorkingTime();
+    });
+
+    connect(navigator, &CalendarNavigator::monthsChanged, this, [&] { if (presenter) presenter->navigatorMonthsChanged(); });
 
     connect(ui.nextWeekButton, &QPushButton::clicked, this, [=] { if(presenter) presenter->nextWeekRequested(); });
     connect(ui.prevWeekButton, &QPushButton::clicked, this, [=] { presenter->prevWeekRequested(); });
@@ -95,10 +188,18 @@ CalendarView::CalendarView(QWidget* parent)
 
 void CalendarView::updateWeekView(QDate from, QDate to, int currentDayColumn)
 {
-    auto calendarWidgetDate = currentDayColumn == -1 ?
-        from : from.addDays(currentDayColumn);
+    m_weekFrom = from;
+    m_weekTo = to;
 
-    calendarWidget->setSelectedDate(calendarWidgetDate);
+    //the selected date stays while it is in the shown week, otherwise today or the first day of the week
+    if (!(m_selectedDate >= from && m_selectedDate <= to)) {
+        m_selectedDate = currentDayColumn == -1 ? from : from.addDays(currentDayColumn);
+        m_dateChosen = false;
+    }
+
+    calendarWidget->setSelectedDate(m_selectedDate);
+
+    navigator->setShownWeek(from, to, m_selectedDate);
 
     static QString months[] =
     {
@@ -130,7 +231,7 @@ void CalendarView::updateWeekView(QDate from, QDate to, int currentDayColumn)
     }
 
     label += "-";
-    
+
     if (fromMonth != toMonth) {
         label += " ";
     }
@@ -162,9 +263,9 @@ void CalendarView::updateWeekView(QDate from, QDate to, int currentDayColumn)
     auto font = ui.labelMon->font();
 
     for (int i = 0; i < 7; i++) {
-        
+
         auto& l = dateLabels[i];
-        
+
         QString text = "<p style=\"text-align: center;line-height:150%\"; ><b>";
 
         text += weekDay[i];
@@ -177,11 +278,18 @@ void CalendarView::updateWeekView(QDate from, QDate to, int currentDayColumn)
         text += "</p>";
 
         l->setText(text);
-        
+
         font.setBold(i == currentDayColumn);
 
         l->setFont(font);
-        
+
+        //the date clicked in the navigator is marked in the week
+        l->setStyleSheet(m_dateChosen && date == m_selectedDate ?
+            "QLabel{background-color: " + Theme::colorToString(Theme::inactiveTabBG) + "; border-radius: 8px;}"
+            :
+            ""
+        );
+
         date = date.addDays(1);
     }
 
@@ -190,72 +298,237 @@ void CalendarView::updateWeekView(QDate from, QDate to, int currentDayColumn)
 
 void CalendarView::initTable()
 {
-    for (int i = 0; i < 7; i++) {
-        ui.calendarTable->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
-    }
-
-    //   (/¯◡ ‿ ◡)/¯ ~ magic, magic 
-    int rowHeight = 14;
-    int tableHeight = 2303;
-    int topOffset = 88;
-    int bottomOffset = 16;
-    int hourLabelWidth = 60;
-
-#ifdef Q_OS_MAC
-    int hourLabelHeight = 94;
-    rowHeight = 25;
-    tableHeight = 2000;
-    topOffset = 90;
-    bottomOffset = 26;
-#endif
-
-    ui.tableTopSpacer->changeSize(20, topOffset);
-
-    for (int i = 0; i < 24*4; i++) {
-
-        ui.calendarTable->setRowHeight(i, rowHeight);
-    }
-
-    ui.calendarTable->setMinimumHeight(tableHeight);
+    ui.calendarTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui.calendarTable->verticalHeader()->hide();
     ui.calendarTable->horizontalHeader()->hide();
 
+    //hour ruler instead of the fixed hour labels
+    ui.hourLayout->removeItem(ui.tableTopSpacer);
+    delete ui.tableTopSpacer;
+    ui.tableTopSpacer = nullptr;
 
-    for (int i = 0; i < 23; i++)
-    {
-        QLabel* l = new QLabel(this);
+    auto axis = new TimeAxisWidget(ui.calendarTable, ui.scrollAreaWidgetContents);
+    timeAxis = axis;
+    ui.hourLayout->addWidget(axis);
+    ui.hourLayout->addStretch();
 
-        auto hour = i + 1;
+    //the table starts below the margin of the ruler, so the rows and the labels are aligned
+    ui.horizontalLayout_2->removeWidget(ui.calendarTable);
 
-        QString labelText = "<b><font color=DarkCyan>";// + Theme::colorToString(Theme::fontTurquoiseClicked) + ">";
-        labelText += hour < 10 ? "0" : "";
-        labelText += QString::number(hour);
-        labelText += ":00";
-        labelText += "</font></b>";
+    auto tableColumn = new QVBoxLayout();
+    tableColumn->setContentsMargins(0, TimeAxisWidget::margin, 0, TimeAxisWidget::margin);
+    tableColumn->setSpacing(0);
+    tableColumn->addWidget(ui.calendarTable);
+    tableColumn->addStretch();
 
-        l->setText(labelText);
+    ui.horizontalLayout_2->addLayout(tableColumn);
 
-        l->setMinimumWidth(hourLabelWidth);
-#ifdef Q_OS_MAC
-        l->setMinimumHeight(hourLabelHeight);
-        l->setMaximumHeight(hourLabelHeight);
-#endif
-        l->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
-        ui.hourLayout->addWidget(l);
-    }
-    
-    ui.weekSpacerBegin->setMaximumWidth(hourLabelWidth);
+    //settings of the time axis above the ruler
+    axisButton = new IconButton(ui.weekSpacerBegin);
+    axisButton->setIcon(QIcon(":/icons/icon_settings.png"));
+    axisButton->setFixedSize(30, 30);
+    axisButton->setHoverColor(Theme::mainBackgroundColor);
+    axisButton->setToolTip(tr("Working hours and time slots of the calendar"));
+
+    ui.weekSpacerBegin->setText("");
+    ui.weekSpacerBegin->setFixedWidth(hourLabelWidth);
+
+    auto buttonLayout = new QHBoxLayout(ui.weekSpacerBegin);
+    buttonLayout->setContentsMargins(0, 0, 0, 0);
+    buttonLayout->addWidget(axisButton, 0, Qt::AlignCenter);
+
+    connect(axisButton, &QPushButton::clicked, this, [&] { showAxisSettings(); });
+
     ui.weekSpacerEnd->changeSize(16, 10);
 
-    auto tableBottomSpacer = new QSpacerItem(20, bottomOffset, QSizePolicy::Minimum, QSizePolicy::Fixed);
-    ui.hourLayout->addItem(tableBottomSpacer);
+    auto [firstHour, lastHour] = visibleHours({});
+
+    applyTimeAxis(firstHour, lastHour);
+}
+
+std::pair<int, int> CalendarView::visibleHours(const std::vector<CalendarEvent>& list) const
+{
+    int firstHour = m_axis.fullDay ? 0 : m_axis.startHour;
+    int lastHour = m_axis.fullDay ? 24 : m_axis.endHour;
+
+    for (auto& e : list)
+    {
+        firstHour = std::min(firstHour, e.start.time().hour());
+
+        int endMinute = e.end.date() > e.start.date() ?
+            24 * 60
+            :
+            e.end.time().hour() * 60 + e.end.time().minute();
+
+        lastHour = std::max(lastHour, (endMinute + 59) / 60);
+    }
+
+    return { std::max(firstHour, 0), std::min(lastHour, 24) };
+}
+
+void CalendarView::applyTimeAxis(int firstHour, int lastHour)
+{
+    ui.calendarTable->setTimeAxis(firstHour, lastHour, m_axis.slotMinutes);
+
+    static_cast<TimeAxisWidget*>(timeAxis)->updateSize();
+
+    m_axisApplied = true;
+}
+
+void CalendarView::requestScrollToWorkingTime()
+{
+    m_scrollPending = true;
+
+    if (isVisible()) {
+        QTimer::singleShot(0, this, [this] { scrollToWorkingTime(); });
+    }
+}
+
+void CalendarView::scrollToWorkingTime()
+{
+    if (!m_scrollPending) return;
+
+    auto scrollBar = ui.scrollArea->verticalScrollBar();
+
+    auto table = ui.calendarTable;
+
+    //the scroll range follows the new height of the table only after the layout is updated
+    int expectedMaximum = std::max(0, table->height() + 2 * TimeAxisWidget::margin - ui.scrollArea->viewport()->height());
+
+    if (scrollBar->maximum() != expectedMaximum && m_scrollRetries < 20) {
+        m_scrollRetries++;
+        QTimer::singleShot(25, this, [this] { scrollToWorkingTime(); });
+        return;
+    }
+
+    m_scrollPending = false;
+    m_scrollRetries = 0;
+
+    QTime now = QTime::currentTime();
+
+    int y = 0;
+
+    if (m_scrollTarget.isValid()) {
+        y = std::max(0, table->timeToY(m_scrollTarget) - table->unitHeight() * 2);
+        m_scrollTarget = QTime();
+        scrollBar->setValue(y);
+        return;
+    }
+
+    //today inside the working day: the current time, otherwise the start of the working day
+    if (table->todayColumn() != -1 && now.hour() >= m_axis.startHour && now.hour() < m_axis.endHour && table->timeToY(now) >= 0) {
+        y = table->timeToY(now) - table->unitHeight() * 4;
+    }
+    else if (table->timeToY(QTime(m_axis.startHour, 0)) >= 0) {
+        y = table->timeToY(QTime(m_axis.startHour, 0));
+    }
+
+    scrollBar->setValue(std::max(0, y));
+}
+
+void CalendarView::showAxisSettings()
+{
+    auto popup = new QFrame(this, Qt::Popup);
+    popup->setAttribute(Qt::WA_DeleteOnClose);
+    popup->setObjectName("axisSettings");
+    popup->setStyleSheet(
+        "#axisSettings{background-color: white; border: 1px solid " + Theme::colorToString(Theme::border) + "; border-radius: 6px;}"
+    );
+
+    auto form = new QFormLayout(popup);
+    form->setContentsMargins(14, 12, 14, 12);
+    form->setVerticalSpacing(8);
+
+    auto title = new QLabel(tr("Calendar hours"), popup);
+    title->setStyleSheet("font-weight: bold; color: " + Theme::colorToString(Theme::fontTurquoise) + ";");
+    form->addRow(title);
+
+    auto hourText = [](int hour) { return QString("%1:00").arg(hour, 2, 10, QChar('0')); };
+
+    auto startCombo = new QComboBox(popup);
+    for (int h = 0; h <= 23; h++) startCombo->addItem(hourText(h), h);
+    startCombo->setCurrentIndex(m_axis.startHour);
+
+    auto endCombo = new QComboBox(popup);
+    for (int h = 1; h <= 24; h++) endCombo->addItem(hourText(h), h);
+    endCombo->setCurrentIndex(m_axis.endHour - 1);
+
+    auto slotCombo = new QComboBox(popup);
+    slotCombo->addItem(tr("15 minutes"), 15);
+    slotCombo->addItem(tr("30 minutes"), 30);
+    slotCombo->addItem(tr("60 minutes"), 60);
+    slotCombo->setCurrentIndex(slotCombo->findData(m_axis.slotMinutes));
+
+    auto fullDayCheck = new QCheckBox(tr("Show all 24 hours"), popup);
+    fullDayCheck->setChecked(m_axis.fullDay);
+
+    auto hint = new QLabel(tr("Appointments outside the working hours are always shown."), popup);
+    hint->setWordWrap(true);
+    hint->setStyleSheet("color: gray;");
+
+    form->addRow(tr("Start of working day:"), startCombo);
+    form->addRow(tr("End of working day:"), endCombo);
+    form->addRow(tr("Time slot:"), slotCombo);
+    form->addRow(fullDayCheck);
+    form->addRow(hint);
+
+    auto apply = [=, this](QComboBox* changed) {
+
+        int start = startCombo->currentData().toInt();
+        int end = endCombo->currentData().toInt();
+
+        //the end of the day is always after the start
+        if (end <= start) {
+            if (changed == endCombo) {
+                start = end - 1;
+                QSignalBlocker b(startCombo);
+                startCombo->setCurrentIndex(start);
+            }
+            else {
+                end = start + 1;
+                QSignalBlocker b(endCombo);
+                endCombo->setCurrentIndex(end - 1);
+            }
+        }
+
+        m_axis.startHour = start;
+        m_axis.endHour = end;
+        m_axis.slotMinutes = slotCombo->currentData().toInt();
+        m_axis.fullDay = fullDayCheck->isChecked();
+
+        GlobalSettings::setCalendarAxis(m_axis);
+
+        m_axisApplied = false;
+
+        setEventList(m_events, m_clipboard);
+
+        requestScrollToWorkingTime();
+    };
+
+    connect(startCombo, &QComboBox::currentIndexChanged, popup, [=] { apply(startCombo); });
+    connect(endCombo, &QComboBox::currentIndexChanged, popup, [=] { apply(endCombo); });
+    connect(slotCombo, &QComboBox::currentIndexChanged, popup, [=] { apply(slotCombo); });
+    connect(fullDayCheck, &QCheckBox::toggled, popup, [=] { apply(nullptr); });
+
+    popup->adjustSize();
+    popup->move(axisButton->mapToGlobal(QPoint(0, axisButton->height() + 4)));
+    popup->show();
 }
 
 void CalendarView::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     painter.fillRect(rect(), Theme::background);
+}
+
+void CalendarView::showEvent(QShowEvent* event)
+{
+    QWidget::showEvent(event);
+
+    if (m_scrollPending) {
+        QTimer::singleShot(0, this, [this] { scrollToWorkingTime(); });
+    }
 }
 
 void CalendarView::showCalendarWidget()
@@ -274,7 +547,40 @@ void CalendarView::setCalendarPresenter(CalendarPresenter* p)
 
 void CalendarView::setEventList(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboard_event)
 {
-    ui.calendarTable->setEvents(list, clipboard_event);
+    m_events = list;
+    m_clipboard = clipboard_event;
+
+    auto [firstHour, lastHour] = visibleHours(list);
+
+    auto table = ui.calendarTable;
+
+    bool axisChanged = !m_axisApplied ||
+        firstHour != table->firstHour() ||
+        lastHour != table->lastHour() ||
+        m_axis.slotMinutes != table->slotMinutes();
+
+    if (axisChanged) {
+        applyTimeAxis(firstHour, lastHour);
+    }
+
+    table->setEvents(list, clipboard_event);
+
+    timeAxis->update();
+}
+
+QDate CalendarView::navigatorFirstDay() const
+{
+    return navigator->firstDay();
+}
+
+QDate CalendarView::navigatorLastDay() const
+{
+    return navigator->lastDay();
+}
+
+void CalendarView::setBusyDays(const QSet<QDate>& days)
+{
+    navigator->setBusyDays(days);
 }
 
 CalendarView::~CalendarView()

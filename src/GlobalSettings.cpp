@@ -187,6 +187,37 @@ void GlobalSettings::setGreekUi(bool greek)
     s_greekUi = greek;
 }
 
+GlobalSettings::CalendarAxis GlobalSettings::getCalendarAxis()
+{
+    auto settings = getSettingsAsJson();
+
+    CalendarAxis axis;
+
+    if (settings.isMember("calendar_start_hour")) axis.startHour = settings["calendar_start_hour"].asInt();
+    if (settings.isMember("calendar_end_hour")) axis.endHour = settings["calendar_end_hour"].asInt();
+    if (settings.isMember("calendar_slot_minutes")) axis.slotMinutes = settings["calendar_slot_minutes"].asInt();
+    if (settings.isMember("calendar_full_day")) axis.fullDay = settings["calendar_full_day"].asBool();
+
+    //invalid values from the file fall back to the defaults
+    if (axis.startHour < 0 || axis.startHour > 23) axis.startHour = CalendarAxis{}.startHour;
+    if (axis.endHour <= axis.startHour || axis.endHour > 24) axis.endHour = std::max(axis.startHour + 1, CalendarAxis{}.endHour);
+    if (axis.slotMinutes != 15 && axis.slotMinutes != 30 && axis.slotMinutes != 60) axis.slotMinutes = 15;
+
+    return axis;
+}
+
+void GlobalSettings::setCalendarAxis(const CalendarAxis& axis)
+{
+    auto settings = getSettingsAsJson();
+
+    settings["calendar_start_hour"] = axis.startHour;
+    settings["calendar_end_hour"] = axis.endHour;
+    settings["calendar_slot_minutes"] = axis.slotMinutes;
+    settings["calendar_full_day"] = axis.fullDay;
+
+    rewriteCfg(settings);
+}
+
 bool GlobalSettings::isADANum()
 {
     return getSettingsAsJson()["is_ADA"].asBool();
