@@ -12,41 +12,34 @@ bool IbanValidator::validateInput(const std::string& text)
     //allow empty
     if (text.empty()) return true;
 
-    if (text.size() != 22) return false;
+    //IBAN of any country (ISO 13616), e.g. GR16 0110 1250 0000 0001 2300 695 (27 characters in Greece);
+    //the spaces of the printed form are allowed
+    std::string iban;
 
-    if (!std::regex_match(text, std::regex("^[A-Z0-9]+"))) return false;
-    
-    std::string temp = text.substr(4, 18) + text.substr(0, 4);
+    for (char c : text) {
+        if (c != ' ') iban += c;
+    }
 
-    constexpr int asciiShift = 55;
+    //country code, check digits, account number of up to 30 characters
+    if (!std::regex_match(iban, std::regex("^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$"))) return false;
 
-    std::ostringstream stream;
+    //the first 4 characters are moved to the end, letters become 10..35, the number modulo 97 must be 1
+    std::string rearranged = iban.substr(4) + iban.substr(0, 4);
 
-    for(char c : temp)
+    int remainder = 0;
+
+    for (char c : rearranged)
     {
-        if (!std::isdigit(c)) {
-            stream << static_cast<int>(c - asciiShift);
+        if (std::isdigit(static_cast<unsigned char>(c))) {
+            remainder = (remainder * 10 + (c - '0')) % 97;
         }
         else {
-            stream << c;
+            int value = c - 'A' + 10;
+            remainder = (remainder * 100 + value) % 97;
         }
     }
 
-    temp = stream.str();
-
-    constexpr int charToIntOffset = 48;
-
-    int checksum = static_cast<int>(temp[0] - 48);
-
-    for (int i = 1; i < temp.size(); i++)
-    {
-        int v = static_cast<int>(temp[i] - 48);
-        checksum *= 10;
-        checksum += v;
-        checksum %= 97;
-    }
-
-    return checksum == 1;
+    return remainder == 1;
 }
 
 bool BICValidator::validateInput(const std::string& text)
@@ -58,7 +51,8 @@ bool BICValidator::validateInput(const std::string& text)
     //allow empty
     if (text.empty()) return true;
 
-    if (text.size() != 8) return false;
+    //8 characters, or 11 with the branch code (e.g. ETHNGRAA, ETHNGRAAXXX)
+    if (text.size() != 8 && text.size() != 11) return false;
 
     return std::regex_match(text, std::regex("^[A-Z0-9]+"));
 }

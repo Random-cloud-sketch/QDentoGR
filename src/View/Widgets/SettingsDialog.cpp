@@ -15,6 +15,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbDiagnosis.h"
 #include "View/Widgets/AboutDialog.h"
+#include "View/uiComponents/UpperCaseValidator.h"
 
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
@@ -46,6 +47,10 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	ui.ibanEdit->setErrorLabel(ui.errorLabel);
 	ui.bicEdit->setErrorLabel(ui.errorLabel);
+
+	//IBAN and BIC are written in capital letters
+	UpperCaseValidator::install(ui.ibanEdit);
+	UpperCaseValidator::install(ui.bicEdit);
 
 	//dentist validators
 	ui.fNameEdit->setInputValidator(&not_empty_validator);
@@ -349,7 +354,8 @@ bool SettingsDialog::allFieldsAreValid()
 
 		if(!field->validateInput()) {
 
-			ui.tabWidget->setCurrentWidget(i < 2 ? ui.practiceSettings : ui.companySettings);
+			//IBAN and BIC are in the invoice data, the names in the dentist data
+			ui.tabWidget->setCurrentWidget(i < 2 ? ui.companySettings : ui.doctorSettings);
 
 			field->set_focus();	
 			return false;

@@ -1615,7 +1615,7 @@
         <translation>Μη έγκυρο IBAN</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+39"/>
         <source>Invalid BIC(SWIFT)</source>
         <translation>Μη έγκυρο BIC (SWIFT)</translation>
     </message>
@@ -5380,7 +5380,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Αποτελέσματα: </translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+103"/>
+        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+108"/>
         <location line="+8"/>
         <location line="+52"/>
         <source>Changes will take effect after restart</source>
@@ -5711,12 +5711,12 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="-113"/>
+        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="-117"/>
         <source>Settings</source>
         <translation>Ρυθμίσεις</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+152"/>
         <source>Required fields of a new patient</source>
         <translation>Υποχρεωτικά πεδία νέου ασθενή</translation>
     </message>
