@@ -4,6 +4,7 @@
 #include "Model/AppointmentOverlap.h"
 #include <QString>
 #include <QDate>
+#include <QMetaObject>
 
 class CalendarView;
 class TabView;
@@ -45,6 +46,13 @@ class CalendarPresenter : public TabInstance
 	//marks the days with appointments in the month navigator of the view
 	void refreshBusyDays();
 
+	//the appointments were changed in QDento: Google Calendar synchronization
+	void appointmentsWritten();
+
+	//connections to the Google Calendar synchronization (removed with the presenter)
+	std::vector<QMetaObject::Connection> m_syncConnections;
+	bool m_refreshWhenShown{ false };
+
 public:
 
 	CalendarPresenter(TabView* view);
@@ -72,6 +80,7 @@ public:
 	void navigatorMonthsChanged();
 	void rescheduleEvent(int index, const QDateTime& start, const QDateTime& end, bool moved);
 	void undoLastChange();
+	void createGoogleEventAgain(int index);
 
 	~CalendarPresenter();
 };

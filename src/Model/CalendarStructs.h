@@ -12,6 +12,8 @@ struct CalendarEvent
 	std::string summary;
 	std::string description;
 	std::string phone; //10 digits or empty
+	//synchronization with Google Calendar: synced, pending_create, pending_update, error, unlinked (empty: never)
+	std::string googleStatus;
 	QDateTime start;
 	QDateTime end;
 	

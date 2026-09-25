@@ -54,4 +54,25 @@ namespace GlobalSettings
 	//not configured yet: the fields which were already required (names and date of birth)
 	bool isFieldRequired(const std::string& field);
 	void setFieldRequired(const std::string& field, bool required);
+
+	//Google Calendar synchronization ("google_calendar" in config.json; the OAuth tokens are never stored here)
+	struct GoogleCalendar
+	{
+		bool enabled{ false };		//connected and a calendar is chosen
+		std::string accountEmail;
+		std::string calendarId;
+		std::string calendarName;
+		bool autoSync{ true };
+		long long dentistRowid{ 0 };	//the appointments of this dentist are synchronized
+
+		//only for testing against a local mock of the Google services (empty: the real Google addresses)
+		std::string testApiUrl;
+		std::string testOAuthUrl;
+	};
+
+	GoogleCalendar getGoogleCalendar();
+	void setGoogleCalendar(const GoogleCalendar& settings);
+
+	//folder of config.json (logs of the program are written there)
+	std::string getDataFolder();
 }

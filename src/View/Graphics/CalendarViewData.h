@@ -26,6 +26,9 @@ private:
 
 		bool hasPatient = false;
 
+		//Google Calendar synchronization state (invalid: not shown)
+		QColor syncColor;
+
 		QPixmap px = {};
 
 		void setCellSize(int cell_width, int cell_height);
@@ -73,6 +76,9 @@ public:
 	CalendarViewData();
 
 	void setEvents(const std::vector<CalendarEvent>& eventsList, const CalendarEvent& clipboardEvent);
+
+	//a small dot on each appointment shows its Google Calendar synchronization state
+	static inline bool showGoogleSync = false;
 
 	//the shown part of the day: first minute of the first row and number of 15 minute rows
 	void setTimeRange(int firstMinute, int rowCount);

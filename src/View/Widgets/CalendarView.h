@@ -88,6 +88,8 @@ public:
     //other appointments shortened or deleted because they overlapped a new / changed one
     void showOverlapNotice(int shortened, int removed);
     void showUndoneNotice();
+    //message of the Google Calendar synchronization (e.g. an event was deleted in Google)
+    void showSyncNotice(const QString& text);
     void hideChangeNotice();
 
     ~CalendarView();

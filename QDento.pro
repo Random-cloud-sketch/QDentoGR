@@ -8,6 +8,9 @@ DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
 INCLUDEPATH += $$PWD/src
 INCLUDEPATH += $$PWD/include #for jsoncpp and sqlite3
+
+#Windows Credential Manager (Google Calendar authorization)
+win32: LIBS += -ladvapi32
 INCLUDEPATH += $$PWD/include/json
 INCLUDEPATH += $$PWD/include/sqlite3
 INCLUDEPATH += $$DEPFOLDER/include
@@ -28,6 +31,14 @@ HEADERS += \
     include/sqLite3/sqlite3.h \
     include/sqLite3/sqlite3ext.h \
     src/Database/Database.h \
+    src/Database/DbGoogleCalendar.h \
+    src/GoogleCalendar/GoogleCalendarLog.h \
+    src/GoogleCalendar/CredentialStore.h \
+    src/GoogleCalendar/GoogleOAuth.h \
+    src/GoogleCalendar/GoogleCalendarApi.h \
+    src/GoogleCalendar/GoogleCalendarSync.h \
+    src/GoogleCalendar/GoogleCalendarSettingsWidget.h \
+    src/GoogleCalendar/GoogleClientConfig.example.h \
     src/Database/DbAppointment.h \
     src/Database/DbBrowser.h \
     src/Database/DbCompany.h \
@@ -247,6 +258,13 @@ SOURCES += \
     include/json/jsoncpp.cpp \
     include/sqLite3/sqlite3.c \
     src/Database/Database.cpp \
+    src/Database/DbGoogleCalendar.cpp \
+    src/GoogleCalendar/GoogleCalendarLog.cpp \
+    src/GoogleCalendar/CredentialStore.cpp \
+    src/GoogleCalendar/GoogleOAuth.cpp \
+    src/GoogleCalendar/GoogleCalendarApi.cpp \
+    src/GoogleCalendar/GoogleCalendarSync.cpp \
+    src/GoogleCalendar/GoogleCalendarSettingsWidget.cpp \
     src/Database/DbAppointment.cpp \
     src/Database/DbBrowser.cpp \
     src/Database/DbCompany.cpp \

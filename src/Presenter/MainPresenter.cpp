@@ -1,4 +1,5 @@
 ﻿#include "MainPresenter.h"
+#include "GoogleCalendar/GoogleCalendarSync.h"
 
 
 #include "Model/User.h"
@@ -56,6 +57,9 @@ void MainPresenter::setView(QDento* view)
 
     //the application starts in the calendar
     openCalendar();
+
+    //Google Calendar synchronization of the appointments (if it is connected)
+    GoogleCalendarSync::get().start();
 }
 
 void MainPresenter::newAmbPressed()
@@ -162,6 +166,8 @@ void MainPresenter::logOut()
     view->setNotificationIcon(DbNotification::hasNotifications());
 
     openCalendar();
+
+    GoogleCalendarSync::get().start();
 }
 
 void MainPresenter::userSettingsPressed()

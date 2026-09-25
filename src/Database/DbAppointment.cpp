@@ -2,9 +2,15 @@
 #include "Database/Database.h"
 #include "Model/UpperCase.h"
 
+//a changed appointment which is linked to a Google Calendar event is sent again by the next synchronization
+//(whether it really changed is decided there by comparing with the synchronized state)
+#define GOOGLE_PENDING_UPDATE 	"google_sync_status = CASE WHEN IFNULL(google_event_id, '') <> '' AND IFNULL(google_sync_status, '') <> 'unlinked' " 	"THEN 'pending_update' ELSE google_sync_status END, google_sync_origin = 'qdento'"
+
 long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 {
-	auto query = "INSERT INTO appointment (dentist_rowid, patient_rowid, start, end, summary, description, phone) VALUES (?,?,?,?,?,?,?)";
+	//a new appointment is sent to Google Calendar by the next synchronization (when it is connected)
+	auto query = "INSERT INTO appointment (dentist_rowid, patient_rowid, start, end, summary, description, phone, "
+		"google_sync_status, google_sync_origin) VALUES (?,?,?,?,?,?,?,'pending_create','qdento')";
 
 	Db db(query);
 
@@ -23,7 +29,8 @@ long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 
 void DbAppointment::update(const CalendarEvent& e)
 {
-	auto query = "UPDATE appointment SET patient_rowid=?, start=?, end=?, summary=?, description=?, phone=? WHERE rowid=?";
+	auto query = "UPDATE appointment SET patient_rowid=?, start=?, end=?, summary=?, description=?, phone=?, "
+		GOOGLE_PENDING_UPDATE " WHERE rowid=?";
 
 	Db db(query);
 
@@ -41,7 +48,7 @@ void DbAppointment::update(const CalendarEvent& e)
 
 bool DbAppointment::updateTime(long long rowid, const QDateTime& start, const QDateTime& end)
 {
-	Db db("UPDATE appointment SET start=?, end=? WHERE rowid=?");
+	Db db("UPDATE appointment SET start=?, end=?, " GOOGLE_PENDING_UPDATE " WHERE rowid=?");
 
 	db.bind(1, start.toString(Qt::ISODate).toStdString());
 	db.bind(2, end.toString(Qt::ISODate).toStdString());
@@ -64,7 +71,7 @@ std::vector<CalendarEvent> DbAppointment::get(const QDate& from, const QDate& to
 	auto fromDate = from.toString(Qt::ISODate).toStdString();
 	auto toDate = to.toString(Qt::ISODate).toStdString();
 
-	auto query = "SELECT rowid, patient_rowid, start, end, summary, description, phone FROM appointment WHERE dentist_rowid =? AND strftime('%Y-%m-%d', start) BETWEEN ? AND ? ORDER BY start ASC";
+	auto query = "SELECT rowid, patient_rowid, start, end, summary, description, phone, IFNULL(google_sync_status, '') FROM appointment WHERE dentist_rowid =? AND strftime('%Y-%m-%d', start) BETWEEN ? AND ? ORDER BY start ASC";
 
 	Db db(query);
 
@@ -85,6 +92,7 @@ std::vector<CalendarEvent> DbAppointment::get(const QDate& from, const QDate& to
 		e.summary = db.asString(4);
 		e.description = db.asString(5);
 		e.phone = db.asString(6);
+		e.googleStatus = db.asString(7);
 
 		result.push_back(e);
 	}

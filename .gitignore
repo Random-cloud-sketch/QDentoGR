@@ -365,3 +365,6 @@ FodyWeavers.xsd
 /build/Qt_6_8_3-Release
 /installer/compiled
 /installer/files
+
+# Google Calendar OAuth client of this installation (see GoogleClientConfig.example.h)
+src/GoogleCalendar/GoogleClientConfig.h

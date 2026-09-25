@@ -37,12 +37,12 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.8.3_msvc2022_64</QtInstall>
-    <QtModules>core;gui;network;widgets</QtModules>
+    <QtModules>core;gui;network;networkauth;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.8.3_msvc2022_64</QtInstall>
-    <QtModules>core;gui;network;widgets</QtModules>
+    <QtModules>core;gui;network;networkauth;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -108,6 +108,13 @@
     <ClCompile Include="include\json\jsoncpp.cpp" />
     <ClCompile Include="include\sqLite3\sqlite3.c" />
     <ClCompile Include="src\Database\Database.cpp" />
+    <ClCompile Include="src\Database\DbGoogleCalendar.cpp" />
+    <ClCompile Include="src\GoogleCalendar\GoogleCalendarLog.cpp" />
+    <ClCompile Include="src\GoogleCalendar\CredentialStore.cpp" />
+    <ClCompile Include="src\GoogleCalendar\GoogleOAuth.cpp" />
+    <ClCompile Include="src\GoogleCalendar\GoogleCalendarApi.cpp" />
+    <ClCompile Include="src\GoogleCalendar\GoogleCalendarSync.cpp" />
+    <ClCompile Include="src\GoogleCalendar\GoogleCalendarSettingsWidget.cpp" />
     <ClCompile Include="src\Database\DbAppointment.cpp" />
     <ClCompile Include="src\Database\DbDentalVisit.cpp" />
     <ClCompile Include="src\Database\DbBrowser.cpp" />
@@ -302,6 +309,14 @@
     <ClInclude Include="include\json\json.h" />
     <ClInclude Include="include\sqLite3\sqlite3.h" />
     <ClInclude Include="src\Database\Database.h" />
+    <ClInclude Include="src\Database\DbGoogleCalendar.h" />
+    <ClInclude Include="src\GoogleCalendar\GoogleCalendarLog.h" />
+    <ClInclude Include="src\GoogleCalendar\CredentialStore.h" />
+    <ClInclude Include="src\GoogleCalendar\GoogleOAuth.h" />
+    <ClInclude Include="src\GoogleCalendar\GoogleCalendarApi.h" />
+    <ClInclude Include="src\GoogleCalendar\GoogleCalendarSync.h" />
+    <ClInclude Include="src\GoogleCalendar\GoogleCalendarSettingsWidget.h" />
+    <ClInclude Include="src\GoogleCalendar\GoogleClientConfig.example.h" />
     <ClInclude Include="src\Database\DbAppointment.h" />
     <ClInclude Include="src\Database\DbDentalVisit.h" />
     <ClInclude Include="src\Database\DbBrowser.h" />

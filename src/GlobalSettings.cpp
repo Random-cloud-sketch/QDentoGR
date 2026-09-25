@@ -243,6 +243,53 @@ void GlobalSettings::setFieldRequired(const std::string& field, bool required)
     rewriteCfg(settings);
 }
 
+GlobalSettings::GoogleCalendar GlobalSettings::getGoogleCalendar()
+{
+    auto settings = getSettingsAsJson();
+
+    GoogleCalendar g;
+
+    if (!settings.isMember("google_calendar") || !settings["google_calendar"].isObject()) return g;
+
+    auto& s = settings["google_calendar"];
+
+    g.enabled = s.get("enabled", false).asBool();
+    g.accountEmail = s.get("account_email", "").asString();
+    g.calendarId = s.get("calendar_id", "").asString();
+    g.calendarName = s.get("calendar_name", "").asString();
+    g.autoSync = s.get("auto_sync", true).asBool();
+    g.dentistRowid = s.get("dentist_rowid", 0).asInt64();
+    g.testApiUrl = s.get("test_api_url", "").asString();
+    g.testOAuthUrl = s.get("test_oauth_url", "").asString();
+
+    return g;
+}
+
+void GlobalSettings::setGoogleCalendar(const GoogleCalendar& g)
+{
+    auto settings = getSettingsAsJson();
+
+    auto& s = settings["google_calendar"];
+
+    s["enabled"] = g.enabled;
+    s["account_email"] = g.accountEmail;
+    s["calendar_id"] = g.calendarId;
+    s["calendar_name"] = g.calendarName;
+    s["auto_sync"] = g.autoSync;
+    s["dentist_rowid"] = static_cast<Json::Int64>(g.dentistRowid);
+
+    //the test addresses are only kept when they were set by hand
+    if (g.testApiUrl.size()) s["test_api_url"] = g.testApiUrl; else s.removeMember("test_api_url");
+    if (g.testOAuthUrl.size()) s["test_oauth_url"] = g.testOAuthUrl; else s.removeMember("test_oauth_url");
+
+    rewriteCfg(settings);
+}
+
+std::string GlobalSettings::getDataFolder()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).toStdString();
+}
+
 bool GlobalSettings::isADANum()
 {
     return getSettingsAsJson()["is_ADA"].asBool();

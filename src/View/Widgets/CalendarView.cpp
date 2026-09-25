@@ -157,6 +157,7 @@ CalendarView::CalendarView(QWidget* parent)
     connect(ui.calendarTable, &CalendarTable::eventEditRequested, this, [&](int index) { presenter->editEvent(index);});
     connect(ui.calendarTable, &CalendarTable::eventAddRequested, this, [&](const QTime& t, int daysFromMonday, int duration) { presenter->addEvent(t, daysFromMonday, duration); });
     connect(ui.calendarTable, &CalendarTable::deleteEventRequested, this, [&](int eventIdx) { presenter->deleteEvent(eventIdx); });
+    connect(ui.calendarTable, &CalendarTable::googleEventAgainRequested, this, [&](int eventIdx) { presenter->createGoogleEventAgain(eventIdx); });
     connect(ui.calendarTable, &CalendarTable::moveEventRequested, this, [&](int index) { presenter->moveEvent(index); });
     connect(ui.calendarTable, &CalendarTable::operationCanceled, this, [&] { presenter->clearClipboard(); });
     connect(ui.calendarTable, &CalendarTable::eventDurationChange, this, [&](int eventIdx, int duration) { presenter->durationChange(eventIdx, duration); });
@@ -689,6 +690,11 @@ void CalendarView::showChangeNotice(const QDateTime& start, const QDateTime& end
     if (overlaps.size()) text += " - " + overlaps;
 
     showNotice(text, true);
+}
+
+void CalendarView::showSyncNotice(const QString& text)
+{
+    showNotice(text, false, 8000);
 }
 
 void CalendarView::showUndoneNotice()

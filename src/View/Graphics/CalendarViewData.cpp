@@ -29,6 +29,16 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 		auto entity = std::make_shared<EventEntity>();
 
 		entity->hasPatient = event.patient_rowid;
+
+		if (showGoogleSync)
+		{
+			auto& s = event.googleStatus;
+
+			if (s == "synced") entity->syncColor = QColor(46, 160, 110);
+			else if (s == "pending_create" || s == "pending_update") entity->syncColor = QColor(230, 160, 40);
+			else if (s == "error") entity->syncColor = QColor(200, 50, 40);
+			else if (s == "unlinked") entity->syncColor = QColor(150, 150, 150);
+		}
 		
 		if (entity->hasPatient) {
 
@@ -259,7 +269,17 @@ void CalendarViewData::EventEntity::paintPixmap()
 	//short appointments in the compact (30 / 60 minute) grid have little room for the text
 	int textTop = eventHeight < 24 ? 1 : 4;
 
-	QRect textRect(5, textTop, cell_width-10, eventHeight-textTop-2);
+	//room for the synchronization dot
+	int syncRoom = syncColor.isValid() ? 8 : 0;
+
+	QRect textRect(5, textTop, cell_width - 10 - syncRoom, eventHeight-textTop-2);
+
+	if (syncColor.isValid()) {
+		p.setPen(Qt::NoPen);
+		p.setBrush(syncColor);
+		p.drawEllipse(QPointF(cell_width - 9, textTop + 5), 3, 3);
+		p.setBrush(Qt::NoBrush);
+	}
 
 	p.setRenderHint(QPainter::RenderHint::TextAntialiasing);
 

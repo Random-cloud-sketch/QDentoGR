@@ -9,6 +9,8 @@
 #include "Presenter/TabPresenter.h"
 #include "Presenter/PatientDialogPresenter.h"
 #include "Model/TableRows.h"
+#include "GoogleCalendar/GoogleCalendarSync.h"
+#include "View/Graphics/CalendarViewData.h"
 
 CalendarPresenter::CalendarPresenter(TabView* tabView) :
     TabInstance(tabView, TabType::Calendar, nullptr),
@@ -20,6 +22,22 @@ CalendarPresenter::CalendarPresenter(TabView* tabView) :
 
     //opening the calendar shows the current time / the start of the working day
     view->requestScrollToWorkingTime();
+
+    //changes made in Google Calendar are shown at once (or when the calendar is shown again)
+    auto& sync = GoogleCalendarSync::get();
+
+    m_syncConnections.push_back(QObject::connect(&sync, &GoogleCalendarSync::appointmentsChanged, [this] {
+
+        //the appointments may have been changed in Google: the last drag and drop cannot be undone any more
+        clearUndo();
+
+        if (isCurrent()) refreshView();
+        else m_refreshWhenShown = true;
+    }));
+
+    m_syncConnections.push_back(QObject::connect(&sync, &GoogleCalendarSync::notice, [this](const QString& text) {
+        if (isCurrent()) view->showSyncNotice(text);
+    }));
 
     refreshView();
 
@@ -35,6 +53,23 @@ void CalendarPresenter::newAppointment(const CalendarEvent& event)
 void CalendarPresenter::setDataToView()
 {
     view->setCalendarPresenter(this);
+
+    if (m_refreshWhenShown) {
+        m_refreshWhenShown = false;
+        refreshView();
+    }
+}
+
+void CalendarPresenter::appointmentsWritten()
+{
+    GoogleCalendarSync::get().localChange();
+}
+
+void CalendarPresenter::createGoogleEventAgain(int index)
+{
+    if (index < 0 || index >= int(events.size())) return;
+
+    GoogleCalendarSync::get().createAgain(events[index].rowid);
 }
 
 TabName CalendarPresenter::getTabName()
@@ -134,6 +169,7 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
         //the appointment is linked to the patient, so next time the patient opens directly
         event.patient_rowid = result->rowid;
         DbAppointment::update(event);
+        appointmentsWritten();
     }
 
     TabPresenter::get().open(tab, true);
@@ -153,6 +189,7 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
     if (clipboard_event.rowid) { //existing event
         DbAppointment::update(clipboard_event);
         auto overlaps = resolveOverlaps(clipboard_event);
+        appointmentsWritten();
         clipboard_event = CalendarEvent{};
         refreshView();
         showOverlapNotice(overlaps);
@@ -168,6 +205,8 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
     newEvent.rowid = DbAppointment::insert(newEvent, User::dentist().rowID);
 
     auto overlaps = newEvent.rowid ? resolveOverlaps(newEvent) : std::vector<AppointmentOverlap::Change>{};
+
+    appointmentsWritten();
 
     refreshView();
 
@@ -188,6 +227,8 @@ void CalendarPresenter::editEvent(int index)
 
     auto overlaps = resolveOverlaps(d.result());
 
+    appointmentsWritten();
+
     refreshView();
 
     showOverlapNotice(overlaps);
@@ -198,6 +239,8 @@ void CalendarPresenter::deleteEvent(int index)
     clearUndo();
 
     DbAppointment::remove(events[index].rowid);
+
+    appointmentsWritten();
 
     refreshView();
 }
@@ -221,6 +264,8 @@ void CalendarPresenter::durationChange(int eventIdx, int duration)
 
     auto overlaps = resolveOverlaps(event);
 
+    appointmentsWritten();
+
     refreshView();
 
     showOverlapNotice(overlaps);
@@ -232,7 +277,9 @@ void CalendarPresenter::cancelMove()
 }
 
 CalendarPresenter::~CalendarPresenter()
-{}
+{
+    for (auto& c : m_syncConnections) QObject::disconnect(c);
+}
 
 std::pair<QDate, QDate> CalendarPresenter::getTodaysWeek()
 {
@@ -246,6 +293,8 @@ void CalendarPresenter::refreshView()
     view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
 
     events = DbAppointment::get(shownWeek.first, shownWeek.second, User::dentist().rowID);
+
+    CalendarViewData::showGoogleSync = GoogleCalendarSync::get().isEnabled();
 
     view->setEventList(events, clipboard_event);
 
@@ -270,6 +319,8 @@ void CalendarPresenter::rescheduleEvent(int index, const QDateTime& start, const
     changed.end = end;
 
     undo.overlaps = resolveOverlaps(changed);
+
+    appointmentsWritten();
 
     m_undo = undo;
 
@@ -305,6 +356,8 @@ void CalendarPresenter::undoLastChange()
             DbAppointment::updateTime(c.before.rowid, c.before.start, c.before.end);
         }
     }
+
+    appointmentsWritten();
 
     refreshView();
 

@@ -16,6 +16,7 @@
 #include "Database/DbDiagnosis.h"
 #include "View/Widgets/AboutDialog.h"
 #include "View/uiComponents/UpperCaseValidator.h"
+#include "GoogleCalendar/GoogleCalendarSettingsWidget.h"
 
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
@@ -207,6 +208,9 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		//after "Translation file", before the spacer
 		ui.verticalLayout_3->insertWidget(2, group);
 	}
+
+	//Google Calendar synchronization of the appointments
+	ui.tabWidget->addTab(new GoogleCalendarSettingsWidget(ui.tabWidget), "Google Calendar");
 
 	//About QDento: the existing content, shown as the last page of the settings
 	auto about = new AboutDialog(ui.tabWidget);

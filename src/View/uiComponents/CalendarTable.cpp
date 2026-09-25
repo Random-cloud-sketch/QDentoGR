@@ -9,6 +9,8 @@
 #include <QPainterPath>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QHelpEvent>
+#include <QToolTip>
 #include <QTimer>
 #include <QLocale>
 #include <QKeyEvent>
@@ -173,6 +175,37 @@ CalendarTable::CalendarTable(QWidget* parent) : QTableView(parent)
             m_data.setPixelRatio(devicePixelRatioF());
             m_data.setCellSize(logicalIndex, newSize, unitHeight());
         });
+}
+
+bool CalendarTable::viewportEvent(QEvent* event)
+{
+    //the Google Calendar synchronization state of the appointment under the mouse
+    if (event->type() == QEvent::ToolTip && CalendarViewData::showGoogleSync)
+    {
+        auto help = static_cast<QHelpEvent*>(event);
+        auto index = indexAt(help->pos());
+        int eventIdx = index.isValid() ? m_data.eventListIndex(index.column(), index.row()) : -1;
+
+        if (eventIdx >= 0 && eventIdx < int(m_events.size()))
+        {
+            auto& s = m_events[eventIdx].googleStatus;
+
+            QString text =
+                s == "synced" ? tr("Synchronized with Google Calendar") :
+                s == "pending_create" || s == "pending_update" ? tr("Waiting for synchronization with Google Calendar") :
+                s == "error" ? tr("Google Calendar synchronization error") :
+                s == "unlinked" ? tr("The Google Calendar event of this appointment was deleted") :
+                tr("Not synchronized with Google Calendar");
+
+            QToolTip::showText(help->globalPos(), text, viewport());
+            return true;
+        }
+
+        QToolTip::hideText();
+        return true;
+    }
+
+    return QTableView::viewportEvent(event);
 }
 
 void CalendarTable::leaveEvent(QEvent* event)
@@ -454,6 +487,14 @@ void CalendarTable::menuRequested(int column, int row)
         action->setIcon(QIcon(":/icons/icon_calendar.png"));
         context_menu->addAction(action);
   
+        //the Google Calendar event of the appointment was deleted
+        if (CalendarViewData::showGoogleSync && eventIdx < int(m_events.size()) && m_events[eventIdx].googleStatus == "unlinked")
+        {
+            action = (new QAction(tr("Create again in Google Calendar"), context_menu));
+            connect(action, &QAction::triggered, context_menu, [=, this] { emit googleEventAgainRequested(eventIdx); });
+            context_menu->addAction(action);
+        }
+
         action = (new QAction(tr("Cancel"), context_menu));
         action->setIcon(QIcon(":/icons/icon_remove.png"));
         connect(action, &QAction::triggered, context_menu, [=, this] {

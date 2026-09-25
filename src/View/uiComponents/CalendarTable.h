@@ -85,6 +85,7 @@ class CalendarTable : public QTableView
 	int m_slotMinutes = 15;
 
 	void leaveEvent(QEvent* event) override;
+	bool viewportEvent(QEvent* event) override;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
@@ -178,6 +179,8 @@ signals:
 	void eventDurationChange(int eventIndx, int minDuration);
 	//the appointment was dragged to another time or resized
 	void eventTimeChangeRequested(int eventIdx, const QDateTime& start, const QDateTime& end, bool moved);
+	//the Google Calendar event of the appointment was deleted: a new one is requested
+	void googleEventAgainRequested(int eventIdx);
 	void operationCanceled();
 
 };

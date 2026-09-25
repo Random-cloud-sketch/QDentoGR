@@ -1,0 +1,12 @@
+ALTER TABLE appointment ADD COLUMN google_calendar_id TEXT;
+ALTER TABLE appointment ADD COLUMN google_event_id TEXT;
+ALTER TABLE appointment ADD COLUMN google_event_etag TEXT;
+ALTER TABLE appointment ADD COLUMN google_event_updated TEXT;
+ALTER TABLE appointment ADD COLUMN google_sync_status TEXT;
+ALTER TABLE appointment ADD COLUMN google_sync_origin TEXT;
+ALTER TABLE appointment ADD COLUMN google_last_sync_hash TEXT;
+CREATE TABLE IF NOT EXISTS google_calendar_state (key TEXT PRIMARY KEY NOT NULL, value TEXT);
+INSERT OR IGNORE INTO google_calendar_state (key, value) VALUES ('database_id', lower(hex(randomblob(16))));
+CREATE TABLE IF NOT EXISTS google_calendar_deleted (rowid INTEGER PRIMARY KEY, calendar_id TEXT NOT NULL, event_id TEXT NOT NULL);
+CREATE TRIGGER IF NOT EXISTS appointment_google_deleted AFTER DELETE ON appointment WHEN IFNULL(OLD.google_event_id, '') <> '' AND IFNULL(OLD.google_sync_status, '') <> 'unlinked' BEGIN INSERT INTO google_calendar_deleted (calendar_id, event_id) VALUES (IFNULL(OLD.google_calendar_id, ''), OLD.google_event_id); END;
+PRAGMA user_version=8;

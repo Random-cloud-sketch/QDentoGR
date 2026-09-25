@@ -575,6 +575,27 @@
     <ClCompile Include="src\View\Widgets\MultilineDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Database\DbGoogleCalendar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoogleCalendar\GoogleCalendarLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoogleCalendar\CredentialStore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoogleCalendar\GoogleOAuth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoogleCalendar\GoogleCalendarApi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoogleCalendar\GoogleCalendarSync.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoogleCalendar\GoogleCalendarSettingsWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Database\DbAppointment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -974,6 +995,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Validators\FinancialValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbGoogleCalendar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoogleCalendar\GoogleCalendarLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoogleCalendar\CredentialStore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoogleCalendar\GoogleOAuth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoogleCalendar\GoogleCalendarApi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoogleCalendar\GoogleCalendarSync.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoogleCalendar\GoogleCalendarSettingsWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoogleCalendar\GoogleClientConfig.example.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbAppointment.h">

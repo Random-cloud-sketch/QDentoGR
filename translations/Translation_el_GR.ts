@@ -318,7 +318,32 @@
 <context>
     <name>CalendarTable</name>
     <message>
-        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+375"/>
+        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+194"/>
+        <source>Synchronized with Google Calendar</source>
+        <translation>Συγχρονισμένο με Google Calendar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Waiting for synchronization with Google Calendar</source>
+        <translation>Εκκρεμεί συγχρονισμός με Google Calendar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Google Calendar synchronization error</source>
+        <translation>Σφάλμα συγχρονισμού με Google Calendar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The Google Calendar event of this appointment was deleted</source>
+        <translation>Το αντίστοιχο Google Calendar ραντεβού διαγράφηκε</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Not synchronized with Google Calendar</source>
+        <translation>Δεν έχει συγχρονιστεί με Google Calendar</translation>
+    </message>
+    <message>
+        <location line="+210"/>
         <source>15 min.</source>
         <translation>15 λεπτά</translation>
     </message>
@@ -393,6 +418,11 @@
         <translation>Προγραμματισμός επόμενου ραντεβού</translation>
     </message>
     <message>
+        <location line="+8"/>
+        <source>Create again in Google Calendar</source>
+        <translation>Δημιουργία ξανά στο Google Calendar</translation>
+    </message>
+    <message>
         <location line="+5"/>
         <location line="+24"/>
         <source>Cancel</source>
@@ -448,7 +478,7 @@
         <translation>TextLabel</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/CalendarView.cpp" line="+186"/>
+        <location filename="../src/View/Widgets/CalendarView.cpp" line="+187"/>
         <source>Undo</source>
         <translation>Αναίρεση</translation>
     </message>
@@ -628,7 +658,7 @@
         <translation>Η διάρκεια του ραντεβού άλλαξε: %1 - %2</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+16"/>
         <source>The change was undone</source>
         <translation>Η αλλαγή αναιρέθηκε</translation>
     </message>
@@ -636,7 +666,7 @@
 <context>
     <name>CalendarViewData</name>
     <message>
-        <location filename="../src/View/Graphics/CalendarViewData.cpp" line="+41"/>
+        <location filename="../src/View/Graphics/CalendarViewData.cpp" line="+51"/>
         <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+320"/>
         <source>TEL.</source>
         <translation>ΤΗΛ.</translation>
@@ -1551,6 +1581,351 @@
         <location filename="../src/View/Widgets/FinancialView.cpp" line="+180"/>
         <source>VAT</source>
         <translation>ΦΠΑ</translation>
+    </message>
+</context>
+<context>
+    <name>GoogleCalendarApi</name>
+    <message>
+        <location filename="../src/GoogleCalendar/GoogleCalendarApi.cpp" line="+160"/>
+        <source>Google Calendar could not be reached. Check the internet connection.</source>
+        <translation>Δεν ήταν δυνατή η σύνδεση με το Google Calendar. Ελέγξτε τη σύνδεση στο διαδίκτυο.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The connection to Google Calendar needs to be authorized again.</source>
+        <translation>Η σύνδεση με το Google Calendar χρειάζεται επανεξουσιοδότηση.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>There is no permission to change this Google calendar.</source>
+        <translation>Δεν υπάρχει δικαίωμα αλλαγών σε αυτό το ημερολόγιο Google.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The Google calendar or event was not found.</source>
+        <translation>Το ημερολόγιο ή το ραντεβού δεν βρέθηκε στο Google Calendar.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The Google calendar data changed; a full synchronization is needed.</source>
+        <translation>Τα δεδομένα του Google Calendar άλλαξαν· χρειάζεται πλήρης συγχρονισμός.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The event was changed in Google Calendar in the meantime.</source>
+        <translation>Το ραντεβού άλλαξε στο μεταξύ στο Google Calendar.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Google Calendar is busy. The synchronization will be repeated later.</source>
+        <translation>Το Google Calendar είναι απασχολημένο. Ο συγχρονισμός θα επαναληφθεί αργότερα.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Google Calendar is temporarily unavailable.</source>
+        <translation>Το Google Calendar δεν είναι προσωρινά διαθέσιμο.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Google Calendar returned unexpected data.</source>
+        <translation>Το Google Calendar επέστρεψε μη αναμενόμενα δεδομένα.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Google Calendar synchronization error.</source>
+        <translation>Σφάλμα συγχρονισμού με το Google Calendar.</translation>
+    </message>
+</context>
+<context>
+    <name>GoogleCalendarSettingsWidget</name>
+    <message>
+        <location filename="../src/GoogleCalendar/GoogleCalendarSettingsWidget.cpp" line="+28"/>
+        <source>Google account:</source>
+        <translation>Google λογαριασμός:</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Connection:</source>
+        <translation>Σύνδεση:</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Disconnect Google</source>
+        <translation>Αποσύνδεση Google</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Choose a calendar</source>
+        <translation>Επιλέξτε ημερολόγιο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Calendar:</source>
+        <translation>Ημερολόγιο:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Automatic synchronization</source>
+        <translation>Αυτόματος συγχρονισμός</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Every 5 minutes, when QDento starts and after every change of an appointment</source>
+        <translation>Κάθε 5 λεπτά, κατά την εκκίνηση του QDento και μετά από κάθε αλλαγή ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Synchronize now</source>
+        <translation>Συγχρονισμός τώρα</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Last synchronization:</source>
+        <translation>Τελευταίος συγχρονισμός:</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Status:</source>
+        <translation>Κατάσταση:</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Only the name and the time of each appointment are sent to Google Calendar, never medical or financial information. New events of Google Calendar become appointments and events deleted in Google Calendar delete their appointment.</source>
+        <translation>Στο Google Calendar αποστέλλονται μόνο το όνομα και η ώρα κάθε ραντεβού, ποτέ ιατρικά ή οικονομικά στοιχεία. Τα νέα ραντεβού του Google Calendar προστίθενται στο QDento και όσα διαγράφονται στο Google Calendar διαγράφονται και από το QDento.</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Disconnect QDento from Google Calendar?</source>
+        <translation>Αποσύνδεση του QDento από το Google Calendar;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The appointments of QDento and the events of Google Calendar are not deleted.</source>
+        <translation>Τα ραντεβού του QDento και του Google Calendar δεν διαγράφονται.</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>(main)</source>
+        <translation>(κύριο)</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Google Calendar is not set up in this copy of QDento (no OAuth client).</source>
+        <translation>Το Google Calendar δεν έχει ρυθμιστεί σε αυτό το αντίγραφο του QDento (δεν υπάρχει OAuth client).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+19"/>
+        <source>Connect with Google</source>
+        <translation>Σύνδεση με Google</translation>
+    </message>
+    <message>
+        <location line="-5"/>
+        <source>Needs authorization again</source>
+        <translation>Χρειάζεται επανεξουσιοδότηση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Connected</source>
+        <translation>Συνδεδεμένο</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Not connected</source>
+        <translation>Μη συνδεδεμένο</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Cancel sign-in</source>
+        <translation>Ακύρωση σύνδεσης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Connect again</source>
+        <translation>Σύνδεση ξανά</translation>
+    </message>
+</context>
+<context>
+    <name>GoogleCalendarSync</name>
+    <message>
+        <location filename="../src/GoogleCalendar/GoogleCalendarSync.cpp" line="+47"/>
+        <location line="+162"/>
+        <source>Connected</source>
+        <translation>Συνδεδεμένο</translation>
+    </message>
+    <message>
+        <location line="-153"/>
+        <location line="+237"/>
+        <source>The connection to Google Calendar needs to be authorized again.</source>
+        <translation>Η σύνδεση με το Google Calendar χρειάζεται επανεξουσιοδότηση.</translation>
+    </message>
+    <message>
+        <location line="-236"/>
+        <source>The connection to Google Calendar needs to be authorized again (Settings &gt; Google Calendar).</source>
+        <translation>Η σύνδεση με το Google Calendar χρειάζεται επανεξουσιοδότηση (Ρυθμίσεις &gt; Google Calendar).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Ready</source>
+        <translation>Έτοιμο</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+95"/>
+        <source>Not connected</source>
+        <translation>Μη συνδεδεμένο</translation>
+    </message>
+    <message>
+        <location line="-32"/>
+        <source>Waiting for the Google sign-in in the browser...</source>
+        <translation>Αναμονή για τη σύνδεση Google στον browser...</translation>
+    </message>
+    <message>
+        <location line="+85"/>
+        <source>Connected - choose a calendar</source>
+        <translation>Συνδεδεμένο - επιλέξτε ημερολόγιο</translation>
+    </message>
+    <message>
+        <location line="+96"/>
+        <location line="+623"/>
+        <source>Synchronization error</source>
+        <translation>Σφάλμα συγχρονισμού</translation>
+    </message>
+    <message>
+        <location line="-594"/>
+        <source>Synchronizing...</source>
+        <translation>Συγχρονισμός...</translation>
+    </message>
+    <message>
+        <location line="+162"/>
+        <location line="+132"/>
+        <source>The changes of Google Calendar could not be saved in the database.</source>
+        <translation>Οι αλλαγές του Google Calendar δεν ήταν δυνατό να αποθηκευτούν στη βάση δεδομένων.</translation>
+    </message>
+    <message>
+        <location line="+81"/>
+        <source>The appointment of:</source>
+        <translation>Το ραντεβού του:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>was changed both in QDento and in Google Calendar.</source>
+        <translation>έχει τροποποιηθεί και στο QDento και στο Google Calendar.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Synchronization conflict</source>
+        <translation>Σύγκρουση συγχρονισμού</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Keep QDento</source>
+        <translation>Διατήρηση QDento</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Keep Google</source>
+        <translation>Διατήρηση Google</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cancel</source>
+        <translation>Ακύρωση</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>%1 appointments were found in QDento without a Google Calendar event.</source>
+        <translation>Βρέθηκαν %1 ραντεβού στο QDento χωρίς αντίστοιχο Google Calendar event.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you want them to be created in Google Calendar?</source>
+        <translation>Θέλετε να δημιουργηθούν στο Google Calendar;</translation>
+    </message>
+    <message>
+        <location line="+152"/>
+        <source>new appointments: %1</source>
+        <translation>νέα ραντεβού: %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>deleted appointments: %1</source>
+        <translation>διαγραμμένα ραντεβού: %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>changed appointments: %1</source>
+        <translation>αλλαγμένα ραντεβού: %1</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Google Calendar synchronization completed</source>
+        <translation>Ο συγχρονισμός με το Google Calendar ολοκληρώθηκε</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Google Calendar synchronization failed</source>
+        <translation>Ο συγχρονισμός με το Google Calendar απέτυχε</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Synchronization completed</source>
+        <translation>Συγχρονισμός ολοκληρώθηκε</translation>
+    </message>
+</context>
+<context>
+    <name>GoogleOAuth</name>
+    <message>
+        <location filename="../src/GoogleCalendar/GoogleOAuth.cpp" line="+43"/>
+        <source>The Google sign-in was not completed in time.</source>
+        <translation>Η σύνδεση με το Google δεν ολοκληρώθηκε έγκαιρα.</translation>
+    </message>
+    <message>
+        <location line="+77"/>
+        <location line="+28"/>
+        <source>The access to Google Calendar was not allowed.</source>
+        <translation>Δεν επιτράπηκε η πρόσβαση στο Google Calendar.</translation>
+    </message>
+    <message>
+        <location line="-27"/>
+        <source>The Google sign-in failed.</source>
+        <translation>Η σύνδεση με το Google απέτυχε.</translation>
+    </message>
+    <message>
+        <location line="+121"/>
+        <location line="+49"/>
+        <source>The connection to Google Calendar needs to be authorized again.</source>
+        <translation>Η σύνδεση με το Google Calendar χρειάζεται επανεξουσιοδότηση.</translation>
+    </message>
+    <message>
+        <location line="-159"/>
+        <source>The Google sign-in failed. Check the internet connection.</source>
+        <translation>Η σύνδεση με το Google απέτυχε. Ελέγξτε τη σύνδεση στο διαδίκτυο.</translation>
+    </message>
+    <message>
+        <location line="+160"/>
+        <source>Google Calendar could not be reached. Check the internet connection.</source>
+        <translation>Δεν ήταν δυνατή η σύνδεση με το Google Calendar. Ελέγξτε τη σύνδεση στο διαδίκτυο.</translation>
+    </message>
+    <message>
+        <location line="-139"/>
+        <source>The Google authorization could not be stored.</source>
+        <translation>Δεν ήταν δυνατή η αποθήκευση της εξουσιοδότησης Google.</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>The Google sign-in could not be started.</source>
+        <translation>Δεν ήταν δυνατή η έναρξη της σύνδεσης με το Google.</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>The Google Calendar connection is complete. You can close this window.</source>
+        <translation>Η σύνδεση με το Google Calendar ολοκληρώθηκε. Μπορείτε να κλείσετε αυτό το παράθυρο.</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>The Google sign-in was cancelled.</source>
+        <translation>Η σύνδεση με το Google ακυρώθηκε.</translation>
     </message>
 </context>
 <context>
@@ -4947,7 +5322,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Το έγγραφο δεν μπορεί να ανοιχτεί, επειδή δεν έχει δημιουργηθεί από τον τρέχοντα χρήστη</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/CalendarPresenter.cpp" line="+43"/>
+        <location filename="../src/Presenter/CalendarPresenter.cpp" line="+78"/>
         <source>Appointments</source>
         <translation>Ραντεβού</translation>
     </message>
@@ -4998,7 +5373,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Λανθασμένος κωδικός πρόσβασης</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/MainPresenter.cpp" line="+64"/>
+        <location filename="../src/Presenter/MainPresenter.cpp" line="+68"/>
         <location filename="../src/View/Widgets/BrowserDialog.cpp" line="+7"/>
         <source>New Dental Visit</source>
         <translation>Νέα οδοντιατρική επίσκεψη</translation>
@@ -5011,7 +5386,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νέα περιοδοντική μέτρηση</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+133"/>
         <source>A placeholder profile has been created. Enter your credentials from settings</source>
         <translation>Δημιουργήθηκε ένα προσωρινό προφίλ. Καταχωρίστε τα στοιχεία σας από τις Ρυθμίσεις</translation>
     </message>
@@ -5380,7 +5755,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Αποτελέσματα: </translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+108"/>
+        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+109"/>
         <location line="+8"/>
         <location line="+52"/>
         <source>Changes will take effect after restart</source>
@@ -5761,7 +6136,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Φύλο</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+28"/>
         <source>About QDento</source>
         <translation>Σχετικά με το QDento</translation>
     </message>
