@@ -9,14 +9,12 @@
 #include <QShortcut>
 #include <QStatusBar>
 #include <QTimer>
-#include <QDesktopServices>
 
 #include "Presenter/MainPresenter.h"
 
 #include "Model/User.h"
 #include "View/Theme.h"
 #include "View/Widgets/GlobalWidgets.h"
-#include "View/Widgets/AboutDialog.h"
 #include "View/Widgets/SplashScreen.h"
 #include "View/Widgets/NotificationListDialog.h"
 
@@ -103,12 +101,9 @@ QDento::QDento(QWidget* parent)
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
     ui.calendarButton->setIcon(QIcon(":/icons/icon_calendar.png"));
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
-    ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
     ui.notifButton->setIcon(QIcon(":/icons/icon_bell.png"));
-    ui.donateButton->setIcon(QIcon(":/icons/icon_donate.png"));
     ui.notifButton->setMonochrome(true);
      
-    connect(ui.donateButton, &QPushButton::clicked, [&] { QDesktopServices::openUrl(QUrl("https://www.paypal.com/donate/?hosted_button_id=WJBJECQ247WN6", QUrl::TolerantMode)); });
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });
     connect(ui.browserButton, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
@@ -117,7 +112,6 @@ QDento::QDento(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] { MainPresenter::get().userSettingsPressed();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed();});
     connect(ui.invoiceButton, &QPushButton::clicked, [&] { MainPresenter::get().newInvoicePressed(); });
-    connect(ui.aboutButton, &QPushButton::clicked, this, [&] { AboutDialog d; d.exec(); });
 	connect(ui.userButton, &QPushButton::clicked, [&] { ui.userButton->showMenu(); });
     connect(exitAction, &QAction::triggered, [&] { MainPresenter::get().logOut(); });
 

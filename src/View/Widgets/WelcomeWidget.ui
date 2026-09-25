@@ -294,77 +294,6 @@
          <string/>
         </property>
        </widget>
-       <widget class="ShortcutTile" name="aboutButton">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>190</y>
-          <width>101</width>
-          <height>101</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>101</width>
-          <height>101</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>101</width>
-          <height>101</height>
-         </size>
-        </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
-        </property>
-        <property name="toolTip">
-         <string>About</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="ShortcutTile" name="donateButton">
-        <property name="geometry">
-         <rect>
-          <x>200</x>
-          <y>350</y>
-          <width>101</width>
-          <height>101</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>101</width>
-          <height>101</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>101</width>
-          <height>101</height>
-         </size>
-        </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
        <widget class="ShortcutTile" name="notifButton">
         <property name="geometry">
          <rect>
@@ -559,54 +488,6 @@
         </property>
         <property name="text">
          <string>Settings</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_8">
-        <property name="geometry">
-         <rect>
-          <x>200</x>
-          <y>460</y>
-          <width>101</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Make a Donation</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_9">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>300</y>
-          <width>101</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>About</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>

@@ -1008,17 +1008,7 @@
         <location filename="src/View/Widgets/QDento.ui" line="399"/>
         <source>notify</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/View/Widgets/QDento.ui" line="443"/>
-        <source>Make a Donation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/View/Widgets/QDento.ui" line="446"/>
-        <source>Donate</source>
-        <translation type="unfinished"></translation>
-    </message>
+    </message>
 </context>
 <context>
     <name>DoctorSettingsDialog</name>
@@ -4185,11 +4175,6 @@
         <location filename="src/View/Widgets/WelcomeWidget.ui" line="328"/>
         <location filename="src/View/Widgets/WelcomeWidget.ui" line="331"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/View/Widgets/WelcomeWidget.ui" line="365"/>
-        <source>Make a Donation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

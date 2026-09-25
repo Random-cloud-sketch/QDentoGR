@@ -4,12 +4,14 @@
 #include <QFileDialog>
 #include <QtGlobal>
 #include <QInputDialog>
+#include <QTabBar>
 
 #include "Model/User.h"
 #include "GlobalSettings.h"
 #include "TableViewDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbDiagnosis.h"
+#include "View/Widgets/AboutDialog.h"
 
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
@@ -159,6 +161,14 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	});
 
 	User::ADA_num ? ui.adaButton->setChecked(true) : ui.fdiButton->setChecked(true);
+
+	//About QDento: the existing content, shown as the last page of the settings
+	auto about = new AboutDialog(ui.tabWidget);
+	about->setWindowFlags(Qt::Widget);
+	ui.tabWidget->addTab(about, tr("About QDento"));
+
+	//wide enough to show all the pages in the tab bar
+	resize(std::max(width(), ui.tabWidget->tabBar()->sizeHint().width() + 40), height());
 
 	presenter.setView(this);
 }

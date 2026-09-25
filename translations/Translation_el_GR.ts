@@ -1278,16 +1278,6 @@
         <translation>Ρυθμίσεις</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>About QDento</source>
-        <translation>Σχετικά με το QDento</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>about</source>
-        <translation>Σχετικά</translation>
-    </message>
-    <message>
         <location line="+44"/>
         <source>Save Current Document (Ctrl+S)</source>
         <translation>Αποθήκευση τρέχοντος εγγράφου (Ctrl+S)</translation>
@@ -1306,16 +1296,6 @@
         <location line="+3"/>
         <source>notify</source>
         <translation>Υπενθυμίσεις</translation>
-    </message>
-    <message>
-        <location line="+38"/>
-        <source>Make a Donation</source>
-        <translation>Κάντε μια δωρεά</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Donate</source>
-        <translation>Δωρεά</translation>
     </message>
 </context>
 <context>
@@ -4141,7 +4121,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
 <context>
     <name>QDento</name>
     <message>
-        <location filename="../src/View/Widgets/QDento.cpp" line="+68"/>
+        <location filename="../src/View/Widgets/QDento.cpp" line="+66"/>
         <source>Settings</source>
         <translation>Ρυθμίσεις</translation>
     </message>
@@ -4151,7 +4131,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Έξοδος</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+124"/>
         <source>No active reminders</source>
         <translation>Καμία ενεργή υπενθύμιση</translation>
     </message>
@@ -5393,7 +5373,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Αποτελέσματα: </translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+98"/>
+        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+100"/>
         <location line="+8"/>
         <location line="+52"/>
         <source>Changes will take effect after restart</source>
@@ -5728,6 +5708,11 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <source>Settings</source>
         <translation>Ρυθμίσεις</translation>
     </message>
+    <message>
+        <location line="+147"/>
+        <source>About QDento</source>
+        <translation>Σχετικά με το QDento</translation>
+    </message>
 </context>
 <context>
     <name>SnapshotViewer</name>
@@ -5979,13 +5964,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νέα περιοδοντική μέτρηση</translation>
     </message>
     <message>
-        <location line="+105"/>
-        <location line="+281"/>
-        <source>About</source>
-        <translation>Σχετικά</translation>
-    </message>
-    <message>
-        <location line="-192"/>
+        <location line="+123"/>
         <source>New Dental Visit</source>
         <translation>Νέα οδοντιατρική επίσκεψη</translation>
     </message>
@@ -6020,12 +5999,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Ρυθμίσεις</translation>
     </message>
     <message>
-        <location line="+24"/>
-        <source>Make a Donation</source>
-        <translation>Κάντε μια δωρεά</translation>
-    </message>
-    <message>
-        <location line="+96"/>
+        <location line="+72"/>
         <source>TextLabel</source>
         <translation>TextLabel</translation>
     </message>

@@ -232,28 +232,6 @@
           </widget>
          </item>
          <item>
-          <widget class="IconButton" name="aboutButton">
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>About QDento</string>
-           </property>
-           <property name="text">
-            <string>about</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <spacer name="horizontalSpacer_3">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
@@ -369,28 +347,6 @@
            </property>
            <property name="text">
             <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="IconButton" name="donateButton">
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Make a Donation</string>
-           </property>
-           <property name="text">
-            <string>Donate</string>
            </property>
           </widget>
          </item>
