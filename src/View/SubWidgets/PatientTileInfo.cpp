@@ -43,6 +43,9 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     action->setIcon(QIcon(":/icons/icon_invoice.png"));
     context_menu->addAction(action);
 
+    //invoices are not used for now: the menu entry is only hidden (delete this line to show it again)
+    action->setVisible(false);
+
     action = (new QAction(tr("Schedule and Appointment"), context_menu));
     connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::Calendar); });
     action->setIcon(QIcon(":/icons/icon_calendar.png"));

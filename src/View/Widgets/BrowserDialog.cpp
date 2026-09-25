@@ -36,6 +36,10 @@ BrowserDialog::BrowserDialog()
 	ui.tabBar->addTab(QIcon(":/icons/icon_periosheet.png"), tr("Periodontal Measurments"));
 	ui.tabBar->addTab(QIcon(":/icons/icon_invoice.png"), tr("Financial Documents"));
 
+	//invoices are not used for now: the tab is only hidden, the tab indexes do not change
+	//(delete this line to show it again)
+	ui.tabBar->setTabVisible(static_cast<int>(TabType::Financial), false);
+
 	ui.openButton->setIcon(QIcon(":/icons/icon_open.png"));
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
 
@@ -251,6 +255,9 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
         connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Financial); });
 		action->setIcon(QIcon(":/icons/icon_invoice.png"));
 		main_menu->addAction(action);
+
+		//invoices are not used for now: the menu entry is only hidden (delete this line to show it again)
+		action->setVisible(false);
 
         action = (new QAction(QObject::tr("Schedule An Appointment"), main_menu));
 		connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Calendar); });

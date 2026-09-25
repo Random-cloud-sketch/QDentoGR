@@ -93,6 +93,9 @@ QDento::QDento(QWidget* parent)
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newInvoicePressed(); });
 
+    //invoices are not used for now: the shortcut is only disabled (delete this line to enable it again)
+    shortcut->setEnabled(false);
+
     //setting buttons
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
@@ -112,6 +115,9 @@ QDento::QDento(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] { MainPresenter::get().userSettingsPressed();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed();});
     connect(ui.invoiceButton, &QPushButton::clicked, [&] { MainPresenter::get().newInvoicePressed(); });
+
+    //invoices are not used for now: the button is only hidden (delete this line to show it again)
+    ui.invoiceButton->setVisible(false);
 	connect(ui.userButton, &QPushButton::clicked, [&] { ui.userButton->showMenu(); });
     connect(exitAction, &QAction::triggered, [&] { MainPresenter::get().logOut(); });
 

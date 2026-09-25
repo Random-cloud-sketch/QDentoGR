@@ -169,11 +169,13 @@ void BrowserPresenter::openCurrentSelection()
 
 	if (ui_state.model_type == TabType::PatientSummary) {
 
+		//invoices are not used for now: "New financial document" is left out of the choices
+		//(to show it again, uncomment it here and in arr below and set the size of arr back to 5)
 		auto result = ModalDialogBuilder::openButtonDialog(
 			{
 				QObject::tr("New dental visit").toStdString(),
 				QObject::tr("New periodontal measurment").toStdString(),
-				QObject::tr("New financial document").toStdString(),
+				//QObject::tr("New financial document").toStdString(),
 				QObject::tr("Schedule new appointment").toStdString(),
 				QObject::tr("Patient history").toStdString()
 			},
@@ -182,10 +184,10 @@ void BrowserPresenter::openCurrentSelection()
 
 		if (result == -1) return;
 
-		static TabType arr[5]{
+		static TabType arr[4]{
 			TabType::DentalVisit,
 			TabType::PerioStatus,
-			TabType::Financial,
+			//TabType::Financial,
 			TabType::Calendar,
 			TabType::PatientSummary
 		};

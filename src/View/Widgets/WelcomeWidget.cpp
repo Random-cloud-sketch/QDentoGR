@@ -25,6 +25,23 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     connect(ui.ambButton, &QPushButton::clicked, this, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, this, [&] { MainPresenter::get().newPerioPressed(); });
     connect(ui.invoiceButton, &QPushButton::clicked, this, [&] { MainPresenter::get().newInvoicePressed(); });
+
+    //invoices are not used for now: the tile is only hidden (delete this block to show it again).
+    //The tiles have fixed positions: "Browse Documents" takes the place of the hidden tile
+    //and the remaining 3 x 2 tiles are centred (half a column to the right).
+    {
+        ui.invoiceButton->setVisible(false);
+        ui.label_3->setVisible(false);
+
+        ui.browser->move(ui.invoiceButton->pos());
+        ui.label_4->move(ui.label_3->pos());
+
+        int halfColumn = (ui.browser->x() - ui.perioButton->x()) / 2;
+
+        for (auto w : ui.frame->findChildren<QWidget*>(Qt::FindDirectChildrenOnly)) {
+            w->move(w->x() + halfColumn, w->y());
+        }
+    }
     connect(ui.browser, &QPushButton::clicked, this, [&] { MainPresenter::get().showBrowser(); });
     connect(ui.settingsButton, &QPushButton::clicked, this, [&] { MainPresenter::get().settingsPressed(); });
     connect(ui.calendar, &QPushButton::clicked, this, [&] { MainPresenter::get().openCalendar(); });

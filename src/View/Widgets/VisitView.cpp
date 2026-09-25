@@ -58,6 +58,10 @@ VisitView::VisitView(QWidget* parent)
     connect(ui.editProcedure, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.statusResultButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->showAppliedStatus(); });
     connect(ui.invoiceButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createInvoice(); });
+
+    //invoices are not used for now: the button is only hidden (delete this line to show it again);
+    //the periodontal measurement button stays centred between the spacers of the layout
+    ui.invoiceButton->setVisible(false);
     connect(ui.perioButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createPerioMeasurment(); });
 	//the number of the visit is calculated, it cannot be entered or changed
 	ui.numberSpin->setReadOnly(true);
