@@ -28,7 +28,8 @@ struct PatientFormDialog : public QDialog
 
     PatientDialogPresenter& presenter;
 
-    enum PatientField { id, fname, lname, phone, address, birthdate, size };
+    //the identifier is not an input field: it is assigned automatically and never changes
+    enum PatientField { fname, lname, phone, address, birthdate, size };
 
     std::array<AbstractUIElement*, PatientField::size> patientFields;
 
@@ -40,9 +41,9 @@ public:
     PatientFormDialog(PatientDialogPresenter& p, QWidget* parent = 0);
     ~PatientFormDialog();
 
-    void setEditMode(bool editMode);
     void setTitle(const std::string& title);
     void resetFields();
+    void setPatientId(const std::string& id);
     void setPatient(const Patient& patient);
     Patient getPatient();
     bool inputFieldsAreValid();

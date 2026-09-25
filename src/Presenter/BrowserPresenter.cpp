@@ -241,8 +241,17 @@ void BrowserPresenter::deleteCurrentSelection()
 		}
 	}
 
+	std::set<long long> visitPatients;
+
 	for (auto& row : m_selectedInstances) {
 		DbBrowser::deleteRecord(row->type, row->rowID);
+
+		if (row->type == TabType::DentalVisit) visitPatients.insert(row->patientRowId);
+	}
+
+	//the numbers of the patients' other open visits change
+	for (auto patientRowId : visitPatients) {
+		TabPresenter::get().refreshVisitNumbers(patientRowId);
 	}
 
 

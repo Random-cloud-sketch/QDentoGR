@@ -59,7 +59,12 @@ VisitView::VisitView(QWidget* parent)
 	connect(ui.statusResultButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->showAppliedStatus(); });
     connect(ui.invoiceButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createInvoice(); });
     connect(ui.perioButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createPerioMeasurment(); });
-	connect(ui.numberSpin, &QSpinBox::valueChanged, this, [=, this] (int value){ if (presenter) presenter->setAmbNumber(value); });
+	//the number of the visit is calculated, it cannot be entered or changed
+	ui.numberSpin->setReadOnly(true);
+	ui.numberSpin->setFocusPolicy(Qt::NoFocus);
+	ui.numberSpin->setContextMenuPolicy(Qt::NoContextMenu);
+	ui.numberSpin->setMinimum(0);
+	ui.numberSpin->setToolTip(tr("Chronological number of the visit among the patient's visits"));
     connect(ui.deleteProcedure, &QAbstractButton::clicked, this, [=, this]
         {
 

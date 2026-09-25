@@ -36,9 +36,17 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     ui.birthEdit->setInputValidator(&birthDate_validator);
 
     connect(ui.okButton, &QPushButton::clicked, this, [&] { presenter.accept(); });
-    connect(ui.idLineEdit, &QLineEdit::textEdited, this, [&](const QString& text) {presenter.searchDbForPatient(text.toStdString()); });
 
-    patientFields[id] = ui.idLineEdit;
+    //the identifier is shown read-only (it can be selected and copied), wide enough for a whole UUID
+    ui.idLineEdit->setMinimumWidth(
+        ui.idLineEdit->fontMetrics().horizontalAdvance("7f3c9b2e-6e2a-4c91-9b7a-3a1f8d52c614") + 16
+    );
+
+    QPalette idPalette = ui.idLineEdit->palette();
+    idPalette.setColor(QPalette::Base, QColor(0xf0, 0xf0, 0xf0));
+    idPalette.setColor(QPalette::Text, QColor(0x50, 0x50, 0x50));
+    ui.idLineEdit->setPalette(idPalette);
+
     patientFields[fname] = ui.fNameEdit;
     patientFields[lname] = ui.lNameEdit;
     patientFields[address] = ui.addressEdit;
@@ -51,6 +59,9 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     }
 
     ui.birthEdit->setErrorLabel(ui.errorLabel);
+
+    //wide enough for the whole identifier
+    resize(QDialog::size().expandedTo(sizeHint()));
 
     presenter.setView(this);
 }
@@ -67,13 +78,6 @@ PatientFormDialog::~PatientFormDialog()
 {
 }
 
-void PatientFormDialog::setEditMode(bool editMode)
-{
-    ui.idLineEdit->setReadOnly(editMode);
-    ui.idLineEdit->setFocus();
-    ui.idLineEdit->selectAll();
-}
-
 void PatientFormDialog::setTitle(const std::string& title)
 {
     setWindowTitle(tr(title.c_str()));
@@ -81,8 +85,6 @@ void PatientFormDialog::setTitle(const std::string& title)
 
 void PatientFormDialog::resetFields()
 {
-    ui.idLineEdit->reset();
-    ui.idLineEdit->setValidAppearence(true);
     ui.birthEdit->reset();
     ui.fNameEdit->reset();
     ui.lNameEdit->reset();
@@ -92,12 +94,14 @@ void PatientFormDialog::resetFields()
     ui.sexCombo->setCurrentIndex(0);
 }
 
+void PatientFormDialog::setPatientId(const std::string& id)
+{
+    ui.idLineEdit->setText(QString::fromStdString(id));
+    ui.idLineEdit->setCursorPosition(0);
+}
+
 void PatientFormDialog::setPatient(const Patient& patient)
 {
-    ui.idLineEdit->blockSignals(true);
-    ui.idLineEdit->QLineEdit::setText(QString::fromStdString(patient.id));
-    ui.idLineEdit->blockSignals(false);
-
     ui.sexCombo->setCurrentIndex(patient.sex);
 
     auto& date = patient.birth;
@@ -124,7 +128,7 @@ Patient PatientFormDialog::getPatient()
     return Patient
     {
         .rowid = 0,
-        .id = ui.idLineEdit->text().toStdString(),
+        .id = {}, //set by the presenter, never taken from the view
         .birth = ui.birthEdit->getDate(),
         .sex = Patient::Sex(ui.sexCombo->currentIndex()),
         .firstName = UpperCase::convert(ui.fNameEdit->text()).toStdString(),

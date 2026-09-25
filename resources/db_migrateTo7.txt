@@ -1,0 +1,7 @@
+UPDATE financial SET recipient_id = '#patient:' || (SELECT p.rowid FROM patient p WHERE p.id = financial.recipient_id AND p.id <> '') WHERE EXISTS (SELECT 1 FROM patient p WHERE p.id = financial.recipient_id AND p.id <> '');
+UPDATE patient SET id = lower(hex(randomblob(4))) || '-' || lower(hex(randomblob(2))) || '-4' || substr(lower(hex(randomblob(2))), 2) || '-' || substr('89ab', 1 + (random() & 3), 1) || substr(lower(hex(randomblob(2))), 2) || '-' || lower(hex(randomblob(6)));
+UPDATE financial SET recipient_id = (SELECT p.id FROM patient p WHERE '#patient:' || p.rowid = financial.recipient_id) WHERE recipient_id LIKE '#patient:%';
+CREATE UNIQUE INDEX IF NOT EXISTS patient_id ON patient (id);
+CREATE TRIGGER IF NOT EXISTS patient_id_required BEFORE INSERT ON patient WHEN length(NEW.id) <> 36 BEGIN SELECT RAISE(ABORT, 'patient id must be a UUID'); END;
+CREATE TRIGGER IF NOT EXISTS patient_id_immutable BEFORE UPDATE OF id ON patient WHEN NEW.id IS NOT OLD.id BEGIN SELECT RAISE(ABORT, 'patient id cannot be changed'); END;
+PRAGMA user_version=7;

@@ -3,8 +3,11 @@
 #include "Database/DbNotes.h"
 #include "Model/UpperCase.h"
 
-long long DbPatient::insert(const Patient& patient)
+long long DbPatient::insert(Patient& patient)
 {
+    //every patient gets a permanent identifier when created
+    if (patient.id.empty()) patient.id = Patient::newId();
+
     Db db(
         "INSERT INTO patient "
         "(id, birth, sex, fname, lname, "
@@ -33,8 +36,8 @@ bool DbPatient::update(const Patient& patient)
 {
     Db db(
 
+        //the identifier is never changed
         "UPDATE patient SET "
-        "id=?,"
         "birth=?,"
         "sex=?,"
         "fname=?,"
@@ -46,17 +49,16 @@ bool DbPatient::update(const Patient& patient)
         "WHERE rowid=?"
     );
 
-    db.bind(1, patient.id);
-    db.bind(2, patient.birth.to8601());
-    db.bind(3, patient.sex);
-    db.bind(4, UpperCase::convert(patient.firstName));
-    db.bind(5, UpperCase::convert(patient.lastName));
-    db.bind(6, UpperCase::convert(patient.address));
-    db.bind(7, patient.phone);
-    db.bind(8, patient.colorNameRgb);
-    db.bind(9, UpperCase::convert(patient.referringDoctor));
+    db.bind(1, patient.birth.to8601());
+    db.bind(2, patient.sex);
+    db.bind(3, UpperCase::convert(patient.firstName));
+    db.bind(4, UpperCase::convert(patient.lastName));
+    db.bind(5, UpperCase::convert(patient.address));
+    db.bind(6, patient.phone);
+    db.bind(7, patient.colorNameRgb);
+    db.bind(8, UpperCase::convert(patient.referringDoctor));
 
-    db.bind(10, patient.rowid);
+    db.bind(9, patient.rowid);
 
     return db.execute();
 
@@ -72,10 +74,9 @@ Patient DbPatient::get(const std::string& patientID)
 
     Patient patient;
 
-    patient.id = patientID;
-
     while (db.hasRows())
     {
+        patient.id = patientID;
         patient.rowid = db.asRowId(0),
         patient.birth = Date(db.asString(1));
         patient.sex = Patient::Sex(db.asInt(2));

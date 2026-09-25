@@ -4,6 +4,7 @@
 #include "Model/Patient.h"
 #include "Model/Dental/Snapshot.h"
 #include "Model/TableRows.h"
+#include "Database/DbDentalVisit.h"
 #include <variant>
 #include <vector>
 
@@ -18,6 +19,8 @@ class PatientHistoryPresenter {
 
 	std::vector<RowInstance> documents;
 
+	std::vector<DbDentalVisit::VisitRecord> visits;
+
 	PatientHistoryDialog view;
 
 public:
@@ -25,7 +28,10 @@ public:
 
 	void openDocuments(const std::vector<int>& selectedDocIdx);
 
+	//opens the visit (index in the visit history) in its dental visit tab
+	void openVisit(int index);
+
 	void toothHistoryRequested(int toothIdx);
 
-	void openDialog();
+	void openDialog(bool visitHistory = false);
 };

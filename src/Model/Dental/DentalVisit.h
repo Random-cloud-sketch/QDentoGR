@@ -19,7 +19,9 @@ struct DentalVisit
 	
 	Date date = Date::currentDate().to8601();
 
-	int number{ 1 };
+	//chronological number of the visit among the patient's visits (calculated, never entered by the user);
+	//for a visit which is not saved yet: the number of the patient's saved visits
+	int number{ 0 };
 	std::string dentist_rowid;
 
 	ToothContainer teeth;

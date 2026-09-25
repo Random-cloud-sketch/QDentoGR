@@ -14,6 +14,8 @@
 #include "Database/DbMedicalHistory.h"
 #include "Database/DbPatientFile.h"
 #include "View/Widgets/PatientFilesWidget.h"
+#include "Database/DbDentalVisit.h"
+#include "Presenter/PatientHistoryPresenter.h"
 
 PatientInfoPresenter::PatientInfoPresenter(PatientTileInfo* view, std::shared_ptr<Patient> p) :
     patient(p), view(view), doc_date(Date::currentDate())
@@ -86,6 +88,7 @@ void PatientInfoPresenter::setCurrent(bool isCurrent)
 
     refreshMedicalHistory();
     refreshPatientFiles();
+    refreshVisitCount();
 }
 
 void PatientInfoPresenter::notificationClicked()
@@ -134,6 +137,23 @@ void PatientInfoPresenter::patientFilesRequested()
 void PatientInfoPresenter::refreshPatientFiles()
 {
     view->setPatientFileCount(patient && patient->rowid > 0 ? DbPatientFile::count(patient->rowid) : 0);
+}
+
+void PatientInfoPresenter::visitHistoryRequested()
+{
+    if (patient == nullptr || patient->rowid <= 0) return;
+
+    //the patient object is kept alive while the dialog is open (a visit may be opened from it)
+    auto keepPatient = patient;
+
+    PatientHistoryPresenter p(*keepPatient);
+
+    p.openDialog(true);
+}
+
+void PatientInfoPresenter::refreshVisitCount()
+{
+    view->setVisitCount(patient && patient->rowid > 0 ? DbDentalVisit::count(patient->rowid) : 0);
 }
 
 void PatientInfoPresenter::openDocument(TabType type)

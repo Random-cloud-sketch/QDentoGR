@@ -6,6 +6,7 @@
 
 #include "Model/MedicalHistory.h"
 
+class QAbstractButton;
 class QLabel;
 class QLineEdit;
 class QPlainTextEdit;
@@ -32,6 +33,32 @@ class MedicalHistoryDialog : public QDialog
 		QRadioButton* yes;
 		QLineEdit* details;
 	};
+
+	//A control whose state can be a positive finding of its section (sidebar item / page).
+	//Only the controls registered here are evaluated: negative answers, administrative fields
+	//(date, physician) and descriptive notes are never findings.
+	struct Finding
+	{
+		enum Kind {
+			Answer,	//positive when the button is checked ("Yes", "Poor" health, "Smoker")
+			Text,	//positive when the field contains non-whitespace text
+			Table	//positive when a row contains text (every such row is highlighted)
+		};
+
+		Kind kind;
+		int section;
+		QAbstractButton* button{ nullptr };
+		QWidget* text{ nullptr };			//QLineEdit or QPlainTextEdit
+		QTableWidget* table{ nullptr };
+		std::vector<QWidget*> highlight;	//widgets highlighted while the finding is positive
+	};
+
+	//data roles of the sidebar items
+	static constexpr int OriginalTitleRole = Qt::UserRole + 1;
+	static constexpr int PositiveFindingsRole = Qt::UserRole + 2;
+
+	std::vector<Finding> m_findings;
+	bool m_loading{ false }; //no evaluation while a saved history is being loaded
 
 	long long m_patientRowid;
 	std::optional<MedicalHistory> m_current;
@@ -65,6 +92,8 @@ class MedicalHistoryDialog : public QDialog
 
 	QPlainTextEdit* m_notesEdit;
 
+	QListWidget* m_navigation;
+
 	QListWidget* m_versionList;
 	QTextBrowser* m_versionView;
 
@@ -72,6 +101,18 @@ class MedicalHistoryDialog : public QDialog
 	QGridLayout* addYesNoRows(QVBoxLayout* layout, MedicalHistoryItems::Section section, const QString& placeholder);
 	QTableWidget* createTable(QVBoxLayout* layout, const QStringList& headers, const QString& addText, const QString& removeText);
 	QPlainTextEdit* addTextField(QVBoxLayout* layout, const QString& label, int height);
+
+	//section = index of the page and of its sidebar item
+	int currentSection() const;
+	void addFinding(const Finding& finding);
+	static bool isPositive(const Finding& finding);
+	bool hasPositiveFindings(int section) const;
+	//re-evaluates one section: highlights of its findings and its sidebar item
+	void evaluateSection(int section);
+	void evaluateAllSections();
+	void updateSidebarStatus(int section, bool positive);
+	void updateHighlights(const Finding& finding, bool positive);
+	static void setHighlighted(QWidget* widget, bool on);
 
 	void setHistory(const MedicalHistory& h);
 	MedicalHistory collect() const;

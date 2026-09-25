@@ -32,5 +32,7 @@ public:
 	void refreshMedicalHistory();
 	void patientFilesRequested();
 	void refreshPatientFiles();
+	void visitHistoryRequested();
+	void refreshVisitCount();
 	void setParent(TabInstance* p) { m_parent = p; }
 };

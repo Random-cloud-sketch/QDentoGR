@@ -1,4 +1,10 @@
 ﻿#include "Patient.h"
+#include <QUuid>
+
+std::string Patient::newId()
+{
+	return QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString();
+}
 
 int Patient::getAge(const Date& currentDate) const
 {

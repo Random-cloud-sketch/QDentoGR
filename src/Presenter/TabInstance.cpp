@@ -27,7 +27,8 @@ void TabInstance::refreshTabName()
 
 bool TabInstance::premissionToClose()
 {
-	if (!isNew() && !edited) return true;
+	//nothing was changed: a new document which was never edited is simply discarded
+	if (!edited) return true;
 
 	std::string question = QObject::tr("Do you wish to save changes to %1?")
 		.arg(QString::fromStdString(getTabName().toString()))

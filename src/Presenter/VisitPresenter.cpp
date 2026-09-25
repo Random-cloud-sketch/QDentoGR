@@ -104,15 +104,28 @@ bool VisitPresenter::save()
     if (m_visit.isNew())
     {
         m_visit.rowid = DbDentalVisit::insert(m_visit, patient->rowid);
+
+        if (!m_visit.rowid) return false;
     }
-    else
+    else if (!DbDentalVisit::update(m_visit))
     {
-        DbDentalVisit::update(m_visit);
+        return false;
     }
 
     edited = false;
 
+    //shown only after the visit is saved
+    m_visit.number = DbDentalVisit::number(m_visit.rowid);
+
+    if (isCurrent()) {
+        view->setVisitNumber(m_visit.number);
+        patient_info.refreshVisitCount();
+    }
+
     refreshTabName();
+
+    //a new or moved visit changes the numbers of the patient's other visits
+    TabPresenter::get().refreshVisitNumbers(patient->rowid);
 
     return true;
 }
@@ -132,7 +145,7 @@ void VisitPresenter::setDataToView()
 
     view->setDate(m_visit.date);
 
-    view->setVisitNumber(m_visit.number);
+    refreshVisitNumber();
 
     surf_presenter.setStatusControl(this);
     surf_presenter.setView(view->surfacePanel());
@@ -161,10 +174,21 @@ void VisitPresenter::setAmbDate(const Date& date)
     makeEdited();
 }
 
-void VisitPresenter::setAmbNumber(int number)
+void VisitPresenter::refreshVisitNumber()
 {
+    //a saved visit: its place in the patient's history; a new one: the patient's saved visits
+    int number = isNew() ? DbDentalVisit::count(patient->rowid) : DbDentalVisit::number(m_visit.rowid);
+
+    bool changed = number != m_visit.number;
+
     m_visit.number = number;
-    makeEdited();
+
+    if (isCurrent()) view->setVisitNumber(number);
+
+    //the number is part of the tab name of a saved visit
+    if (!changed || isNew()) return;
+
+    if (edited) makeEdited(); else refreshTabName();
 }
 
 void VisitPresenter::setOther(int code)

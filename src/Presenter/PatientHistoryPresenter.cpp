@@ -80,6 +80,45 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 	view.setPerioSnapshots(perioSnapshots);
 
 	view.addPatientFilesTab(patient.rowid);
+
+	//visit history (the same numbering as the number of the visit above the dental chart)
+
+	visits = DbDentalVisit::getPatientVisits(patient.rowid);
+
+	PlainTable visitTable;
+
+	visitTable.addColumn({ QT_TRANSLATE_NOOP("QObject", "Number"), 80, PlainColumn::Center });
+	visitTable.addColumn({ QT_TRANSLATE_NOOP("QObject", "Date"), 110, PlainColumn::Center });
+	visitTable.addColumn({ QT_TRANSLATE_NOOP("QObject", "Time"), 70, PlainColumn::Center });
+	visitTable.addColumn({ QT_TRANSLATE_NOOP("QObject", "Description / Notes"), 600 });
+
+	for (auto& v : visits)
+	{
+		visitTable.addCell(0, { .data = std::to_string(v.number) });
+		visitTable.addCell(1, { .data = v.date.toLocalFormat() });
+		visitTable.addCell(2, { .data = v.time.size() ? v.time : "-" });
+		visitTable.addCell(3, { .data = v.description });
+	}
+
+	view.setVisitHistory(visitTable);
+}
+
+void PatientHistoryPresenter::openVisit(int index)
+{
+	if (index < 0 || index >= visits.size()) return;
+
+	RowInstance visit(TabType::DentalVisit);
+	visit.rowID = visits[index].rowid;
+	visit.patientRowId = patient.rowid;
+	visit.permissionToOpen = visits[index].permissionToOpen;
+
+	//an open tab of the visit is focused, otherwise the saved visit is loaded (never a new one)
+	if (!TabPresenter::get().open(visit, true)) {
+		ModalDialogBuilder::showMessage(QObject::tr("The document could not be opened because it is not created by the current user.").toStdString());
+		return;
+	}
+
+	view.close();
 }
 
 void PatientHistoryPresenter::openDocuments(const std::vector<int>& selectedDocIdx)
@@ -126,12 +165,14 @@ void PatientHistoryPresenter::toothHistoryRequested(int toothIdx)
 	view.setPatientNoteFlags(patient.teethNotes);
 }
 
-void PatientHistoryPresenter::openDialog()
+void PatientHistoryPresenter::openDialog(bool visitHistory)
 {
 	view.setWindowTitle(
 		view.windowTitle() + " - " +
 		patient.firstLastName().c_str()
 	);
+
+	if (visitHistory) view.showVisitHistory();
 	
 	view.exec();
 }

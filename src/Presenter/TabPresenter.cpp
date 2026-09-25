@@ -115,6 +115,20 @@ void TabPresenter::refreshPatientTabNames(long long patientRowId)
     }
 }
 
+void TabPresenter::refreshVisitNumbers(long long patientRowId)
+{
+    for (auto& [index, tab] : m_tabs) {
+
+        if (tab->type != TabType::DentalVisit ||
+            tab->patient == nullptr ||
+            tab->patient->rowid != patientRowId) {
+            continue;
+        }
+
+        static_cast<VisitPresenter*>(tab)->refreshVisitNumber();
+    }
+}
+
 void TabPresenter::openList(const Patient& patient)
 {
     if (newListAlreadyOpened(patient)) return;

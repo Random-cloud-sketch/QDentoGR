@@ -40,15 +40,21 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="NameEdit" name="idLineEdit">
+       <widget class="QLineEdit" name="idLineEdit">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="maxLength">
-         <number>50</number>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::ClickFocus</enum>
+        </property>
+        <property name="toolTip">
+         <string>Permanent identifier of the patient, assigned automatically. It cannot be changed.</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -327,7 +333,6 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>idLineEdit</tabstop>
   <tabstop>fNameEdit</tabstop>
   <tabstop>lNameEdit</tabstop>
   <tabstop>phoneEdit</tabstop>

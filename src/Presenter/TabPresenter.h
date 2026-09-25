@@ -36,6 +36,8 @@ public:
 	void setCurrentTab(int index);
 
 	void refreshPatientTabNames(long long patientRowId);
+	//the numbers of the patient's open dental visits are recalculated (a visit was saved or deleted)
+	void refreshVisitNumbers(long long patientRowId);
 
 	bool open(const RowInstance& row, bool setFocus = false);
 	void openList(const Patient& patient);

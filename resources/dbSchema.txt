@@ -42,4 +42,7 @@ CREATE TABLE IF NOT EXISTS medical_history_medication (rowid INTEGER NOT NULL PR
 CREATE TABLE IF NOT EXISTS medical_history_surgery (rowid INTEGER NOT NULL PRIMARY KEY, medical_history_rowid INTEGER NOT NULL REFERENCES medical_history (rowid) ON DELETE CASCADE ON UPDATE CASCADE, surgery TEXT NOT NULL, date TEXT, reason TEXT, hospital TEXT, notes TEXT);
 CREATE TABLE IF NOT EXISTS patient_file (rowid INTEGER NOT NULL PRIMARY KEY, patient_rowid INTEGER NOT NULL REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, dentist_rowid INTEGER REFERENCES dentist (rowid) ON DELETE SET NULL ON UPDATE CASCADE, stored_name TEXT NOT NULL, original_name TEXT NOT NULL, name TEXT NOT NULL, type INTEGER NOT NULL DEFAULT 0, size INTEGER NOT NULL DEFAULT 0, uploaded TEXT NOT NULL, description TEXT);
 CREATE INDEX IF NOT EXISTS patient_file_patient ON patient_file (patient_rowid);
-PRAGMA user_version=6;
+CREATE UNIQUE INDEX IF NOT EXISTS patient_id ON patient (id);
+CREATE TRIGGER IF NOT EXISTS patient_id_required BEFORE INSERT ON patient WHEN length(NEW.id) <> 36 BEGIN SELECT RAISE(ABORT, 'patient id must be a UUID'); END;
+CREATE TRIGGER IF NOT EXISTS patient_id_immutable BEFORE UPDATE OF id ON patient WHEN NEW.id IS NOT OLD.id BEGIN SELECT RAISE(ABORT, 'patient id cannot be changed'); END;
+PRAGMA user_version=7;

@@ -37,6 +37,9 @@ FinancialPresenter::FinancialPresenter(TabView* tabView, std::shared_ptr<Patient
     if (!procedures.size()) m_invoice.taxEventDate = Date::currentDate();
 
     m_invoice.number = DbInvoice::getNewInvoiceNumber();
+
+    //an invoice filled with the chosen procedures is not discarded without asking
+    edited = !procedures.empty();
 }
 
 FinancialPresenter::FinancialPresenter(TabView* tabView, long long rowId) :

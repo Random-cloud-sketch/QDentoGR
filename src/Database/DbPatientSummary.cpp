@@ -4,13 +4,15 @@
 #include "Model/Dental/PerioStatus.h"
 #include "Database/DbProcedure.h"
 #include "Database/Database.h"
+#include "Database/DbDentalVisit.h"
 
 std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 {
     std::vector<TimeFrame> initialFrames;
 
     Db db(
-        "SELECT rowid, num, dentist_rowid, date, status FROM dental_visit WHERE patient_rowid=? ORDER BY date ASC"
+        "SELECT rowid, " + DbDentalVisit::numberSql("dental_visit") + ", dentist_rowid, date, status FROM dental_visit WHERE patient_rowid=? "
+        "ORDER BY date(date) ASC, rowid ASC"
     );
 
     db.bind(1, patientRowId);

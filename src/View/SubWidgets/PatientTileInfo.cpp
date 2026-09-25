@@ -58,6 +58,11 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     action->setIcon(QIcon(":/icons/icon_note.png"));
     context_menu->addAction(action);
 
+    action = (new QAction(tr("Visit history"), context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { if (presenter) presenter->visitHistoryRequested(); });
+    action->setIcon(QIcon(":/icons/icon_sheet.png"));
+    context_menu->addAction(action);
+
     action = (new QAction(tr("Radiographs && documents"), context_menu));
     connect(action, &QAction::triggered, this, [=, this] { if (presenter) presenter->patientFilesRequested(); });
     action->setIcon(QIcon(":/icons/icon_open.png"));
@@ -84,6 +89,11 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     );
     firstLine->addWidget(medicalHistoryButton);
 
+    visitHistoryButton = new QPushButton(QIcon(":/icons/icon_sheet.png"), tr("Visit history"), strip);
+    visitHistoryButton->setCursor(Qt::PointingHandCursor);
+    visitHistoryButton->setStyleSheet(medicalHistoryButton->styleSheet());
+    firstLine->addWidget(visitHistoryButton);
+
     patientFilesButton = new QPushButton(QIcon(":/icons/icon_open.png"), tr("Radiographs && documents"), strip);
     patientFilesButton->setCursor(Qt::PointingHandCursor);
     patientFilesButton->setStyleSheet(medicalHistoryButton->styleSheet());
@@ -106,6 +116,10 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 
     connect(patientFilesButton, &QPushButton::clicked, this, [=, this] {
         if (presenter) presenter->patientFilesRequested();
+    });
+
+    connect(visitHistoryButton, &QPushButton::clicked, this, [=, this] {
+        if (presenter) presenter->visitHistoryRequested();
     });
 
     context_menu->setStyleSheet(Theme::getPopupMenuStylesheet());
@@ -204,6 +218,15 @@ void PatientTileInfo::setPatientFileCount(int count)
         :
         tr("No radiographs or documents yet")
     );
+
+    elideMedicalHistoryText();
+}
+
+void PatientTileInfo::setVisitCount(int count)
+{
+    visitHistoryButton->setText(count ? tr("Visit history (%1)").arg(count) : tr("Visit history"));
+
+    visitHistoryButton->setToolTip(count ? tr("%1 saved visits").arg(count) : tr("No saved visits yet"));
 
     elideMedicalHistoryText();
 }

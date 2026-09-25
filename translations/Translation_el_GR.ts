@@ -1594,7 +1594,7 @@
 <context>
     <name>IssuerTileButton</name>
     <message>
-        <location filename="../src/View/uiComponents/FinancialTileButton.cpp" line="+50"/>
+        <location filename="../src/View/uiComponents/FinancialTileButton.cpp" line="+62"/>
         <location line="+12"/>
         <source>Name: </source>
         <translation>Επωνυμία: </translation>
@@ -2071,17 +2071,17 @@
 <context>
     <name>MedicalHistoryDialog</name>
     <message>
-        <location filename="../src/View/Widgets/MedicalHistoryDialog.cpp" line="+37"/>
+        <location filename="../src/View/Widgets/MedicalHistoryDialog.cpp" line="+40"/>
         <source>Medical history</source>
         <translation>Ιατρικό ιστορικό</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+48"/>
         <source>Date of medical history:</source>
         <translation>Ημερομηνία λήψης ιστορικού:</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+9"/>
         <source>Good</source>
         <translation>Καλή</translation>
     </message>
@@ -2096,7 +2096,7 @@
         <translation>Κακή</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>General health status:</source>
         <translation>Γενική κατάσταση υγείας:</translation>
     </message>
@@ -2162,12 +2162,12 @@
     </message>
     <message>
         <location line="+0"/>
-        <location line="+17"/>
+        <location line="+19"/>
         <source>Notes</source>
         <translation>Σημειώσεις</translation>
     </message>
     <message>
-        <location line="-16"/>
+        <location line="-18"/>
         <source>Add medication</source>
         <translation>Προσθήκη φαρμάκου</translation>
     </message>
@@ -2177,7 +2177,7 @@
         <translation>Αφαίρεση φαρμάκου</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Medications</source>
         <translation>Φαρμακευτική αγωγή</translation>
     </message>
@@ -2197,18 +2197,18 @@
         <translation>Περιγραφή αντίδρασης:</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Allergies</source>
         <translation>Αλλεργίες</translation>
     </message>
     <message>
         <location line="+4"/>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Previous surgeries and hospitalizations</source>
         <translation>Προηγούμενες επεμβάσεις και νοσηλείες</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="-4"/>
         <source>Surgery / procedure</source>
         <translation>Επέμβαση / πράξη</translation>
     </message>
@@ -2238,7 +2238,7 @@
         <translation>Αφαίρεση εγγραφής</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <location line="+3"/>
         <source>Bleeding and medical risk</source>
         <translation>Αιμορραγία και ιατρικοί κίνδυνοι</translation>
@@ -2254,7 +2254,7 @@
         <translation>Κάπνισμα</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+9"/>
         <source>Non-smoker</source>
         <translation>Δεν καπνίζει</translation>
     </message>
@@ -2269,7 +2269,7 @@
         <translation>Καπνιστής</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+32"/>
         <source>Cigarettes per day:</source>
         <translation>Τσιγάρα ημερησίως:</translation>
     </message>
@@ -2299,7 +2299,7 @@
         <translation>Άλλες σχετικές πληροφορίες τρόπου ζωής:</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Lifestyle and social history</source>
         <translation>Τρόπος ζωής και κοινωνικό ιστορικό</translation>
     </message>
@@ -2320,12 +2320,12 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Dental history</source>
         <translation>Οδοντιατρικό ιστορικό</translation>
     </message>
     <message>
-        <location line="-5"/>
+        <location line="-6"/>
         <source>Details (when, what)</source>
         <translation>Λεπτομέρειες (πότε, τι)</translation>
     </message>
@@ -2345,7 +2345,7 @@
         <translation>Άλλο σχετικό οδοντιατρικό ιστορικό:</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Clinical notes:</source>
         <translation>Κλινικές σημειώσεις:</translation>
     </message>
@@ -2365,7 +2365,7 @@
         <translation>Ιστορικό αλλαγών</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+24"/>
         <source>Save</source>
         <translation>Αποθήκευση</translation>
     </message>
@@ -2375,7 +2375,7 @@
         <translation>Κλείσιμο</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+47"/>
         <source>No</source>
         <translation>Όχι</translation>
     </message>
@@ -2385,7 +2385,7 @@
         <translation>Ναι</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+239"/>
         <source>The medical history could not be saved</source>
         <translation>Δεν ήταν δυνατή η αποθήκευση του ιατρικού ιστορικού</translation>
     </message>
@@ -2928,7 +2928,12 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Αναγνωριστικό:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+16"/>
+        <source>Permanent identifier of the patient, assigned automatically. It cannot be changed.</source>
+        <translation>Μόνιμο αναγνωριστικό του ασθενούς, αποδίδεται αυτόματα. Δεν μπορεί να αλλάξει.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>First name:</source>
         <translation>Όνομα:</translation>
     </message>
@@ -2993,7 +2998,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/PatientDialogPresenter.cpp" line="+44"/>
+        <location filename="../src/Presenter/PatientDialogPresenter.cpp" line="+45"/>
         <source>Edit Patient</source>
         <translation>Επεξεργασία ασθενή</translation>
     </message>
@@ -3012,7 +3017,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
 <context>
     <name>PatientHistoryDialog</name>
     <message>
-        <location filename="../src/View/Widgets/PatientHistoryDialog.cpp" line="+13"/>
+        <location filename="../src/View/Widgets/PatientHistoryDialog.cpp" line="+18"/>
         <source>Patient History</source>
         <translation>Ιστορικό ασθενή</translation>
     </message>
@@ -3025,6 +3030,26 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <location line="+0"/>
         <source>Radiographs &amp;&amp; documents</source>
         <translation>Ακτινογραφίες &amp;&amp; έγγραφα</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>No saved visits yet</source>
+        <translation>Δεν υπάρχουν αποθηκευμένες επισκέψεις</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Open visit</source>
+        <translation>Άνοιγμα επίσκεψης</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Visit history (%1)</source>
+        <translation>Ιστορικό επισκέψεων (%1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Visit history</source>
+        <translation>Ιστορικό επισκέψεων</translation>
     </message>
 </context>
 <context>
@@ -3079,32 +3104,32 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+15"/>
+        <location line="+19"/>
         <source>Sex: </source>
         <translation>Φύλο: </translation>
     </message>
     <message>
-        <location line="-14"/>
-        <location line="+15"/>
+        <location line="-18"/>
+        <location line="+19"/>
         <location line="+29"/>
         <source>Date of birth: </source>
         <translation>Ημ. γέννησης: </translation>
     </message>
     <message>
-        <location line="-42"/>
-        <location line="+16"/>
+        <location line="-46"/>
+        <location line="+20"/>
         <source>Phone number: </source>
         <translation>Τηλέφωνο: </translation>
     </message>
     <message>
-        <location line="-15"/>
-        <location line="+16"/>
+        <location line="-19"/>
+        <location line="+20"/>
         <source>Address: </source>
         <translation>Διεύθυνση: </translation>
     </message>
     <message>
-        <location line="-15"/>
-        <location line="+16"/>
+        <location line="-19"/>
+        <location line="+20"/>
         <source>Age: </source>
         <translation>Ηλικία: </translation>
     </message>
@@ -3164,13 +3189,20 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+21"/>
-        <location line="+92"/>
+        <location line="+26"/>
+        <location line="+101"/>
         <source>Medical history</source>
         <translation>Ιατρικό ιστορικό</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="-122"/>
+        <location line="+31"/>
+        <location line="+135"/>
+        <source>Visit history</source>
+        <translation>Ιστορικό επισκέψεων</translation>
+    </message>
+    <message>
+        <location line="-16"/>
         <source>Radiographs &amp;&amp; documents (%1)</source>
         <translation>Ακτινογραφίες &amp;&amp; έγγραφα (%1)</translation>
     </message>
@@ -3190,9 +3222,9 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νοσήματα: %1</translation>
     </message>
     <message>
-        <location line="-98"/>
-        <location line="+26"/>
-        <location line="+112"/>
+        <location line="-107"/>
+        <location line="+31"/>
+        <location line="+116"/>
         <source>Radiographs &amp;&amp; documents</source>
         <translation>Ακτινογραφίες &amp;&amp; έγγραφα</translation>
     </message>
@@ -3213,7 +3245,22 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Δεν υπάρχουν ακόμη ακτινογραφίες ή έγγραφα</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+8"/>
+        <source>Visit history (%1)</source>
+        <translation>Ιστορικό επισκέψεων (%1)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 saved visits</source>
+        <translation>%1 αποθηκευμένες επισκέψεις</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>No saved visits yet</source>
+        <translation>Δεν υπάρχουν αποθηκευμένες επισκέψεις</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>(+%1 more)</source>
         <translation>(+%1 ακόμη)</translation>
     </message>
@@ -4151,7 +4198,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Κωδικός σφάλματος βάσης δεδομένων: %1</translation>
     </message>
     <message>
-        <location filename="../src/Database/DbBrowser.cpp" line="+17"/>
+        <location filename="../src/Database/DbBrowser.cpp" line="+19"/>
         <location line="+44"/>
         <location line="+70"/>
         <location line="+58"/>
@@ -4176,6 +4223,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <location line="+57"/>
         <location line="+45"/>
         <location filename="../src/Model/PlainTable.cpp" line="+28"/>
+        <location filename="../src/Presenter/PatientHistoryPresenter.cpp" line="+91"/>
         <source>Date</source>
         <translation>Ημερομηνία</translation>
     </message>
@@ -4183,6 +4231,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <location line="-172"/>
         <location line="+128"/>
         <location line="+46"/>
+        <location filename="../src/Presenter/PatientHistoryPresenter.cpp" line="-1"/>
         <source>Number</source>
         <translation>Αριθμός</translation>
     </message>
@@ -4770,7 +4819,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
     </message>
     <message>
         <location filename="../src/Model/Financial/Invoice.cpp" line="+35"/>
-        <location filename="../src/Presenter/FinancialPresenter.cpp" line="+272"/>
+        <location filename="../src/Presenter/FinancialPresenter.cpp" line="+275"/>
         <location filename="../src/View/Printer.cpp" line="+130"/>
         <source>Invoice</source>
         <translation>Τιμολόγιο</translation>
@@ -4906,7 +4955,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Πρέπει πρώτα να κλείσετε όλα τα έγγραφα που έχουν επιλεγεί για διαγραφή!</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+48"/>
         <source>The document could not be opened because it is not created by current user</source>
         <translation>Το έγγραφο δεν μπορεί να ανοιχτεί, επειδή δεν έχει δημιουργηθεί από τον τρέχοντα χρήστη</translation>
     </message>
@@ -4980,7 +5029,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Δημιουργήθηκε ένα προσωρινό προφίλ. Καταχωρίστε τα στοιχεία σας από τις Ρυθμίσεις</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/PatientHistoryPresenter.cpp" line="+62"/>
+        <location filename="../src/Presenter/PatientHistoryPresenter.cpp" line="-28"/>
         <source>Dental visit </source>
         <translation>Οδοντιατρική επίσκεψη </translation>
     </message>
@@ -4990,12 +5039,23 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation> (αρχική στοματική κατάσταση)</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+30"/>
+        <source>Time</source>
+        <translation>Ώρα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Description / Notes</source>
+        <translation>Περιγραφή / Σημειώσεις</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <location line="+27"/>
         <source>The document could not be opened because it is not created by the current user.</source>
         <translation>Το έγγραφο δεν μπορεί να ανοιχτεί, επειδή δεν έχει δημιουργηθεί από τον τρέχοντα χρήστη.</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/PatientInfoPresenter.cpp" line="+65"/>
+        <location filename="../src/Presenter/PatientInfoPresenter.cpp" line="+67"/>
         <source>Patient notes</source>
         <translation>Σημειώσεις ασθενή</translation>
     </message>
@@ -5149,7 +5209,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νέα οδοντιατρική επίσκεψη </translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+185"/>
         <source>Select multiple teeth before adding this status</source>
         <translation>Επιλέξτε περισσότερα από ένα δόντια πριν προσθέσετε αυτή την κατάσταση</translation>
     </message>
@@ -5355,7 +5415,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Φόρτωση του QDento, παρακαλώ περιμένετε...</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/TabInstance.cpp" line="+32"/>
+        <location filename="../src/Presenter/TabInstance.cpp" line="+33"/>
         <source>Do you wish to save changes to %1?</source>
         <translation>Θέλετε να αποθηκεύσετε τις αλλαγές στο «%1»;</translation>
     </message>
@@ -5404,31 +5464,31 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
 <context>
     <name>RecipientTileButton</name>
     <message>
-        <location filename="../src/View/uiComponents/FinancialTileButton.cpp" line="-47"/>
+        <location filename="../src/View/uiComponents/FinancialTileButton.cpp" line="-59"/>
         <location line="+12"/>
         <source>Name: </source>
         <translation>Όνομα: </translation>
     </message>
     <message>
         <location line="-11"/>
-        <location line="+12"/>
+        <location line="+16"/>
         <source>Identifier: </source>
         <translation>Αναγνωριστικό: </translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+12"/>
+        <location line="-15"/>
+        <location line="+11"/>
         <source>Address: </source>
         <translation>Διεύθυνση: </translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+12"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Phone Number: </source>
         <translation>Τηλέφωνο: </translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+17"/>
         <source>Recipient</source>
         <translation>Παραλήπτης</translation>
     </message>
@@ -5896,7 +5956,12 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Περιοδοντική μέτρηση</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/VisitView.cpp" line="+223"/>
+        <location filename="../src/View/Widgets/VisitView.cpp" line="+67"/>
+        <source>Chronological number of the visit among the patient&apos;s visits</source>
+        <translation>Αύξων αριθμός της επίσκεψης στο ιστορικό του ασθενούς</translation>
+    </message>
+    <message>
+        <location line="+161"/>
         <source>Total Price: </source>
         <translation>Συνολική τιμή: </translation>
     </message>

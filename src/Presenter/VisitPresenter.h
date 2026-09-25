@@ -49,7 +49,9 @@ public:
     void setDataToView() override;
 
     void setAmbDate(const Date& date);
-    void setAmbNumber(int number);
+
+    //recalculates the number of the visit from the database (other visits may have been saved or deleted)
+    void refreshVisitNumber();
 
     void setToothStatus(Dental::StatusType t, int code, bool supernumeral = false);
     void setOther(int code);

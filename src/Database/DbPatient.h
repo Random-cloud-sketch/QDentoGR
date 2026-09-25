@@ -17,8 +17,11 @@ namespace DbPatient
         long long rowid;
     };
 
-    long long insert(const Patient& patient);
+    //assigns a new identifier (UUID) to the patient if it has none
+    long long insert(Patient& patient);
+    //updates everything except the identifier, which never changes
     bool update(const Patient& patient);
+    //by identifier (UUID)
     Patient get(const std::string& patientID);
     Patient get(long long rowid);
 

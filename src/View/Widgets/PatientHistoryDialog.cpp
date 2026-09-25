@@ -2,6 +2,11 @@
 #include "Presenter/PatientHistoryPresenter.h"
 #include "View/GlobalFunctions.h"
 #include "View/Widgets/PatientFilesWidget.h"
+#include "View/uiComponents/ListTable.h"
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QLabel>
 #include <set>
 #include <array>
 
@@ -131,7 +136,7 @@ void PatientHistoryDialog::setPerioSnapshots(const std::vector<PerioSnapshot>& s
 {
 
 	if (snapshots.empty()) {
-		ui.tabWidget->tabBar()->removeTab(PERIO_TAB_INDEX);
+		ui.tabWidget->removeTab(ui.tabWidget->indexOf(ui.perioTab));
 		return;
 	}
 	ui.perioTab->setSnapshots(snapshots);
@@ -157,6 +162,72 @@ void PatientHistoryDialog::addPatientFilesTab(long long patientRowid)
 	});
 
 	Q_UNUSED(index);
+}
+
+void PatientHistoryDialog::setVisitHistory(const PlainTable& visits)
+{
+	visitTab = new QWidget(ui.tabWidget);
+
+	auto layout = new QVBoxLayout(visitTab);
+
+	auto table = new ListTable(visitTab);
+	table->setModel(&visit_model);
+	setTableViewDefaults(table);
+	table->setSelectionMode(QAbstractItemView::SingleSelection);
+	table->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+	visit_model.setTableData(visits);
+
+	for (int i = 0; i < visits.size(); i++) {
+		table->setColumnHidden(i, visits[i].hidden);
+		table->setColumnWidth(i, visits[i].width);
+	}
+
+	layout->addWidget(table);
+
+	auto buttons = new QHBoxLayout();
+
+	auto emptyLabel = new QLabel(tr("No saved visits yet"), visitTab);
+	emptyLabel->setStyleSheet("color: gray;");
+	emptyLabel->setVisible(!visits.rowCount());
+	buttons->addWidget(emptyLabel);
+
+	buttons->addStretch();
+
+	auto openButton = new QPushButton(QIcon(":/icons/icon_sheet.png"), tr("Open visit"), visitTab);
+	openButton->setEnabled(false);
+	buttons->addWidget(openButton);
+
+	layout->addLayout(buttons);
+
+	auto selectedRow = [=] {
+		auto rows = table->selectionModel()->selectedRows();
+		return rows.size() == 1 ? rows[0].row() : -1;
+	};
+
+	connect(table->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
+		openButton->setEnabled(selectedRow() != -1);
+	});
+
+	connect(openButton, &QPushButton::clicked, this, [=, this] {
+		if (auto row = selectedRow(); row != -1) presenter.openVisit(row);
+	});
+
+	connect(table, &QTableView::doubleClicked, this, [=, this](const QModelIndex& index) {
+		presenter.openVisit(index.row());
+	});
+
+	ui.tabWidget->insertTab(0, visitTab, QIcon(":/icons/icon_sheet.png"),
+		visits.rowCount() ? tr("Visit history (%1)").arg(visits.rowCount()) : tr("Visit history")
+	);
+
+	//the dialog still opens on the procedures, unless the visit history was asked for
+	ui.tabWidget->setCurrentWidget(ui.tab);
+}
+
+void PatientHistoryDialog::showVisitHistory()
+{
+	if (visitTab) ui.tabWidget->setCurrentWidget(visitTab);
 }
 
 PatientHistoryDialog::~PatientHistoryDialog()

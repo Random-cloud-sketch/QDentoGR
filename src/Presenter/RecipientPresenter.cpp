@@ -26,29 +26,13 @@ void RecipientPresenter::idValidInput()
 		return;
 	}
 
-	if (id.size() != 10) return; //not a patient id
+	//searching by the patient identifier (UUID):
 
-	//searching by personal id in patient:
-
-	//check for patient Type 1
 	auto p = DbPatient::get(id);
 
 	if (p.rowid) {
-
 		view->setRecipient(Recipient(p));
-		return;
 	}
-
-	//check for patient Type 2
-	p = DbPatient::get(id);
-
-	if (p.rowid) {
-		view->setRecipient(Recipient(p));
-		return;
-	}
-
-
-	
 }
 
 void RecipientPresenter::setRecipientEditView(RecipientEditView* view)

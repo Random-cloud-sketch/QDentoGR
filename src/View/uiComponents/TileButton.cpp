@@ -175,7 +175,11 @@ void PatientTile::paintInfo(QPainter* painter)
 	};
 
 	painter->setFont(info);
-	painter->drawText(20 + horizontalAdvance(idLabel), rowYPos[0], id);
+	//the identifier (UUID) must not run into the phone number
+	int idX = 20 + horizontalAdvance(idLabel);
+	painter->drawText(idX, rowYPos[0],
+		QFontMetrics(info).elidedText(id, Qt::ElideRight, width() / 2 - 10 - idX)
+	);
 	painter->drawText(20 + horizontalAdvance(tr("Sex: ")), rowYPos[1], sex);
 	painter->drawText(20 + horizontalAdvance(tr("Date of birth: ")), rowYPos[2], birthDate);
 

@@ -19,9 +19,11 @@ class PatientHistoryDialog : public QDialog
 {
 	Q_OBJECT
 
-	static constexpr int PERIO_TAB_INDEX = 3;
 
 	PatientHistoryPresenter& presenter;
+
+	PlainTableModel visit_model;
+	QWidget* visitTab{ nullptr };
 
 	PlainTableModel doc_model;
 	PlainTableModel doc_details_model;
@@ -39,6 +41,9 @@ public:
 	void setPatientNoteFlags(const std::array<std::string, 32>& notes);
 	//radiographs and documents of the patient (added as the last tab)
 	void addPatientFilesTab(long long patientRowid);
+	//visits of the patient, the most recent first (added as the first tab)
+	void setVisitHistory(const PlainTable& visits);
+	void showVisitHistory();
 
 	~PatientHistoryDialog();
 

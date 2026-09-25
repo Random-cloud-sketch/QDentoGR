@@ -6,6 +6,7 @@
 #include <map>
 #include <QObject>
 #include "Database/DbPatientFile.h"
+#include "Database/DbDentalVisit.h"
 
 std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
 {
@@ -14,7 +15,8 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
     
     rows.reserve(50);
 
-    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"),150,PlainColumn::Center});
+    //the identifier is a UUID (36 characters)
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"),270,PlainColumn::Center});
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Patient Name"),250});
     tableView.indicator_column = 2;
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Patient Phone"),120,PlainColumn::Center});
@@ -22,7 +24,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
     std::string query =
         "SELECT rowid, id, fname, lname , phone,  "
         "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime')) AND strftime('%Y', patient.birth) != '1900') AS bday, "
-        "color FROM patient ORDER BY bday DESC, id ASC";
+        "color FROM patient ORDER BY bday DESC, fname ASC, lname ASC, rowid ASC";
 
     for (Db db(query);db.hasRows();)
     {
@@ -58,7 +60,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
 
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Date"),120,PlainColumn::Center});
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Number"),110,PlainColumn::Center});
-    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"),120,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"),270,PlainColumn::Center});
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Patient Name"),240});
     tableView.indicator_column = 4;
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Phone Number"),120,PlainColumn::Center});
@@ -69,7 +71,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         "SELECT "
         "dental_visit.rowid, "
         "dental_visit.date, "
-        "dental_visit.num, "
+        + DbDentalVisit::numberSql("dental_visit") + ", "
         "patient.rowid, patient.id, patient.fname, patient.lname, patient.phone, "
         "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime')) AND strftime('%Y', patient.birth) != '1900') AS bday, "
         "patient.color "
@@ -128,7 +130,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
     rows.reserve(50);
 
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Date"),120,PlainColumn::Center});
-    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"),150,PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"),270,PlainColumn::Center});
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Patient Name"),250,});
     tableView.indicator_column = 3;
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Phone Number"),120,PlainColumn::Center });
@@ -186,7 +188,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
 
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Date"), 120, PlainColumn::Right});
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Number"), 110, PlainColumn::Center});
-    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"), 100, PlainColumn::Center});
+    tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Identifier"), 270, PlainColumn::Center});
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Recipient Name"), 250 });
     tableView.addColumn({QT_TRANSLATE_NOOP("QObject", "Phone Number"), 100, PlainColumn::Center});
 
@@ -237,7 +239,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
     Db db;
 
     db.newStatement(
-        "SELECT           rowid, 1 as type, date, num, dentist_rowid as author, (dentist_rowid = ? ) as from_me FROM dental_visit WHERE patient_rowid=? "
+        "SELECT           rowid, 1 as type, date, " + DbDentalVisit::numberSql("dental_visit") + " AS num, dentist_rowid as author, (dentist_rowid = ? ) as from_me FROM dental_visit WHERE patient_rowid=? "
         "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, dentist_rowid as author, (dentist_rowid = ?) as from_me FROM periostatus WHERE patient_rowid=? "
         "UNION ALL SELECT financial.rowid, 3 AS type, date, num, (SELECT name FROM company LIMIT 1) AS author, TRUE as from_me FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? "
         "ORDER BY date DESC"

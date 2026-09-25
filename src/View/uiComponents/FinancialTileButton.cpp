@@ -32,9 +32,21 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 
 	painter->setFont(info);
 	painter->drawText(20 + horizontalAdvance(tr("Name: ")), rowYPos[0], name);
-	painter->drawText(20 + horizontalAdvance(tr("Identifier: ")), rowYPos[1], id);
 	painter->drawText(20 + horizontalAdvance(tr("Address: ")), rowYPos[2], address);
 	painter->drawText(20 + horizontalAdvance(tr("Phone Number: ")), rowYPos[3], this->phone);
+
+	//a patient's identifier is a UUID: a smaller font is used when it does not fit in the tile
+	int idX = 20 + horizontalAdvance(tr("Identifier: "));
+	int idWidth = width() - 10 - idX;
+
+	QFont idFont = info;
+
+	while (QFontMetrics(idFont).horizontalAdvance(id) > idWidth && idFont.pointSizeF() > 6) {
+		idFont.setPointSizeF(idFont.pointSizeF() - 0.5);
+	}
+
+	painter->setFont(idFont);
+	painter->drawText(idX, rowYPos[1], QFontMetrics(idFont).elidedText(id, Qt::ElideRight, idWidth));
 
 	painter->setFont(header);
 	painter->setPen(QPen(animatedColor(Theme::fontRed, Theme::fontRedClicked)));

@@ -21,6 +21,7 @@ class PatientTileInfo : public RoundedFrame
 
     QPushButton* medicalHistoryButton;
     QPushButton* patientFilesButton;
+    QPushButton* visitHistoryButton;
     //first line (next to the button) and second line of the medical history summary
     QLabel* medicalHistoryLabels[2];
     QStringList medicalHistoryItems;
@@ -35,6 +36,8 @@ public:
 	void setMedicalHistory(const std::optional<MedicalHistory>& history);
 	//number of radiographs and documents of the patient
 	void setPatientFileCount(int count);
+	//number of saved visits of the patient
+	void setVisitCount(int count);
 
 protected:
 	void resizeEvent(QResizeEvent* event) override;

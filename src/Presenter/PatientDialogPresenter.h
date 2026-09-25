@@ -16,6 +16,7 @@ struct PatientDialogPresenter
 
 	//data not present in view:
 	long long rowid{ 0 };
+	std::string patientId; //permanent identifier (UUID); a new one for a new patient
 	TeethNotes teeth_notes;
 	std::string patientNotes;
 
@@ -26,7 +27,6 @@ public:
 	PatientDialogPresenter(const Patient& patient);
 	std::optional<Patient> open();
 
-	void searchDbForPatient(const std::string& id);
 	void accept();
 
 	void setView(PatientFormDialog* view);

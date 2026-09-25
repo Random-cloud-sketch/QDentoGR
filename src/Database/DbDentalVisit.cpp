@@ -16,38 +16,43 @@ long long DbDentalVisit::insert(const DentalVisit& sheet, long long patientRowId
         "VALUES (?,?,?,?,?)");
 
     db.bind(1, sheet.date.to8601());
-    db.bind(2, sheet.number);
+    db.bind(2, 0); //replaced below by the chronological number
     db.bind(3, Parser::write(sheet.teeth));
     db.bind(4, patientRowId);
     db.bind(5, User::dentist().rowID);
 
-    db.execute();
+    if (!db.execute()) return 0;
 
     auto rowID = db.lastInsertedRowID();
 
     DbProcedure::saveProcedures(rowID, sheet.procedures.list(), db);
 
+    storeNumber(rowID);
+
     return rowID;
 }
 
-void DbDentalVisit::update(const DentalVisit& sheet)
+bool DbDentalVisit::update(const DentalVisit& sheet)
 {
+    //the number is never taken from the view
     std::string query = "UPDATE dental_visit SET "
-        "num=?,"
         "date=?,"
-        "status=?"
+        "status=? "
         "WHERE rowid=?";
-    
+
     Db db(query);
 
-    db.bind(1, sheet.number);
-    db.bind(2, sheet.date.to8601());
-    db.bind(3, Parser::write(sheet.teeth));
-    db.bind(4, sheet.rowid);
+    db.bind(1, sheet.date.to8601());
+    db.bind(2, Parser::write(sheet.teeth));
+    db.bind(3, sheet.rowid);
 
-    db.execute();
+    if (!db.execute()) return false;
 
     DbProcedure::saveProcedures(sheet.rowid, sheet.procedures.list(), db);
+
+    storeNumber(sheet.rowid);
+
+    return true;
 }
 
 DentalVisit DbDentalVisit::getNewDoc(long long patientRowId)
@@ -72,10 +77,13 @@ DentalVisit DbDentalVisit::getNewDoc(long long patientRowId)
     {
         visit.patient_rowid = patientRowId;
         visit.rowid = db.asRowId(0);
-        visit.number = db.asInt(1);
         status = db.asString(2);
         visit.date = db.asString(3);
     }
+
+    //today's visit is opened again, otherwise the new visit shows the number of saved visits
+    //(it is counted only when it is saved)
+    visit.number = visit.rowid ? number(visit.rowid) : count(patientRowId);
 
     if (!visit.rowid)
     {
@@ -94,12 +102,12 @@ DentalVisit DbDentalVisit::getNewDoc(long long patientRowId)
         Date amblistDate;
 
         while(db.hasRows()){
-            
+
             oldId = db.asRowId(0);
             status = db.asString(1);
             amblistDate = db.asString(2);
         }
-  
+
         if (!oldId) return visit; //no data is found for this patient
 
         Parser::parse(status, visit.teeth);
@@ -131,19 +139,6 @@ DentalVisit DbDentalVisit::getNewDoc(long long patientRowId)
             }
         }
 
-        std::string query =
-            "SELECT num FROM dental_visit WHERE "
-            "dentist_rowid=? "
-            "ORDER BY num DESC LIMIT 1";
-
-        db.newStatement(query);
-
-        db.bind(1, User::dentist().rowID);
-
-        while (db.hasRows()) {
-            visit.number = db.asInt(0) + 1;
-        };
-
         return visit;
     }
 
@@ -168,7 +163,6 @@ DentalVisit DbDentalVisit::get(long long rowId)
     while (db.hasRows())
     {
         dental_visit.rowid = db.asRowId(0);
-        dental_visit.number = db.asInt(1);
         status = db.asString(2);
         dental_visit.dentist_rowid = User::dentist().rowID;
         dental_visit.patient_rowid = db.asRowId(3);
@@ -177,6 +171,7 @@ DentalVisit DbDentalVisit::get(long long rowId)
 
     Parser::parse(status, dental_visit.teeth);
     dental_visit.procedures.addProcedures(DbProcedure::getProcedures(dental_visit.rowid, db));
+    dental_visit.number = number(dental_visit.rowid);
     return dental_visit;
 
 }
@@ -186,21 +181,99 @@ void DbDentalVisit::remove(long long rowid)
     Db::crudQuery("DELETE FROM dental_visit WHERE rowid = " + std::to_string(rowid) + ")");
 }
 
-int DbDentalVisit::getNewNumber(Date ambDate)
+std::string DbDentalVisit::numberSql(const std::string& a)
 {
+    return
+        "(SELECT COUNT(*) FROM dental_visit nv WHERE nv.patient_rowid = " + a + ".patient_rowid AND "
+        "(date(nv.date) < date(" + a + ".date) OR (date(nv.date) = date(" + a + ".date) AND nv.rowid <= " + a + ".rowid)))";
+}
 
-    std::string query = 
-        "SELECT num FROM dental_visit WHERE " 
-        "dentist_rowid=? "
-        "ORDER BY num DESC LIMIT 1";
+int DbDentalVisit::count(long long patientRowId)
+{
+    Db db("SELECT COUNT(*) FROM dental_visit WHERE patient_rowid=?");
 
-    Db db(query);
-
-    db.bind(1, User::dentist().rowID);
+    db.bind(1, patientRowId);
 
     while (db.hasRows()) {
-        return db.asInt(0) + 1;
-    };
+        return db.asInt(0);
+    }
 
-    return 1;
+    return 0;
+}
+
+int DbDentalVisit::number(long long visitRowId)
+{
+    Db db("SELECT " + numberSql("v") + " FROM dental_visit v WHERE v.rowid=?");
+
+    db.bind(1, visitRowId);
+
+    while (db.hasRows()) {
+        return db.asInt(0);
+    }
+
+    return 0;
+}
+
+void DbDentalVisit::storeNumber(long long visitRowId)
+{
+    //the num column keeps the number the visit had when it was last saved;
+    //what is shown is always calculated (older visits are never renumbered)
+    auto current = number(visitRowId);
+
+    Db db("UPDATE dental_visit SET num = ? WHERE rowid = ?");
+
+    db.bind(1, current);
+    db.bind(2, visitRowId);
+
+    db.execute();
+}
+
+std::vector<DbDentalVisit::VisitRecord> DbDentalVisit::getPatientVisits(long long patientRowId)
+{
+    std::vector<VisitRecord> result;
+
+    Db db(
+        "SELECT v.rowid, " + numberSql("v") + ", v.date, "
+        //the appointments are not linked to the visits: the patient's appointment on the same day
+        "(SELECT MIN(strftime('%H:%M', a.start)) FROM appointment a "
+        "WHERE a.patient_rowid = v.patient_rowid AND date(a.start) = date(v.date)), "
+        "v.dentist_rowid = ? "
+        "FROM dental_visit v WHERE v.patient_rowid = ? "
+        "ORDER BY date(v.date) DESC, v.rowid DESC"
+    );
+
+    db.bind(1, User::dentist().rowID);
+    db.bind(2, patientRowId);
+
+    while (db.hasRows())
+    {
+        auto& r = result.emplace_back();
+        r.rowid = db.asRowId(0);
+        r.number = db.asInt(1);
+        r.date = db.asString(2);
+        r.time = db.asString(3);
+        r.permissionToOpen = db.asBool(4);
+    }
+
+    for (auto& r : result)
+    {
+        std::string description;
+
+        for (auto& p : DbProcedure::getProcedures(r.rowid, db))
+        {
+            std::string text = p.name;
+
+            if (auto tooth = p.getToothString(); tooth.size()) text += " " + tooth;
+
+            if (p.notes.size()) text += " (" + p.notes + ")";
+
+            if (description.size()) description += "; ";
+
+            description += text;
+        }
+
+        r.description = description;
+    }
+
+    return result;
 }
