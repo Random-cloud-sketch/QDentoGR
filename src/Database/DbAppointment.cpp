@@ -9,8 +9,8 @@
 long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 {
 	//a new appointment is sent to Google Calendar by the next synchronization (when it is connected)
-	auto query = "INSERT INTO appointment (dentist_rowid, patient_rowid, start, end, summary, description, phone, "
-		"google_sync_status, google_sync_origin) VALUES (?,?,?,?,?,?,?,'pending_create','qdento')";
+	auto query = "INSERT INTO appointment (dentist_rowid, patient_rowid, start, end, summary, description, phone, recall, "
+		"google_sync_status, google_sync_origin) VALUES (?,?,?,?,?,?,?,?,'pending_create','qdento')";
 
 	Db db(query);
 
@@ -21,6 +21,8 @@ long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 	db.bind(5, UpperCase::convert(e.summary));
 	db.bind(6, UpperCase::convert(e.description));
 	db.bind(7, e.phone);
+	//a recall appointment needs a patient
+	db.bind(8, int(e.recall && e.patient_rowid));
 
 	db.execute();
 
@@ -29,7 +31,7 @@ long long DbAppointment::insert(const CalendarEvent& e, long long dentist_rowid)
 
 void DbAppointment::update(const CalendarEvent& e)
 {
-	auto query = "UPDATE appointment SET patient_rowid=?, start=?, end=?, summary=?, description=?, phone=?, "
+	auto query = "UPDATE appointment SET patient_rowid=?, start=?, end=?, summary=?, description=?, phone=?, recall=?, "
 		GOOGLE_PENDING_UPDATE " WHERE rowid=?";
 
 	Db db(query);
@@ -40,7 +42,8 @@ void DbAppointment::update(const CalendarEvent& e)
 	db.bind(4, UpperCase::convert(e.summary));
 	db.bind(5, UpperCase::convert(e.description));
 	db.bind(6, e.phone);
-	db.bind(7, e.rowid);
+	db.bind(7, int(e.recall && e.patient_rowid));
+	db.bind(8, e.rowid);
 
 	db.execute();
 
@@ -71,7 +74,7 @@ std::vector<CalendarEvent> DbAppointment::get(const QDate& from, const QDate& to
 	auto fromDate = from.toString(Qt::ISODate).toStdString();
 	auto toDate = to.toString(Qt::ISODate).toStdString();
 
-	auto query = "SELECT rowid, patient_rowid, start, end, summary, description, phone, IFNULL(google_sync_status, '') FROM appointment WHERE dentist_rowid =? AND strftime('%Y-%m-%d', start) BETWEEN ? AND ? ORDER BY start ASC";
+	auto query = "SELECT rowid, patient_rowid, start, end, summary, description, phone, IFNULL(google_sync_status, ''), recall, IFNULL(recall_status, '') FROM appointment WHERE dentist_rowid =? AND strftime('%Y-%m-%d', start) BETWEEN ? AND ? ORDER BY start ASC";
 
 	Db db(query);
 
@@ -93,6 +96,8 @@ std::vector<CalendarEvent> DbAppointment::get(const QDate& from, const QDate& to
 		e.description = db.asString(5);
 		e.phone = db.asString(6);
 		e.googleStatus = db.asString(7);
+		e.recall = db.asBool(8);
+		e.recallStatus = db.asString(9);
 
 		result.push_back(e);
 	}

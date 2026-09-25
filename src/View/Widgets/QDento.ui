@@ -210,6 +210,22 @@
           </widget>
          </item>
          <item>
+          <widget class="IconButton" name="recallButton">
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Periodontal recall</string>
+           </property>
+           <property name="text">
+            <string>Recall</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="IconButton" name="settingsButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">

@@ -1,5 +1,6 @@
 ﻿#include "MainPresenter.h"
 #include "GoogleCalendar/GoogleCalendarSync.h"
+#include "Presenter/RecallNotifier.h"
 
 
 #include "Model/User.h"
@@ -60,6 +61,9 @@ void MainPresenter::setView(QDento* view)
 
     //Google Calendar synchronization of the appointments (if it is connected)
     GoogleCalendarSync::get().start();
+
+    //periodontal recalls which need attention: badge and the notice of the day
+    RecallNotifier::get().start();
 }
 
 void MainPresenter::newAmbPressed()
@@ -109,6 +113,11 @@ void MainPresenter::openCalendar()
     TabPresenter::get().openCalendar();
 }
 
+void MainPresenter::openRecall()
+{
+    TabPresenter::get().openRecall();
+}
+
 void MainPresenter::showBrowser()
 {
     BrowserDialog d;
@@ -149,6 +158,7 @@ void MainPresenter::logOut()
     DbDentist::setAutoLogin(User::dentist().rowID, false);
 
     view->setNotificationIcon(0);
+    view->setRecallBadge(0, 0);
 
     LoginPresenter login;
 
@@ -168,6 +178,8 @@ void MainPresenter::logOut()
     openCalendar();
 
     GoogleCalendarSync::get().start();
+
+    RecallNotifier::get().start();
 }
 
 void MainPresenter::userSettingsPressed()

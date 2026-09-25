@@ -11,6 +11,7 @@
 #include "View/uiComponents/PixmapLabel.h"
 #include "View/Widgets/WelcomeWidget.h"
 #include "View/Widgets/CalendarView.h"
+#include "View/Widgets/RecallView.h"
 #include "ui_TabView.h"
 
 class TabTitle;
@@ -24,6 +25,7 @@ class TabView : public QWidget
 	VisitView* m_listView;
 	FinancialView* m_financialView;
 	CalendarView* m_calendarView;
+	RecallView* m_recallView;
 	WelcomeWidget* welcomeScreen{ nullptr };
 
 	bool showFocusedTabBorder = true;
@@ -64,11 +66,13 @@ public:
 	void showFinancialView();
 	void showWelcomeScreen();
 	void showCalendarView();
+	void showRecallView();
 
 	VisitView* listView() { return m_listView; }
 	PerioView* perioView() { return m_perioView; }
 	FinancialView* financialView() { return m_financialView; }
 	CalendarView* calendarView()  { return m_calendarView; }
+	RecallView* recallView() { return m_recallView; }
 	QScrollArea* scrollArea();
 signals:
 	void closeRequested(int mapIndex);

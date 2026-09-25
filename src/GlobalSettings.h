@@ -73,6 +73,13 @@ namespace GlobalSettings
 	GoogleCalendar getGoogleCalendar();
 	void setGoogleCalendar(const GoogleCalendar& settings);
 
+	//periodontal recall: the recalls are shown as due so many days before their date (0: from the date on)
+	int getRecallLeadDays();
+	void setRecallLeadDays(int days);
+	//the last day (yyyy-MM-dd) the recall notice was shown at startup
+	std::string getRecallNoticeDate();
+	void setRecallNoticeDate(const std::string& date);
+
 	//folder of config.json (logs of the program are written there)
 	std::string getDataFolder();
 }

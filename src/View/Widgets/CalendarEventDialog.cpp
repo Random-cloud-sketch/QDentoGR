@@ -2,6 +2,7 @@
 #include "Database/DbPatient.h"
 #include "Model/UpperCase.h"
 #include "View/uiComponents/UpperCaseValidator.h"
+#include <QCheckBox>
 #include <QCompleter>
 #include <QPainter>
 #include <QAbstractItemView>
@@ -70,6 +71,7 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 		QString summary = UpperCase::convert(ui.summaryEdit->text());
 		QString phone = normalizedPhone(ui.phoneLineEdit->text());
+		bool linked = isLinked(summary);
 
 		//the phone is optional, but when it is given it has all 10 digits
 		if (phone.size() && !QRegularExpression("^\\d{10}$").match(phone).hasMatch()) {
@@ -93,6 +95,9 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 			m_result.patient_rowid = m_linkedRowid;
 		}
 
+		//a recall appointment needs a patient of the list
+		m_result.recall = m_recallBox->isChecked() && linked && m_result.patient_rowid;
+
 		m_result.summary = summary.toStdString();
 		m_result.phone = phone.toStdString();
 		m_result.description = UpperCase::convert(ui.descriptionEdit->text()).toStdString();
@@ -103,6 +108,10 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 	});
 
+	m_recallBox = new QCheckBox(tr("Periodontal recall appointment"), this);
+	m_recallBox->setToolTip(tr("Only for an appointment of a patient of the list"));
+	ui.verticalLayout_4->insertWidget(ui.verticalLayout_4->count() - 1, m_recallBox);
+
 	connect(ui.summaryEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
 
 		ui.iconLabel->setText(
@@ -111,6 +120,8 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 			:
 			""
 		);
+
+		m_recallBox->setEnabled(isLinked(UpperCase::convert(text)));
 
 	});
 
@@ -186,8 +197,11 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		m_linkedName = UpperCase::convert(summary);
 	}
 
+	m_recallBox->setChecked(event.recall);
+
 	ui.summaryEdit->setText(summary);
 	ui.phoneLineEdit->setText(phone);
+	m_recallBox->setEnabled(isLinked(UpperCase::convert(summary)));
 	ui.descriptionEdit->setText(event.description.c_str());
 	ui.startDateTimeEdit->setDateTime(event.start);
 	ui.endDateTimeEdit->setDateTime(event.end);

@@ -16,6 +16,8 @@
 #include "View/Widgets/PatientFilesWidget.h"
 #include "Database/DbDentalVisit.h"
 #include "Presenter/PatientHistoryPresenter.h"
+#include "Presenter/RecallPresenter.h"
+#include "Database/DbRecall.h"
 
 PatientInfoPresenter::PatientInfoPresenter(PatientTileInfo* view, std::shared_ptr<Patient> p) :
     patient(p), view(view), doc_date(Date::currentDate())
@@ -89,6 +91,21 @@ void PatientInfoPresenter::setCurrent(bool isCurrent)
     refreshMedicalHistory();
     refreshPatientFiles();
     refreshVisitCount();
+    refreshRecall();
+}
+
+void PatientInfoPresenter::recallRequested()
+{
+    if (patient == nullptr || patient->rowid <= 0) return;
+
+    RecallActions::editRecall(patient->rowid);
+
+    refreshRecall();
+}
+
+void PatientInfoPresenter::refreshRecall()
+{
+    view->setRecall(patient && patient->rowid > 0 ? DbRecall::get(patient->rowid) : std::nullopt);
 }
 
 void PatientInfoPresenter::notificationClicked()

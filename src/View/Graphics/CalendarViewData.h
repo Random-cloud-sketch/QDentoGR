@@ -17,6 +17,8 @@ private:
 		QString text;			//name (bold)
 		QString phone;			//smaller line under the name, only when there is a phone
 		QString description;	//bold, under the phone
+		QString recallTag;		//periodontal recall appointment and its status (small, under the name)
+		QColor recallColor;
 
 		int column = -1;
 		int row = -1;

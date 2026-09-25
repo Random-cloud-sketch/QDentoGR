@@ -6,6 +6,7 @@
 #include "ui_PatientTileInfo.h"
 #include "View/uiComponents/RoundedFrame.h"
 #include "Model/MedicalHistory.h"
+#include "Model/Recall.h"
 
 class QPushButton;
 class QLabel;
@@ -22,6 +23,7 @@ class PatientTileInfo : public RoundedFrame
     QPushButton* medicalHistoryButton;
     QPushButton* patientFilesButton;
     QPushButton* visitHistoryButton;
+    QPushButton* recallButton;
     //first line (next to the button) and second line of the medical history summary
     QLabel* medicalHistoryLabels[2];
     QStringList medicalHistoryItems;
@@ -38,6 +40,8 @@ public:
 	void setPatientFileCount(int count);
 	//number of saved visits of the patient
 	void setVisitCount(int count);
+	//periodontal recall of the patient (next recall date on the button)
+	void setRecall(const std::optional<Recall>& recall);
 
 protected:
 	void resizeEvent(QResizeEvent* event) override;

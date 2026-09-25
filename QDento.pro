@@ -39,6 +39,14 @@ HEADERS += \
     src/GoogleCalendar/GoogleCalendarSync.h \
     src/GoogleCalendar/GoogleCalendarSettingsWidget.h \
     src/GoogleCalendar/GoogleClientConfig.example.h \
+    src/Database/DbRecall.h \
+    src/Model/Recall.h \
+    src/Presenter/RecallPresenter.h \
+    src/View/Widgets/RecallView.h \
+    src/View/Widgets/RecallDialog.h \
+    src/View/Widgets/RecallCompletionDialog.h \
+    src/View/uiComponents/OptionalDateEdit.h \
+    src/Presenter/RecallNotifier.h \
     src/Database/DbAppointment.h \
     src/Database/DbBrowser.h \
     src/Database/DbCompany.h \
@@ -265,6 +273,14 @@ SOURCES += \
     src/GoogleCalendar/GoogleCalendarApi.cpp \
     src/GoogleCalendar/GoogleCalendarSync.cpp \
     src/GoogleCalendar/GoogleCalendarSettingsWidget.cpp \
+    src/Database/DbRecall.cpp \
+    src/Model/Recall.cpp \
+    src/Presenter/RecallPresenter.cpp \
+    src/View/Widgets/RecallView.cpp \
+    src/View/Widgets/RecallDialog.cpp \
+    src/View/Widgets/RecallCompletionDialog.cpp \
+    src/View/uiComponents/OptionalDateEdit.cpp \
+    src/Presenter/RecallNotifier.cpp \
     src/Database/DbAppointment.cpp \
     src/Database/DbBrowser.cpp \
     src/Database/DbCompany.cpp \

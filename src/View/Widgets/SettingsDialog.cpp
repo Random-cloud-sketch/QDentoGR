@@ -17,6 +17,10 @@
 #include "View/Widgets/AboutDialog.h"
 #include "View/uiComponents/UpperCaseValidator.h"
 #include "GoogleCalendar/GoogleCalendarSettingsWidget.h"
+#include "Presenter/RecallNotifier.h"
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QSpinBox>
 
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
@@ -207,6 +211,27 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 		//after "Translation file", before the spacer
 		ui.verticalLayout_3->insertWidget(2, group);
+	}
+
+	//periodontal recall: how early the recalls are notified (saved and applied immediately)
+	{
+		auto group = new QGroupBox(tr("Periodontal recall"), ui.generalTab);
+		auto row = new QHBoxLayout(group);
+
+		row->addWidget(new QLabel(tr("Recall notification before the date"), group));
+
+		auto spin = new QSpinBox(group);
+		spin->setObjectName("recallLeadDays");
+		spin->setRange(0, 365);
+		spin->setSuffix(" " + tr("days"));
+		spin->setValue(GlobalSettings::getRecallLeadDays());
+		spin->setToolTip(tr("0: only recalls due today or overdue. The recall dates themselves are never changed."));
+		row->addWidget(spin);
+		row->addStretch();
+
+		connect(spin, &QSpinBox::valueChanged, this, [](int days) { RecallNotifier::get().setLeadDays(days); });
+
+		ui.verticalLayout_3->insertWidget(3, group);
 	}
 
 	//Google Calendar synchronization of the appointments

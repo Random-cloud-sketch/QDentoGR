@@ -158,6 +158,7 @@ CalendarView::CalendarView(QWidget* parent)
     connect(ui.calendarTable, &CalendarTable::eventAddRequested, this, [&](const QTime& t, int daysFromMonday, int duration) { presenter->addEvent(t, daysFromMonday, duration); });
     connect(ui.calendarTable, &CalendarTable::deleteEventRequested, this, [&](int eventIdx) { presenter->deleteEvent(eventIdx); });
     connect(ui.calendarTable, &CalendarTable::googleEventAgainRequested, this, [&](int eventIdx) { presenter->createGoogleEventAgain(eventIdx); });
+    connect(ui.calendarTable, &CalendarTable::recallActionRequested, this, [&](int eventIdx, int action) { presenter->recallAction(eventIdx, action); });
     connect(ui.calendarTable, &CalendarTable::moveEventRequested, this, [&](int index) { presenter->moveEvent(index); });
     connect(ui.calendarTable, &CalendarTable::operationCanceled, this, [&] { presenter->clearClipboard(); });
     connect(ui.calendarTable, &CalendarTable::eventDurationChange, this, [&](int eventIdx, int duration) { presenter->durationChange(eventIdx, duration); });

@@ -211,6 +211,7 @@ void TabView::initTabs()
 	m_perioView = new PerioView(nullptr);
 	m_financialView = new FinancialView(nullptr);
 	m_calendarView = new CalendarView(nullptr);
+	m_recallView = new RecallView(nullptr);
 	welcomeScreen = new WelcomeWidget(nullptr);
 
 	addPage(welcomeScreen);
@@ -218,6 +219,7 @@ void TabView::initTabs()
 	addPage(m_perioView);
 	addPage(m_financialView);
 	addPage(m_calendarView);
+	addPage(m_recallView); //index = TabType::Recall
   
 }
 
@@ -229,7 +231,7 @@ void TabView::showView(TabType t)
     
     refreshTabBorder(scrollArea);
 
-    if (t != TabType::PatientSummary && t != TabType::Calendar) {
+    if (t != TabType::PatientSummary && t != TabType::Calendar && t != TabType::Recall) {
 
         shadowWidget = qobject_cast<ShadowBakeWidget*>(scrollArea->widget());
 
@@ -345,6 +347,7 @@ void TabView::showListView()
     m_perioView->setPresenter(nullptr);
     m_financialView->setPresenter(nullptr);
     m_calendarView->setCalendarPresenter(nullptr);
+    m_recallView->setPresenter(nullptr);
 }
 
 void TabView::showPerioView()
@@ -355,6 +358,7 @@ void TabView::showPerioView()
     m_listView->setPresenter(nullptr);
     m_financialView->setPresenter(nullptr);
     m_calendarView->setCalendarPresenter(nullptr);
+    m_recallView->setPresenter(nullptr);
 }
 
 void TabView::showFinancialView()
@@ -365,6 +369,7 @@ void TabView::showFinancialView()
     m_listView->setPresenter(nullptr);
     m_perioView->setPresenter(nullptr);
     m_calendarView->setCalendarPresenter(nullptr);
+    m_recallView->setPresenter(nullptr);
 }
 
 void TabView::showCalendarView()
@@ -374,6 +379,17 @@ void TabView::showCalendarView()
     m_listView->setPresenter(nullptr);
     m_perioView->setPresenter(nullptr);
     m_financialView->setPresenter(nullptr);
+    m_recallView->setPresenter(nullptr);
+}
+
+void TabView::showRecallView()
+{
+    GlobalWidgets::mainWindow->disableButtons(true);
+    showView(TabType::Recall);
+    m_listView->setPresenter(nullptr);
+    m_perioView->setPresenter(nullptr);
+    m_financialView->setPresenter(nullptr);
+    m_calendarView->setCalendarPresenter(nullptr);
 }
 
 void TabView::showWelcomeScreen()
@@ -386,6 +402,7 @@ void TabView::showWelcomeScreen()
     m_perioView->setPresenter(nullptr);
     m_financialView->setPresenter(nullptr);
     m_calendarView->setCalendarPresenter(nullptr);
+    m_recallView->setPresenter(nullptr);
 }
 
 TabView::~TabView()

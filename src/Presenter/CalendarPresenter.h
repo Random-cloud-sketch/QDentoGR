@@ -81,6 +81,8 @@ public:
 	void rescheduleEvent(int index, const QDateTime& start, const QDateTime& end, bool moved);
 	void undoLastChange();
 	void createGoogleEventAgain(int index);
+	//periodontal recall actions of an appointment (RecallAction)
+	void recallAction(int index, int action);
 
 	~CalendarPresenter();
 };

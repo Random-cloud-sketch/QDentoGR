@@ -1,5 +1,6 @@
 ﻿#include "GlobalSettings.h"
 #include <QStandardPaths>
+#include <algorithm>
 #include <QDir>
 #include <QFileDialog>
 #include <json.h>
@@ -281,6 +282,38 @@ void GlobalSettings::setGoogleCalendar(const GoogleCalendar& g)
     //the test addresses are only kept when they were set by hand
     if (g.testApiUrl.size()) s["test_api_url"] = g.testApiUrl; else s.removeMember("test_api_url");
     if (g.testOAuthUrl.size()) s["test_oauth_url"] = g.testOAuthUrl; else s.removeMember("test_oauth_url");
+
+    rewriteCfg(settings);
+}
+
+int GlobalSettings::getRecallLeadDays()
+{
+    auto settings = getSettingsAsJson();
+
+    int days = settings.isMember("recall_lead_days") ? settings["recall_lead_days"].asInt() : 0;
+
+    return std::clamp(days, 0, 365);
+}
+
+void GlobalSettings::setRecallLeadDays(int days)
+{
+    auto settings = getSettingsAsJson();
+
+    settings["recall_lead_days"] = std::clamp(days, 0, 365);
+
+    rewriteCfg(settings);
+}
+
+std::string GlobalSettings::getRecallNoticeDate()
+{
+    return getSettingsAsJson().get("recall_notice_shown", "").asString();
+}
+
+void GlobalSettings::setRecallNoticeDate(const std::string& date)
+{
+    auto settings = getSettingsAsJson();
+
+    settings["recall_notice_shown"] = date;
 
     rewriteCfg(settings);
 }

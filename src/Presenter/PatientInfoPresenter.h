@@ -34,5 +34,7 @@ public:
 	void refreshPatientFiles();
 	void visitHistoryRequested();
 	void refreshVisitCount();
+	void recallRequested();
+	void refreshRecall();
 	void setParent(TabInstance* p) { m_parent = p; }
 };

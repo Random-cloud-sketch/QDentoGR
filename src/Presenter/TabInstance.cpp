@@ -61,6 +61,7 @@ void TabInstance::setCurrent()
 		case TabType::PerioStatus: _tabView->showPerioView(); break;
 		case TabType::Financial:_tabView->showFinancialView(); break;;
 		case TabType::Calendar:_tabView->showCalendarView(); break;
+		case TabType::Recall:_tabView->showRecallView(); break;
 		default: break;
 	}
 

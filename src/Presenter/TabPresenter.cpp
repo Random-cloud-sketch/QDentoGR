@@ -7,6 +7,7 @@
 #include "PerioPresenter.h"
 #include "PatientHistoryPresenter.h"
 #include "CalendarPresenter.h"
+#include "RecallPresenter.h"
 #include "FinancialPresenter.h"
 #include "Database/DbInvoice.h"
 #include "View/Widgets/TabView.h"
@@ -159,13 +160,26 @@ void TabPresenter::openInvoice(long long patientRowId, const std::vector<Procedu
     );
 }
 
-void TabPresenter::openCalendar(const CalendarEvent& event)
+void TabPresenter::openCalendar(const CalendarEvent& event, const QDate& week)
 {
     open(RowInstance(TabType::Calendar), true);
 
     //set clipboard
     static_cast<CalendarPresenter*>(currentTab())->newAppointment(event);
 
+    if (week.isValid()) static_cast<CalendarPresenter*>(currentTab())->dateRequested(week);
+
+}
+
+void TabPresenter::openRecall(int filter)
+{
+    open(RowInstance(TabType::Recall), true);
+
+    if (filter < 0) return;
+
+    for (auto& [index, tab] : m_tabs) {
+        if (tab->type == TabType::Recall) static_cast<RecallPresenter*>(tab)->showFilter(RecallPresenter::Filter(filter));
+    }
 }
 
 void TabPresenter::openCalendar()
@@ -225,6 +239,10 @@ bool TabPresenter::open(const RowInstance& row, bool setFocus)
 
         case TabType::Calendar:
             newTab = new CalendarPresenter(view);
+            break;
+
+        case TabType::Recall:
+            newTab = new RecallPresenter(view);
             break;
     }
 

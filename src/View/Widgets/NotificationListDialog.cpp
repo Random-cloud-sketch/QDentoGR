@@ -103,40 +103,39 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
 
 void NotificationListDialog::appointmentLogic(long long patientRowid, long long notifRowid, const std::string& descr, bool forceAppointment)
 {
-    int result(0);
+    std::vector<std::pair<std::string, TabType>> choices{
+        { tr("Schedule New Appointment").toStdString(), TabType::Calendar },
+        { tr("New Dental Visit").toStdString(), TabType::DentalVisit },
+        { tr("New Invoice").toStdString(), TabType::Financial },
+        { tr("New Periodontal Measurment").toStdString(), TabType::PerioStatus },
+        { tr("Patient History").toStdString(), TabType::PatientSummary }
+    };
+
+    //invoices are not used for now: the choice is only hidden (delete this line to show it again)
+    std::erase_if(choices, [](const auto& c) { return c.second == TabType::Financial; });
+
+    TabType type = TabType::Calendar;
 
     if(!forceAppointment){
 
-    result = ModalDialogBuilder::openButtonDialog(
-        {
-            tr("Schedule New Appointment").toStdString(),
-            tr("New Dental Visit").toStdString(),
-            tr("New Invoice").toStdString(),
-            tr("New Periodontal Measurment").toStdString(),
-            tr("Patient History").toStdString()
-        },
-        tr("Open").toStdString()
-        );
+        std::vector<std::string> labels;
+        for (auto& c : choices) labels.push_back(c.first);
 
-        if (result == -1) return;
+        int result = ModalDialogBuilder::openButtonDialog(labels, tr("Open").toStdString());
+
+        if (result < 0 || result >= int(choices.size())) return;
+
+        type = choices[result].second;
     }
 
-    static TabType arr[5]{
-        TabType::Calendar,
-        TabType::DentalVisit,
-        TabType::Financial,
-        TabType::PerioStatus,
-        TabType::PatientSummary
-    };
-
-    if(arr[result] == TabType::Calendar){
+    if(type == TabType::Calendar){
 
         CalendarEvent ev(DbPatient::get(patientRowid));
         ev.description = descr;
         TabPresenter::get().openCalendar(ev);
     }
     else {
-        RowInstance r(arr[result]);
+        RowInstance r(type);
         r.patientRowId = patientRowid;
         TabPresenter::get().open(r, true);
     }

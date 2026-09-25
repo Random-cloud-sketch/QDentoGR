@@ -1,4 +1,5 @@
 ﻿#include "BrowserPresenter.h"
+#include "Presenter/RecallNotifier.h"
 #include "View/Widgets/BrowserDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
@@ -248,6 +249,9 @@ void BrowserPresenter::deleteCurrentSelection()
 	for (auto patientRowId : visitPatients) {
 		TabPresenter::get().refreshVisitNumbers(patientRowId);
 	}
+
+	//deleted patients: their recalls and appointments are deleted with them
+	if (ui_state.model_type == TabType::PatientSummary) RecallNotifier::get().refresh();
 
 
 	refreshModel();

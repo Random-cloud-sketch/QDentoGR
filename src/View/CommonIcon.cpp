@@ -20,6 +20,7 @@ const QPixmap& CommonIcon::getPixmap(CommonIcon::Type t)
         s_pixmaps[CommonIcon::PERIO] = QPixmap(":/icons/icon_periosheet.png");
         s_pixmaps[CommonIcon::INVOICE] = QPixmap(":/icons/icon_invoice.png");
         s_pixmaps[CommonIcon::CALENDAR] = QPixmap(":/icons/icon_calendar.png");
+        s_pixmaps[CommonIcon::RECALL] = QPixmap(":/icons/icon_sync.png");
         s_pixmaps[CommonIcon::PRINT] = QPixmap(":/icons/icon_print.png");
         s_pixmaps[CommonIcon::ADD] = QPixmap(":/icons/icon_add.png");
         s_pixmaps[CommonIcon::REMOVE] = QPixmap(":/icons/icon_remove.png");

@@ -14,6 +14,9 @@ struct CalendarEvent
 	std::string phone; //10 digits or empty
 	//synchronization with Google Calendar: synced, pending_create, pending_update, error, unlinked (empty: never)
 	std::string googleStatus;
+	//periodontal recall appointment; its status: "" (scheduled), completed, missed
+	bool recall{ false };
+	std::string recallStatus;
 	QDateTime start;
 	QDateTime end;
 	

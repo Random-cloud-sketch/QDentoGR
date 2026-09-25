@@ -11,6 +11,8 @@
 #include "Model/TableRows.h"
 #include "GoogleCalendar/GoogleCalendarSync.h"
 #include "View/Graphics/CalendarViewData.h"
+#include "Presenter/RecallPresenter.h"
+#include "Presenter/RecallNotifier.h"
 
 CalendarPresenter::CalendarPresenter(TabView* tabView) :
     TabInstance(tabView, TabType::Calendar, nullptr),
@@ -63,6 +65,9 @@ void CalendarPresenter::setDataToView()
 void CalendarPresenter::appointmentsWritten()
 {
     GoogleCalendarSync::get().localChange();
+
+    //a recall appointment may have been booked, moved or cancelled
+    RecallNotifier::get().refresh();
 }
 
 void CalendarPresenter::createGoogleEventAgain(int index)
@@ -70,6 +75,31 @@ void CalendarPresenter::createGoogleEventAgain(int index)
     if (index < 0 || index >= int(events.size())) return;
 
     GoogleCalendarSync::get().createAgain(events[index].rowid);
+}
+
+void CalendarPresenter::recallAction(int index, int action)
+{
+    if (index < 0 || index >= int(events.size())) return;
+
+    clearUndo();
+
+    //a copy: the list of the appointments is read again
+    auto event = events[index];
+
+    bool changed = false;
+
+    switch (RecallAction(action))
+    {
+        case RecallAction::Complete: changed = RecallActions::completeAppointment(event); break;
+        case RecallAction::Missed: changed = RecallActions::setAppointmentStatus(event, "missed"); break;
+        case RecallAction::ResetStatus: changed = RecallActions::setAppointmentStatus(event, ""); break;
+        case RecallAction::Mark: changed = RecallActions::setRecallAppointment(event, true); break;
+        case RecallAction::Unmark: changed = RecallActions::setRecallAppointment(event, false); break;
+        case RecallAction::EditRecall: RecallActions::editRecall(event.patient_rowid); break;
+    }
+
+    //the recall does not change the appointment in Google Calendar: only the calendar is shown again
+    if (changed) refreshView();
 }
 
 TabName CalendarPresenter::getTabName()

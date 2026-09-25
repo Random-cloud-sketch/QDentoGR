@@ -21,6 +21,9 @@
 #include "Version.h"
 
 #include "Database/DbNotification.h"
+#include "Presenter/RecallNotifier.h"
+
+#include <QLabel>
 
 #ifdef Q_OS_WIN
 #include <QWindow>
@@ -103,6 +106,7 @@ QDento::QDento(QWidget* parent)
     ui.browserButton->setIcon(QIcon(":/icons/icon_open.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
     ui.calendarButton->setIcon(QIcon(":/icons/icon_calendar.png"));
+    ui.recallButton->setIcon(QIcon(":/icons/icon_sync.png"));
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.notifButton->setIcon(QIcon(":/icons/icon_bell.png"));
     ui.notifButton->setMonochrome(true);
@@ -112,6 +116,19 @@ QDento::QDento(QWidget* parent)
     connect(ui.browserButton, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });
     connect(ui.calendarButton, &QPushButton::clicked, [&] { MainPresenter::get().openCalendar(); });
+    connect(ui.recallButton, &QPushButton::clicked, [&] { MainPresenter::get().openRecall(); });
+
+    //badge over the corner of the recall button: a child of the button, so the layout never changes
+    m_recallBadge = new QLabel(ui.recallButton);
+    m_recallBadge->setAlignment(Qt::AlignCenter);
+    m_recallBadge->setAttribute(Qt::WA_TransparentForMouseEvents);
+    m_recallBadge->setStyleSheet(
+        "QLabel { background-color: rgb(215, 45, 45); color: white; font-weight: bold; font-size: 9px;"
+        " border-radius: 7px; padding: 0px 3px; }"
+    );
+    m_recallBadge->hide();
+
+    connect(&RecallNotifier::get(), &RecallNotifier::changed, this, [this](int count, int leadDays) { setRecallBadge(count, leadDays); });
     connect(settingsAction, &QAction::triggered, [&] { MainPresenter::get().userSettingsPressed();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed();});
     connect(ui.invoiceButton, &QPushButton::clicked, [&] { MainPresenter::get().newInvoicePressed(); });
@@ -187,6 +204,39 @@ void QDento::closeEvent(QCloseEvent* event)
         if (widget == this) continue;
         widget->close();
     }
+}
+
+void QDento::setRecallBadge(int count, int leadDays)
+{
+    if (count <= 0) {
+        m_recallBadge->hide();
+        ui.recallButton->setToolTip(tr("Periodontal recall"));
+        return;
+    }
+
+    m_recallBadge->setText(count > 99 ? "99+" : QString::number(count));
+
+    //fixed height, the width grows with the number; kept inside the top right corner of the button
+    int width = std::max(14, m_recallBadge->fontMetrics().horizontalAdvance(m_recallBadge->text()) + 8);
+    width = std::min(width, ui.recallButton->width());
+    m_recallBadge->setGeometry(ui.recallButton->width() - width, 0, width, 14);
+    m_recallBadge->show();
+    m_recallBadge->raise();
+
+    QString tip;
+
+    if (leadDays > 0) {
+        tip = count == 1 ?
+            tr("1 patient with a recall due or due within %1 without an appointment").arg(RecallText::withinDays(leadDays)) :
+            tr("%1 patients with a recall due or due within %2 without an appointment").arg(count).arg(RecallText::withinDays(leadDays));
+    }
+    else {
+        tip = count == 1 ?
+            tr("1 patient is due for recall without an appointment") :
+            tr("%1 patients are due for recall without an appointment").arg(count);
+    }
+
+    ui.recallButton->setToolTip(tip);
 }
 
 void QDento::setNotificationIcon(int activeNotifCount)

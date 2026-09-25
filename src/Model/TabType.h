@@ -5,5 +5,6 @@ enum class TabType {
 	DentalVisit, 
 	PerioStatus, 
 	Financial, 
-	Calendar 
+	Calendar,
+	Recall
 };

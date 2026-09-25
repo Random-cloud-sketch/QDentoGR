@@ -181,6 +181,8 @@ signals:
 	void eventTimeChangeRequested(int eventIdx, const QDateTime& start, const QDateTime& end, bool moved);
 	//the Google Calendar event of the appointment was deleted: a new one is requested
 	void googleEventAgainRequested(int eventIdx);
+	//periodontal recall actions of an appointment (see RecallAction)
+	void recallActionRequested(int eventIdx, int action);
 	void operationCanceled();
 
 };

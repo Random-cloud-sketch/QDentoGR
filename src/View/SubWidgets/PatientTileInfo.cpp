@@ -66,6 +66,11 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     action->setIcon(QIcon(":/icons/icon_sheet.png"));
     context_menu->addAction(action);
 
+    action = (new QAction(tr("Periodontal recall"), context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { if (presenter) presenter->recallRequested(); });
+    action->setIcon(QIcon(":/icons/icon_sync.png"));
+    context_menu->addAction(action);
+
     action = (new QAction(tr("Radiographs && documents"), context_menu));
     connect(action, &QAction::triggered, this, [=, this] { if (presenter) presenter->patientFilesRequested(); });
     action->setIcon(QIcon(":/icons/icon_open.png"));
@@ -102,6 +107,11 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     patientFilesButton->setStyleSheet(medicalHistoryButton->styleSheet());
     firstLine->addWidget(patientFilesButton);
 
+    recallButton = new QPushButton(QIcon(":/icons/icon_sync.png"), tr("Recall"), strip);
+    recallButton->setCursor(Qt::PointingHandCursor);
+    recallButton->setStyleSheet(medicalHistoryButton->styleSheet());
+    firstLine->addWidget(recallButton);
+
     for (auto& label : medicalHistoryLabels) {
         label = new QLabel(strip);
         label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
@@ -123,6 +133,10 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 
     connect(visitHistoryButton, &QPushButton::clicked, this, [=, this] {
         if (presenter) presenter->visitHistoryRequested();
+    });
+
+    connect(recallButton, &QPushButton::clicked, this, [=, this] {
+        if (presenter) presenter->recallRequested();
     });
 
     context_menu->setStyleSheet(Theme::getPopupMenuStylesheet());
@@ -230,6 +244,38 @@ void PatientTileInfo::setVisitCount(int count)
     visitHistoryButton->setText(count ? tr("Visit history (%1)").arg(count) : tr("Visit history"));
 
     visitHistoryButton->setToolTip(count ? tr("%1 saved visits").arg(count) : tr("No saved visits yet"));
+
+    elideMedicalHistoryText();
+}
+
+void PatientTileInfo::setRecall(const std::optional<Recall>& recall)
+{
+    QString text = tr("Recall");
+    QString tooltip = tr("Periodontal recall: not tracked");
+    bool overdue = false;
+
+    if (recall && recall->active)
+    {
+        if (recall->nextDate.isValid()) {
+            text = tr("Recall %1").arg(RecallText::date(recall->nextDate));
+            tooltip = tr("Next periodontal recall: %1").arg(RecallText::date(recall->nextDate));
+            overdue = recall->nextDate < QDate::currentDate();
+            if (overdue) tooltip += " - " + tr("overdue");
+        }
+        else {
+            tooltip = tr("Periodontal recall active, no next date set");
+        }
+    }
+    else if (recall) {
+        tooltip = tr("Periodontal recall: inactive");
+    }
+
+    recallButton->setText(text);
+    recallButton->setToolTip(tooltip);
+
+    auto style = medicalHistoryButton->styleSheet();
+    if (overdue) style.replace("color:" + Theme::colorToString(Theme::fontTurquoise), "color: rgb(200, 30, 30);");
+    recallButton->setStyleSheet(style);
 
     elideMedicalHistoryText();
 }

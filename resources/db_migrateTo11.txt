@@ -1,0 +1,2 @@
+CREATE INDEX IF NOT EXISTS appointment_patient_recall ON appointment (patient_rowid, recall, start);
+PRAGMA user_version=11;

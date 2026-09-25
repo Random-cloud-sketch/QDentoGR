@@ -53,6 +53,18 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 
 		entity->description = event.description.c_str();
 
+		if (event.recall)
+		{
+			auto& s = event.recallStatus;
+
+			entity->recallTag = QString::fromUtf8(s == "completed" ? "✓ " : s == "missed" ? "✗ " : "↻ ") +
+				(s == "completed" ? QCoreApplication::translate("CalendarViewData", "RECALL - COMPLETED") :
+				 s == "missed" ? QCoreApplication::translate("CalendarViewData", "RECALL - MISSED") :
+				 QCoreApplication::translate("CalendarViewData", "PERIODONTAL RECALL"));
+
+			entity->recallColor = s == "completed" ? QColor(46, 140, 90) : s == "missed" ? QColor(200, 50, 40) : QColor(120, 70, 170);
+		}
+
 		if (entity->text.isEmpty() && entity->phone.isEmpty() && entity->description.isEmpty()) {
 			entity->text = "???";
 		}
@@ -304,6 +316,13 @@ void CalendarViewData::EventEntity::paintPixmap()
 	};
 
 	drawPart(text, font, Theme::fontTurquoise);
+
+	if (recallTag.size()) {
+		QFont small = font;
+		if (font.pointSizeF() > 0) small.setPointSizeF(font.pointSizeF() * 0.85);
+		else if (font.pixelSize() > 0) small.setPixelSize(qMax(8, int(font.pixelSize() * 0.85)));
+		drawPart(recallTag, small, recallColor);
+	}
 	drawPart(phone, font, Theme::fontTurquoise); //same as the name, as in the drag preview
 	drawPart(description, font, Theme::fontTurquoise);
 }

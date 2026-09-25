@@ -19,6 +19,7 @@
 #include "GlobalSettings.h"
 
 #include "View/Theme.h"
+#include "Model/Recall.h"
 
 EventDelegate::EventDelegate(CalendarTable* view, CalendarViewData& data) : data(data), view(view)
 {
@@ -443,6 +444,9 @@ void CalendarTable::menuRequested(int column, int row)
             action->setIcon(QIcon(":/icons/icon_invoice.png"));
             subMenu->addAction(action);
 
+            //invoices are not used for now: the menu entry is only hidden (delete this line to show it again)
+            action->setVisible(false);
+
             action = (new QAction(tr("Patient History"), subMenu));
             connect(action, &QAction::triggered, this, [=, this] { emit newDocRequested(eventIdx, TabType::PatientSummary); });
             action->setIcon(QIcon(":/icons/icon_history.png"));
@@ -493,6 +497,39 @@ void CalendarTable::menuRequested(int column, int row)
             action = (new QAction(tr("Create again in Google Calendar"), context_menu));
             connect(action, &QAction::triggered, context_menu, [=, this] { emit googleEventAgainRequested(eventIdx); });
             context_menu->addAction(action);
+        }
+
+        //periodontal recall
+        if (eventIdx < int(m_events.size()) && m_events[eventIdx].patient_rowid)
+        {
+            auto& e = m_events[eventIdx];
+
+            auto recallAction = [&](QMenu* menu, const QString& text, RecallAction a) {
+                auto act = new QAction(text, menu);
+                connect(act, &QAction::triggered, this, [=, this] { emit recallActionRequested(eventIdx, int(a)); });
+                menu->addAction(act);
+                return act;
+            };
+
+            if (e.recall)
+            {
+                subMenu = new QMenu(tr("Periodontal recall"), context_menu);
+                subMenu->setIcon(QIcon(":/icons/icon_sync.png"));
+
+                if (e.recallStatus != "completed") recallAction(subMenu, tr("Mark completed..."), RecallAction::Complete);
+                if (e.recallStatus != "missed") recallAction(subMenu, tr("Mark missed"), RecallAction::Missed);
+                if (e.recallStatus.size()) recallAction(subMenu, tr("Set back to scheduled"), RecallAction::ResetStatus);
+
+                subMenu->addSeparator();
+                recallAction(subMenu, tr("Recall of the patient..."), RecallAction::EditRecall);
+                recallAction(subMenu, tr("Not a recall appointment"), RecallAction::Unmark);
+
+                context_menu->addMenu(subMenu);
+            }
+            else
+            {
+                recallAction(context_menu, tr("Mark as recall appointment"), RecallAction::Mark)->setIcon(QIcon(":/icons/icon_sync.png"));
+            }
         }
 
         action = (new QAction(tr("Cancel"), context_menu));

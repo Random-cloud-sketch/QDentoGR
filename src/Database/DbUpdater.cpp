@@ -9,7 +9,7 @@
 #include "Resources.h"
 #include "GlobalSettings.h"
 
-inline int currentVersion = 9;
+inline int currentVersion = 11;
 
 void backupDatabase()
 {
@@ -53,4 +53,6 @@ void DbUpdater::updateDb()
 	commonUpdate(7);
 	commonUpdate(8);
 	commonUpdate(9);
+	commonUpdate(10);
+	commonUpdate(11);
 }

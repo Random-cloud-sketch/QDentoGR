@@ -24,6 +24,7 @@ public:
 	void newAmbPressed();
 	void newPerioPressed();
 	void openCalendar();
+	void openRecall();
 	void showBrowser();
 	void settingsPressed();
 	void newInvoicePressed();

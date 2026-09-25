@@ -44,8 +44,11 @@ public:
 	void openPerio(const Patient& patient);
 	void openInvoice(const Recipient& recipient);
 	void openInvoice(long long patientRowId, const std::vector<Procedure>& procedures = {});
-	void openCalendar(const CalendarEvent& event);
+	//the calendar with a new appointment to place (shown at the week of the date, if valid)
+	void openCalendar(const CalendarEvent& event, const QDate& week = QDate());
 	void openCalendar();
+	//the recall list (showing the recalls of the filter, if given)
+	void openRecall(int filter = -1);
 
 	bool documentTabOpened(TabType type, long long rowID) const;
 	bool patientTabOpened(long long patientRowid) const;

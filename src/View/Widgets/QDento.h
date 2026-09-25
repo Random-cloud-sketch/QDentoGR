@@ -6,6 +6,7 @@
 #include "ui_QDento.h"
 
 class TabView;
+class QLabel;
 
 class QDento : public QMainWindow
 {
@@ -22,6 +23,8 @@ public:
     bool initialized();
     void disableButtons(bool saveDisabled);
     void setNotificationIcon(int activeNotifCount);
+    //number of periodontal recalls which need attention on the recall button (0: hidden)
+    void setRecallBadge(int count, int leadDays);
 
     ~QDento();
 
@@ -29,4 +32,5 @@ public:
 
 private:
     Ui::DinoDentClass ui;
+    QLabel* m_recallBadge{ nullptr };
 };

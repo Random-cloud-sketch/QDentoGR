@@ -198,7 +198,7 @@
 <context>
     <name>CalendarEventDialog</name>
     <message>
-        <location filename="../src/View/Widgets/CalendarEventDialog.cpp" line="+63"/>
+        <location filename="../src/View/Widgets/CalendarEventDialog.cpp" line="+64"/>
         <source>Edit Appointment</source>
         <translation>Επεξεργασία ραντεβού</translation>
     </message>
@@ -208,12 +208,22 @@
         <translation>Νέο ραντεβού</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>The phone number must have 10 digits</source>
         <translation>Ο αριθμός τηλεφώνου πρέπει να έχει 10 ψηφία</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+33"/>
+        <source>Periodontal recall appointment</source>
+        <translation>Ραντεβού περιοδοντικής ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Only for an appointment of a patient of the list</source>
+        <translation>Μόνο για ραντεβού ασθενούς από τη λίστα ασθενών</translation>
+    </message>
+    <message>
+        <location line="+65"/>
         <source>e.g. 6912345678</source>
         <translation>π.χ. 6912345678</translation>
     </message>
@@ -318,7 +328,7 @@
 <context>
     <name>CalendarTable</name>
     <message>
-        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+194"/>
+        <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+195"/>
         <source>Synchronized with Google Calendar</source>
         <translation>Συγχρονισμένο με Google Calendar</translation>
     </message>
@@ -393,7 +403,7 @@
         <translation>Νέο οικονομικό παραστατικό</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+8"/>
         <source>Patient History</source>
         <translation>Ιστορικό ασθενή</translation>
     </message>
@@ -423,7 +433,42 @@
         <translation>Δημιουργία ξανά στο Google Calendar</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+19"/>
+        <source>Periodontal recall</source>
+        <translation>Περιοδοντική ανάκληση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Mark completed...</source>
+        <translation>Σήμανση ως ολοκληρωμένο...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Mark missed</source>
+        <translation>Σήμανση: δεν προσήλθε</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set back to scheduled</source>
+        <translation>Επαναφορά σε προγραμματισμένο</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Recall of the patient...</source>
+        <translation>Ανάκληση του ασθενούς...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Not a recall appointment</source>
+        <translation>Δεν είναι ραντεβού ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Mark as recall appointment</source>
+        <translation>Σήμανση ως ραντεβού ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <location line="+24"/>
         <source>Cancel</source>
         <translation>Ακύρωση</translation>
@@ -478,7 +523,7 @@
         <translation>TextLabel</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/CalendarView.cpp" line="+187"/>
+        <location filename="../src/View/Widgets/CalendarView.cpp" line="+188"/>
         <source>Undo</source>
         <translation>Αναίρεση</translation>
     </message>
@@ -670,6 +715,21 @@
         <location filename="../src/View/uiComponents/CalendarTable.cpp" line="+320"/>
         <source>TEL.</source>
         <translation>ΤΗΛ.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>RECALL - COMPLETED</source>
+        <translation>ΑΝΑΚΛΗΣΗ - ΟΛΟΚΛΗΡΩΘΗΚΕ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>RECALL - MISSED</source>
+        <translation>ΑΝΑΚΛΗΣΗ - ΔΕΝ ΠΡΟΣΗΛΘΕ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>PERIODONTAL RECALL</source>
+        <translation>ΠΕΡΙΟΔΟΝΤΙΚΗ ΑΝΑΚΛΗΣΗ</translation>
     </message>
 </context>
 <context>
@@ -1300,6 +1360,16 @@
         <location line="+3"/>
         <source>Calendar</source>
         <translation>Ημερολόγιο</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Periodontal recall</source>
+        <translation>Περιοδοντικές ανακλήσεις</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Recall</source>
+        <translation>Ανακλήσεις</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -2932,7 +3002,7 @@
         <translation>Είστε βέβαιοι ότι θέλετε να διαγράψετε την υπενθύμιση;</translation>
     </message>
     <message>
-        <location line="+62"/>
+        <location line="+57"/>
         <source>Schedule New Appointment</source>
         <translation>Προγραμματισμός νέου ραντεβού</translation>
     </message>
@@ -2957,12 +3027,12 @@
         <translation>Ιστορικό ασθενή</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+13"/>
         <source>Open</source>
         <translation>Άνοιγμα</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+21"/>
         <source>Do you want to delete the reminder?</source>
         <translation>Θέλετε να διαγράψετε την υπενθύμιση;</translation>
     </message>
@@ -2988,6 +3058,19 @@
         <location line="+1"/>
         <source>Description</source>
         <translation>Περιγραφή</translation>
+    </message>
+</context>
+<context>
+    <name>OptionalDateEdit</name>
+    <message>
+        <location filename="../src/View/uiComponents/OptionalDateEdit.cpp" line="+21"/>
+        <source>Not set</source>
+        <translation>Δεν έχει οριστεί</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Clear the date</source>
+        <translation>Διαγραφή της ημερομηνίας</translation>
     </message>
 </context>
 <context>
@@ -3556,20 +3639,31 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+26"/>
-        <location line="+101"/>
+        <location line="+31"/>
+        <location line="+110"/>
         <source>Medical history</source>
         <translation>Ιατρικό ιστορικό</translation>
     </message>
     <message>
-        <location line="-122"/>
-        <location line="+31"/>
-        <location line="+135"/>
+        <location line="-136"/>
+        <location line="+36"/>
+        <location line="+144"/>
         <source>Visit history</source>
         <translation>Ιστορικό επισκέψεων</translation>
     </message>
     <message>
-        <location line="-16"/>
+        <location line="-175"/>
+        <source>Periodontal recall</source>
+        <translation>Περιοδοντική ανάκληση</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <location line="+143"/>
+        <source>Recall</source>
+        <translation>Ανάκληση</translation>
+    </message>
+    <message>
+        <location line="-25"/>
         <source>Radiographs &amp;&amp; documents (%1)</source>
         <translation>Ακτινογραφίες &amp;&amp; έγγραφα (%1)</translation>
     </message>
@@ -3589,9 +3683,9 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νοσήματα: %1</translation>
     </message>
     <message>
-        <location line="-107"/>
+        <location line="-116"/>
         <location line="+31"/>
-        <location line="+116"/>
+        <location line="+125"/>
         <source>Radiographs &amp;&amp; documents</source>
         <translation>Ακτινογραφίες &amp;&amp; έγγραφα</translation>
     </message>
@@ -3627,7 +3721,37 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Δεν υπάρχουν αποθηκευμένες επισκέψεις</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+8"/>
+        <source>Periodontal recall: not tracked</source>
+        <translation>Περιοδοντική ανάκληση: δεν παρακολουθείται</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Recall %1</source>
+        <translation>Ανάκληση %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next periodontal recall: %1</source>
+        <translation>Επόμενη περιοδοντική ανάκληση: %1</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>overdue</source>
+        <translation>εκπρόθεσμη</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Periodontal recall active, no next date set</source>
+        <translation>Περιοδοντική ανάκληση ενεργή, χωρίς επόμενη ημερομηνία</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Periodontal recall: inactive</source>
+        <translation>Περιοδοντική ανάκληση: ανενεργή</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>(+%1 more)</source>
         <translation>(+%1 ακόμη)</translation>
     </message>
@@ -4508,7 +4632,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
 <context>
     <name>QDento</name>
     <message>
-        <location filename="../src/View/Widgets/QDento.cpp" line="+66"/>
+        <location filename="../src/View/Widgets/QDento.cpp" line="+69"/>
         <source>Settings</source>
         <translation>Ρυθμίσεις</translation>
     </message>
@@ -4518,7 +4642,32 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Έξοδος</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <location line="+142"/>
+        <source>Periodontal recall</source>
+        <translation>Περιοδοντικές ανακλήσεις</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>1 patient with a recall due or due within %1 without an appointment</source>
+        <translation>1 ασθενής με ανάκληση που οφείλεται ή πλησιάζει (εντός %1) χωρίς ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 patients with a recall due or due within %2 without an appointment</source>
+        <translation>%1 ασθενείς με ανάκληση που οφείλεται ή πλησιάζει (εντός %2) χωρίς ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>1 patient is due for recall without an appointment</source>
+        <translation>1 ασθενής οφείλει ανάκληση χωρίς ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 patients are due for recall without an appointment</source>
+        <translation>%1 ασθενείς οφείλουν ανάκληση χωρίς ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>No active reminders</source>
         <translation>Καμία ενεργή υπενθύμιση</translation>
     </message>
@@ -4646,7 +4795,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Η έκδοση της βάσης δεδομένων είναι νεότερη από την έκδοση του προγράμματος. Παρακαλώ ενημερώστε το πρόγραμμα!</translation>
     </message>
     <message>
-        <location filename="../src/GlobalSettings.cpp" line="+105"/>
+        <location filename="../src/GlobalSettings.cpp" line="+106"/>
         <source>Pick database location</source>
         <translation>Επιλογή θέσης βάσης δεδομένων</translation>
     </message>
@@ -5261,7 +5410,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Δρ. </translation>
     </message>
     <message>
-        <location filename="../src/Presenter/BrowserPresenter.cpp" line="+169"/>
+        <location filename="../src/Presenter/BrowserPresenter.cpp" line="+170"/>
         <source>New dental visit</source>
         <translation>Νέα οδοντιατρική επίσκεψη</translation>
     </message>
@@ -5317,12 +5466,12 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Πρέπει πρώτα να κλείσετε όλα τα έγγραφα που έχουν επιλεγεί για διαγραφή!</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+51"/>
         <source>The document could not be opened because it is not created by current user</source>
         <translation>Το έγγραφο δεν μπορεί να ανοιχτεί, επειδή δεν έχει δημιουργηθεί από τον τρέχοντα χρήστη</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/CalendarPresenter.cpp" line="+78"/>
+        <location filename="../src/Presenter/CalendarPresenter.cpp" line="+108"/>
         <source>Appointments</source>
         <translation>Ραντεβού</translation>
     </message>
@@ -5373,7 +5522,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Λανθασμένος κωδικός πρόσβασης</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/MainPresenter.cpp" line="+68"/>
+        <location filename="../src/Presenter/MainPresenter.cpp" line="+72"/>
         <location filename="../src/View/Widgets/BrowserDialog.cpp" line="+7"/>
         <source>New Dental Visit</source>
         <translation>Νέα οδοντιατρική επίσκεψη</translation>
@@ -5386,7 +5535,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νέα περιοδοντική μέτρηση</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+141"/>
         <source>A placeholder profile has been created. Enter your credentials from settings</source>
         <translation>Δημιουργήθηκε ένα προσωρινό προφίλ. Καταχωρίστε τα στοιχεία σας από τις Ρυθμίσεις</translation>
     </message>
@@ -5417,7 +5566,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Το έγγραφο δεν μπορεί να ανοιχτεί, επειδή δεν έχει δημιουργηθεί από τον τρέχοντα χρήστη.</translation>
     </message>
     <message>
-        <location filename="../src/Presenter/PatientInfoPresenter.cpp" line="+67"/>
+        <location filename="../src/Presenter/PatientInfoPresenter.cpp" line="+69"/>
         <source>Patient notes</source>
         <translation>Σημειώσεις ασθενή</translation>
     </message>
@@ -5755,7 +5904,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Αποτελέσματα: </translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+109"/>
+        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+113"/>
         <location line="+8"/>
         <location line="+52"/>
         <source>Changes will take effect after restart</source>
@@ -5780,6 +5929,662 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <location filename="../src/Presenter/TabInstance.cpp" line="+33"/>
         <source>Do you wish to save changes to %1?</source>
         <translation>Θέλετε να αποθηκεύσετε τις αλλαγές στο «%1»;</translation>
+    </message>
+    <message>
+        <location filename="../src/Presenter/RecallPresenter.cpp" line="+38"/>
+        <location line="+169"/>
+        <source>Periodontal recall</source>
+        <translation>Περιοδοντικές ανακλήσεις</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The change could not be saved.</source>
+        <translation>Δεν ήταν δυνατή η αποθήκευση της αλλαγής.</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Recall visit of %1 completed</source>
+        <translation>Ολοκλήρωση επίσκεψης ανάκλησης της %1</translation>
+    </message>
+</context>
+<context>
+    <name>RecallCompletionDialog</name>
+    <message>
+        <location filename="../src/View/Widgets/RecallCompletionDialog.cpp" line="+18"/>
+        <source>Recall visit completed</source>
+        <translation>Ολοκλήρωση επίσκεψης ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Recall appointment of %1</source>
+        <translation>Ραντεβού ανάκλησης της %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Current next recall date: %1</source>
+        <translation>Τρέχουσα επόμενη ημερομηνία ανάκλησης: %1</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>not set</source>
+        <translation>δεν έχει οριστεί</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Saved interval: %1</source>
+        <translation>Αποθηκευμένο διάστημα: %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>What should happen to the next recall date?</source>
+        <translation>Τι να γίνει με την επόμενη ημερομηνία ανάκλησης;</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>A. Enter the next recall date manually:</source>
+        <translation>Α. Χειροκίνητη εισαγωγή της επόμενης ημερομηνίας:</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>B. Calculate it from the saved interval (%1 from %2): %3</source>
+        <translation>Β. Υπολογισμός από το αποθηκευμένο διάστημα (%1 από %2): %3</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>B. Calculate it from the saved interval (no interval is saved)</source>
+        <translation>Β. Υπολογισμός από το αποθηκευμένο διάστημα (δεν έχει αποθηκευτεί διάστημα)</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>C. Leave the next recall date unchanged</source>
+        <translation>Γ. Η επόμενη ημερομηνία ανάκλησης να μείνει ως έχει</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Optional note for the recall history</source>
+        <translation>Προαιρετική σημείωση για το ιστορικό ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Note:</source>
+        <translation>Σημείωση:</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Mark completed</source>
+        <translation>Σήμανση ως ολοκληρωμένο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cancel</source>
+        <translation>Άκυρο</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>No date is entered: the next recall date will be cleared. Continue?</source>
+        <translation>Δεν έχει δοθεί ημερομηνία: η επόμενη ημερομηνία ανάκλησης θα διαγραφεί. Συνέχεια;</translation>
+    </message>
+</context>
+<context>
+    <name>RecallDialog</name>
+    <message>
+        <location filename="../src/View/Widgets/RecallDialog.cpp" line="+46"/>
+        <source>Periodontal recall</source>
+        <translation>Περιοδοντική ανάκληση</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Identifier:</source>
+        <translation>Αναγνωριστικό:</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Recall</source>
+        <translation>Ανάκληση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Recall tracking active for this patient</source>
+        <translation>Ενεργή παρακολούθηση ανάκλησης για τον ασθενή</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Postpone / bring forward</source>
+        <translation>Αναβολή / επίσπευση</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Postpone 1 week</source>
+        <translation>Αναβολή 1 εβδομάδα</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Postpone 2 weeks</source>
+        <translation>Αναβολή 2 εβδομάδες</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Postpone 1 month</source>
+        <translation>Αναβολή 1 μήνα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bring forward 1 week</source>
+        <translation>Επίσπευση 1 εβδομάδα</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Bring forward 2 weeks</source>
+        <translation>Επίσπευση 2 εβδομάδες</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Bring forward 1 month</source>
+        <translation>Επίσπευση 1 μήνα</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Calculate from the interval</source>
+        <translation>Υπολογισμός από το διάστημα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sets the next recall date from the interval - only when you choose it</source>
+        <translation>Ορίζει την επόμενη ημερομηνία ανάκλησης από το διάστημα - μόνο όταν το επιλέξετε</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Next recall:</source>
+        <translation>Επόμενη ανάκληση:</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>No interval</source>
+        <translation>Χωρίς διάστημα</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Custom...</source>
+        <translation>Άλλο...</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>months</source>
+        <translation>μήνες</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Recall interval:</source>
+        <translation>Διάστημα ανάκλησης:</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Last recall:</source>
+        <translation>Τελευταία ανάκληση:</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Notes shown in the recall list</source>
+        <translation>Σημειώσεις που εμφανίζονται στη λίστα ανακλήσεων</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Notes:</source>
+        <translation>Σημειώσεις:</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Recall appointments</source>
+        <translation>Ραντεβού ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Book recall appointment</source>
+        <translation>Κλείσιμο ραντεβού ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Saves the recall and opens the calendar to choose the time</source>
+        <translation>Αποθηκεύει την ανάκληση και ανοίγει το ημερολόγιο για την επιλογή της ώρας</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Date</source>
+        <translation>Ημερομηνία</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Status</source>
+        <translation>Κατάσταση</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Recall history</source>
+        <translation>Ιστορικό ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+56"/>
+        <source>Add note</source>
+        <translation>Προσθήκη σημείωσης</translation>
+    </message>
+    <message>
+        <location line="-52"/>
+        <source>Time</source>
+        <translation>Χρόνος</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Event</source>
+        <translation>Συμβάν</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Details</source>
+        <translation>Λεπτομέρειες</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cancel</source>
+        <translation>Άκυρο</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>The next recall date is in the past.</source>
+        <translation>Η επόμενη ημερομηνία ανάκλησης είναι στο παρελθόν.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Note for the recall history:</source>
+        <translation>Σημείωση για το ιστορικό ανάκλησης:</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>The note could not be saved.</source>
+        <translation>Δεν ήταν δυνατή η αποθήκευση της σημείωσης.</translation>
+    </message>
+    <message>
+        <location line="+51"/>
+        <source>From today (%1)</source>
+        <translation>Από σήμερα (%1)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>From the last recall (%1)</source>
+        <translation>Από την τελευταία ανάκληση (%1)</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>The recall could not be saved.</source>
+        <translation>Δεν ήταν δυνατή η αποθήκευση της ανάκλησης.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Past - not marked completed or missed</source>
+        <translation>Παρελθόν - χωρίς σήμανση ολοκλήρωσης ή μη προσέλευσης</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>No recall appointments</source>
+        <translation>Δεν υπάρχουν ραντεβού ανάκλησης</translation>
+    </message>
+</context>
+<context>
+    <name>RecallNotifier</name>
+    <message>
+        <location filename="../src/Presenter/RecallNotifier.cpp" line="+115"/>
+        <source>There is 1 patient with a scheduled recall which is approaching or has passed and who has no booked appointment.</source>
+        <translation>Υπάρχει 1 ασθενής με προγραμματισμένη ανάκληση που πλησιάζει ή έχει παρέλθει και δεν έχει κλεισμένο ραντεβού.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>There are %1 patients with a scheduled recall which is approaching or has passed and who have no booked appointment.</source>
+        <translation>Υπάρχουν %1 ασθενείς με προγραμματισμένη ανάκληση που πλησιάζει ή έχει παρέλθει και δεν έχουν κλεισμένο ραντεβού.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Recalls due within the next %1 are included.</source>
+        <translation>Περιλαμβάνονται και οι ανακλήσεις εντός %1.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Pending periodontal recalls</source>
+        <translation>Εκκρεμείς περιοδοντικές ανακλήσεις</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open list</source>
+        <translation>Άνοιγμα λίστας</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation>Κλείσιμο</translation>
+    </message>
+</context>
+<context>
+    <name>RecallText</name>
+    <message>
+        <location filename="../src/Model/Recall.cpp" line="+33"/>
+        <source>No interval</source>
+        <translation>Χωρίς διάστημα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>1 month</source>
+        <translation>1 μήνας</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 months</source>
+        <translation>%1 μήνες</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>1 day (within)</source>
+        <translation>1 ημέρας</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 days (within)</source>
+        <translation>%1 ημερών</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Recall activated</source>
+        <translation>Ενεργοποίηση ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recall deactivated</source>
+        <translation>Απενεργοποίηση ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next recall date changed</source>
+        <translation>Αλλαγή επόμενης ημερομηνίας ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recall interval changed</source>
+        <translation>Αλλαγή διαστήματος ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last recall date changed</source>
+        <translation>Αλλαγή τελευταίας ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recall notes changed</source>
+        <translation>Αλλαγή σημειώσεων ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Clinician note</source>
+        <translation>Σημείωση κλινικού</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recall appointment booked</source>
+        <translation>Κλείσιμο ραντεβού ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recall appointment rescheduled</source>
+        <translation>Μετάθεση ραντεβού ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recall appointment cancelled</source>
+        <translation>Ακύρωση ραντεβού ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Appointment no longer a recall appointment</source>
+        <translation>Το ραντεβού δεν είναι πλέον ραντεβού ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recall visit completed</source>
+        <translation>Ολοκλήρωση επίσκεψης ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recall appointment missed</source>
+        <translation>Μη προσέλευση σε ραντεβού ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recall appointment set back to scheduled</source>
+        <translation>Επαναφορά ραντεβού ανάκλησης σε προγραμματισμένο</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <location line="+0"/>
+        <source>not set</source>
+        <translation>δεν έχει οριστεί</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>(no notes)</source>
+        <translation>(χωρίς σημειώσεις)</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Completed</source>
+        <translation>Ολοκληρώθηκε</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Missed</source>
+        <translation>Δεν προσήλθε</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Scheduled</source>
+        <translation>Προγραμματισμένο</translation>
+    </message>
+</context>
+<context>
+    <name>RecallView</name>
+    <message>
+        <location filename="../src/View/Widgets/RecallView.cpp" line="+29"/>
+        <source>All active recalls</source>
+        <translation>Όλες οι ενεργές ανακλήσεις</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Due today</source>
+        <translation>Οφείλονται σήμερα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Due in the next 7 days</source>
+        <translation>Οφείλονται τις επόμενες 7 ημέρες</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Due in the next 30 days</source>
+        <translation>Οφείλονται τις επόμενες 30 ημέρες</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Due in the next 90 days</source>
+        <translation>Οφείλονται τις επόμενες 90 ημέρες</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Overdue</source>
+        <translation>Εκπρόθεσμες</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Due or due within %1, not booked</source>
+        <translation>Οφειλόμενες ή εντός %1, χωρίς ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Due but not booked</source>
+        <translation>Οφειλόμενες χωρίς ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inactive recalls</source>
+        <translation>Ανενεργές ανακλήσεις</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All recalls (active and inactive)</source>
+        <translation>Όλες οι ανακλήσεις (ενεργές και ανενεργές)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Periodontal recall</source>
+        <translation>Περιοδοντικές ανακλήσεις</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Search by patient name or identifier</source>
+        <translation>Αναζήτηση με όνομα ασθενούς ή αναγνωριστικό</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Add patient</source>
+        <translation>Προσθήκη ασθενούς</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+108"/>
+        <source>Edit recall</source>
+        <translation>Επεξεργασία ανάκλησης</translation>
+    </message>
+    <message>
+        <location line="-107"/>
+        <location line="+108"/>
+        <source>Book appointment</source>
+        <translation>Κλείσιμο ραντεβού</translation>
+    </message>
+    <message>
+        <location line="-107"/>
+        <location line="+108"/>
+        <source>Open patient</source>
+        <translation>Άνοιγμα ασθενούς</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>Patient</source>
+        <translation>Ασθενής</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Identifier</source>
+        <translation>Αναγνωριστικό</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Last recall</source>
+        <translation>Τελευταία ανάκληση</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Next recall</source>
+        <translation>Επόμενη ανάκληση</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Appointment</source>
+        <translation>Ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Notes</source>
+        <translation>Σημειώσεις</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Status</source>
+        <translation>Κατάσταση</translation>
+    </message>
+    <message>
+        <location line="+158"/>
+        <source>Not set</source>
+        <translation>Δεν έχει οριστεί</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>(today)</source>
+        <translation>(σήμερα)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>(in %1 days)</source>
+        <translation>(σε %1 ημέρες)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>(overdue %1 days)</source>
+        <translation>(εκπρόθεσμη %1 ημέρες)</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Booked: %1</source>
+        <translation>Κλεισμένο: %1</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Not marked: %1</source>
+        <translation>Χωρίς σήμανση: %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The recall appointment has passed and is not marked completed or missed</source>
+        <translation>Το ραντεβού ανάκλησης πέρασε και δεν έχει σημανθεί ως ολοκληρωμένο ή μη προσέλευση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Not booked</source>
+        <translation>Χωρίς ραντεβού</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Active</source>
+        <translation>Ενεργή</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Inactive</source>
+        <translation>Ανενεργή</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Shown: %1</source>
+        <translation>Εμφανίζονται: %1</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Add patient to the recall</source>
+        <translation>Προσθήκη ασθενούς στις ανακλήσεις</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Search by name or phone</source>
+        <translation>Αναζήτηση με όνομα ή τηλέφωνο</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Choose</source>
+        <translation>Επιλογή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cancel</source>
+        <translation>Άκυρο</translation>
     </message>
 </context>
 <context>
@@ -6136,7 +6941,27 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Φύλο</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+24"/>
+        <source>Periodontal recall</source>
+        <translation>Περιοδοντική ανάκληση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Recall notification before the date</source>
+        <translation>Προειδοποίηση ανάκλησης πριν από την ημερομηνία</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>days</source>
+        <translation>ημέρες</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0: only recalls due today or overdue. The recall dates themselves are never changed.</source>
+        <translation>0: μόνο ανακλήσεις που οφείλονται σήμερα ή είναι εκπρόθεσμες. Οι ίδιες οι ημερομηνίες ανάκλησης δεν αλλάζουν ποτέ.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>About QDento</source>
         <translation>Σχετικά με το QDento</translation>
     </message>
