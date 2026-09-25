@@ -4886,7 +4886,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Δρ. </translation>
     </message>
     <message>
-        <location filename="../src/Presenter/BrowserPresenter.cpp" line="+176"/>
+        <location filename="../src/Presenter/BrowserPresenter.cpp" line="+169"/>
         <source>New dental visit</source>
         <translation>Νέα οδοντιατρική επίσκεψη</translation>
     </message>

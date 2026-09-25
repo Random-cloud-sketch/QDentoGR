@@ -143,11 +143,11 @@ BrowserDialog::BrowserDialog()
 
 	});
 
-	ui.nameSearchEdit->setFocus();
-
 	presenter.setView(this);
 
-	ui.tabBar->setCurrentIndex(1);
+	//opens on «Ασθενείς» (set by the presenter), ready to type the patient's name
+	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::PatientSummary));
+	ui.nameSearchEdit->setFocus(Qt::OtherFocusReason);
 
 }
 

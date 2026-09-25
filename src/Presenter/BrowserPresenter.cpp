@@ -16,15 +16,8 @@ void BrowserPresenter::setView(BrowserDialog* view)
 {
 	this->view = view;
 	
-	static bool firstCall = true;
-
-	if (firstCall) {
-
-		firstCall = false;
-		//no need to show patient list if it is shown on every new document
-		ui_state.model_type =
-			TabType::PatientSummary;
-	}
+	//the search always opens on the patients (the dates and the details setting are remembered)
+	ui_state.model_type = TabType::PatientSummary;
 
 	this->view->setUiState(ui_state);
 
