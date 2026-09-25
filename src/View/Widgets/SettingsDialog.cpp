@@ -5,6 +5,9 @@
 #include <QtGlobal>
 #include <QInputDialog>
 #include <QTabBar>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QGroupBox>
 
 #include "Model/User.h"
 #include "GlobalSettings.h"
@@ -161,6 +164,44 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	});
 
 	User::ADA_num ? ui.adaButton->setChecked(true) : ui.fdiButton->setChecked(true);
+
+	//required fields of the "New patient" dialog (saved immediately, like the language)
+	{
+		using namespace GlobalSettings;
+
+		auto group = new QGroupBox(tr("Required fields of a new patient"), ui.generalTab);
+		group->setToolTip(tr("The fields marked with * must be filled in when a new patient is created"));
+
+		auto grid = new QGridLayout(group);
+
+		const std::pair<const char*, QString> fields[]{
+			{ RequiredField::FirstName, tr("First name") },
+			{ RequiredField::LastName, tr("Last name") },
+			{ RequiredField::Phone, tr("Phone") },
+			{ RequiredField::Address, tr("Address") },
+			{ RequiredField::ReferringDoctor, tr("Referring doctor") },
+			{ RequiredField::DateOfBirth, tr("Date of birth") },
+			{ RequiredField::Gender, tr("Sex") }
+		};
+
+		int i = 0;
+
+		for (auto& [key, text] : fields)
+		{
+			auto check = new QCheckBox(text, group);
+			check->setObjectName(QString("required_") + key);
+			check->setChecked(isFieldRequired(key));
+
+			std::string field = key;
+			connect(check, &QCheckBox::toggled, this, [field](bool checked) { setFieldRequired(field, checked); });
+
+			grid->addWidget(check, i / 4, i % 4);
+			i++;
+		}
+
+		//after "Translation file", before the spacer
+		ui.verticalLayout_3->insertWidget(2, group);
+	}
 
 	//About QDento: the existing content, shown as the last page of the settings
 	auto about = new AboutDialog(ui.tabWidget);

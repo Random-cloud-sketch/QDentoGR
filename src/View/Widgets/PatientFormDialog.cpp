@@ -2,6 +2,9 @@
 #include "Model/User.h"
 #include "Model/UpperCase.h"
 #include "View/uiComponents/UpperCaseValidator.h"
+#include "GlobalSettings.h"
+#include <QMessageBox>
+#include <QStyle>
 
 PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     : QDialog(parent),
@@ -63,6 +66,45 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     //wide enough for the whole identifier
     resize(QDialog::size().expandedTo(sizeHint()));
 
+    //required fields of a new patient: red border while a required field is missing
+    setStyleSheet(
+        "QLineEdit[requiredInvalid=\"true\"], QDateEdit[requiredInvalid=\"true\"], QComboBox[requiredInvalid=\"true\"]"
+        "{ border: 1px solid #E74C3C; }"
+    );
+
+    using namespace GlobalSettings;
+
+    requiredFields = {
+        { RequiredField::FirstName, ui.label, ui.fNameEdit },
+        { RequiredField::LastName, ui.label_3, ui.lNameEdit },
+        { RequiredField::Phone, ui.label_5, ui.phoneEdit },
+        { RequiredField::Address, ui.addressLabel, ui.addressEdit },
+        { RequiredField::ReferringDoctor, ui.referringDoctorLabel, ui.referringDoctorEdit },
+        { RequiredField::DateOfBirth, ui.label_7, ui.birthEdit },
+        { RequiredField::Gender, ui.label_8, ui.sexCombo }
+    };
+
+    //the label texts without "*"
+    for (auto& f : requiredFields) f.label->setProperty("baseText", f.label->text());
+
+    //a corrected field is no longer marked (no message while typing)
+    for (auto edit : { static_cast<QLineEdit*>(ui.fNameEdit), static_cast<QLineEdit*>(ui.lNameEdit),
+                       static_cast<QLineEdit*>(ui.phoneEdit), static_cast<QLineEdit*>(ui.addressEdit),
+                       static_cast<QLineEdit*>(ui.referringDoctorEdit) })
+    {
+        connect(edit, &QLineEdit::textChanged, this, [this, edit](const QString& text) {
+            if (!text.trimmed().isEmpty()) clearFieldError(edit);
+        });
+    }
+
+    connect(ui.birthEdit, &QDateEdit::dateChanged, this, [this] {
+        if (birthDateEntered()) clearFieldError(ui.birthEdit);
+    });
+
+    connect(ui.sexCombo, &QComboBox::currentIndexChanged, this, [this](int index) {
+        if (index >= 0) clearFieldError(ui.sexCombo);
+    });
+
     presenter.setView(this);
 }
 
@@ -76,6 +118,122 @@ void PatientFormDialog::paintEvent(QPaintEvent*)
 
 PatientFormDialog::~PatientFormDialog()
 {
+}
+
+void PatientFormDialog::setNewPatientMode(bool isNew)
+{
+    newPatient = isNew;
+
+    if (!newPatient) return;
+
+    //the fixed checks of the names and of the date of birth are replaced by the configured ones
+    ui.fNameEdit->setInputValidator(nullptr);
+    ui.lNameEdit->setInputValidator(nullptr);
+    ui.birthEdit->setInputValidator(nullptr);
+
+    //a required sex has to be chosen (otherwise "Male" stays the default)
+    if (isRequired(GlobalSettings::RequiredField::Gender)) ui.sexCombo->setCurrentIndex(-1);
+
+    updateRequiredIndicators();
+}
+
+bool PatientFormDialog::isRequired(const char* key) const
+{
+    return GlobalSettings::isFieldRequired(key);
+}
+
+bool PatientFormDialog::birthDateEntered() const
+{
+    //01.01.1900 (the minimum of the field) is the "no date of birth" value of the program
+    return ui.birthEdit->date() >= QDate(1901, 1, 1);
+}
+
+bool PatientFormDialog::isEmpty(const RequiredInput& f) const
+{
+    if (f.widget == ui.birthEdit) return !birthDateEntered();
+
+    if (f.widget == ui.sexCombo) return ui.sexCombo->currentIndex() < 0;
+
+    return static_cast<QLineEdit*>(f.widget)->text().trimmed().isEmpty();
+}
+
+void PatientFormDialog::updateRequiredIndicators()
+{
+    for (auto& f : requiredFields)
+    {
+        //always built from the original text, so the "*" is never repeated
+        QString base = f.label->property("baseText").toString();
+
+        if (!isRequired(f.key)) {
+            f.label->setText(base);
+            continue;
+        }
+
+        f.label->setText(base.endsWith(':') ? base.chopped(1) + "*:" : base + "*");
+    }
+}
+
+bool PatientFormDialog::validateRequiredFields()
+{
+    clearRequiredFieldErrors();
+
+    QStringList missing;
+    QWidget* first = nullptr;
+
+    for (auto& f : requiredFields)
+    {
+        if (!isRequired(f.key) || !isEmpty(f)) continue;
+
+        missing << f.label->property("baseText").toString().remove(':').trimmed();
+
+        markFieldInvalid(f.widget);
+
+        if (!first) first = f.widget;
+    }
+
+    if (missing.size())
+    {
+        QMessageBox::warning(this, tr("Required fields"),
+            tr("Please fill in the following required fields:") + "\n\n" + missing.join("\n"));
+
+        first->setFocus();
+
+        return false;
+    }
+
+    //an optional date of birth, when entered, must still be valid
+    if (birthDateEntered() && ui.birthEdit->date() >= QDate::currentDate())
+    {
+        markFieldInvalid(ui.birthEdit);
+        QMessageBox::warning(this, tr("Required fields"), tr("Invalid birthdate"));
+        ui.birthEdit->setFocus();
+        return false;
+    }
+
+    return true;
+}
+
+void PatientFormDialog::markFieldInvalid(QWidget* widget)
+{
+    widget->setProperty("requiredInvalid", true);
+    widget->style()->unpolish(widget);
+    widget->style()->polish(widget);
+    widget->update();
+}
+
+void PatientFormDialog::clearFieldError(QWidget* widget)
+{
+    if (!widget->property("requiredInvalid").toBool()) return;
+
+    widget->setProperty("requiredInvalid", false);
+    widget->style()->unpolish(widget);
+    widget->style()->polish(widget);
+    widget->update();
+}
+
+void PatientFormDialog::clearRequiredFieldErrors()
+{
+    for (auto& f : requiredFields) clearFieldError(f.widget);
 }
 
 void PatientFormDialog::setTitle(const std::string& title)
@@ -102,7 +260,10 @@ void PatientFormDialog::setPatientId(const std::string& id)
 
 void PatientFormDialog::setPatient(const Patient& patient)
 {
-    ui.sexCombo->setCurrentIndex(patient.sex);
+    //a new patient whose sex is required has to have it chosen
+    if (!newPatient || !isRequired(GlobalSettings::RequiredField::Gender)) {
+        ui.sexCombo->setCurrentIndex(patient.sex);
+    }
 
     auto& date = patient.birth;
     ui.birthEdit->setDate(QDate(date.year, date.month, date.day));
@@ -142,6 +303,8 @@ Patient PatientFormDialog::getPatient()
 
 bool PatientFormDialog::inputFieldsAreValid()
 {
+    if (newPatient) return validateRequiredFields();
+
     for (auto& f : patientFields) {
         f->validateInput();
 

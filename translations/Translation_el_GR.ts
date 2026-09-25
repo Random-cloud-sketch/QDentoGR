@@ -63,7 +63,7 @@
     </message>
     <message>
         <location line="+24"/>
-        <location filename="../src/View/Widgets/BrowserDialog.cpp" line="+281"/>
+        <location filename="../src/View/Widgets/BrowserDialog.cpp" line="+288"/>
         <source>Delete</source>
         <translation>Διαγραφή</translation>
     </message>
@@ -78,7 +78,7 @@
         <translation>Άνοιγμα επιλεγμένων εγγράφων</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/BrowserDialog.cpp" line="-247"/>
+        <location filename="../src/View/Widgets/BrowserDialog.cpp" line="-254"/>
         <source>Patients</source>
         <translation>Ασθενείς</translation>
     </message>
@@ -98,7 +98,7 @@
         <translation>Οικονομικά παραστατικά</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+19"/>
         <source>Browse Files</source>
         <translation>Αναζήτηση αρχείων</translation>
     </message>
@@ -2983,15 +2983,27 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Επεξεργασία ασθενή</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/PatientFormDialog.cpp" line="+14"/>
+        <location filename="../src/View/Widgets/PatientFormDialog.cpp" line="+17"/>
         <source>New document</source>
         <translation>Νέο έγγραφο</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+1"/>
+        <location line="+185"/>
         <source>Invalid birthdate</source>
         <translation>Μη έγκυρη ημερομηνία γέννησης</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Required fields</source>
+        <translation>Υποχρεωτικά πεδία</translation>
+    </message>
+    <message>
+        <location line="-11"/>
+        <source>Please fill in the following required fields:</source>
+        <translation>Συμπληρώστε τα παρακάτω υποχρεωτικά πεδία:</translation>
     </message>
 </context>
 <context>
@@ -3158,7 +3170,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νέο τιμολόγιο</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+8"/>
         <source>Schedule and Appointment</source>
         <translation>Προγραμματισμός ραντεβού</translation>
     </message>
@@ -4131,7 +4143,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Έξοδος</translation>
     </message>
     <message>
-        <location line="+124"/>
+        <location line="+130"/>
         <source>No active reminders</source>
         <translation>Καμία ενεργή υπενθύμιση</translation>
     </message>
@@ -4874,7 +4886,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Δρ. </translation>
     </message>
     <message>
-        <location filename="../src/Presenter/BrowserPresenter.cpp" line="+174"/>
+        <location filename="../src/Presenter/BrowserPresenter.cpp" line="+176"/>
         <source>New dental visit</source>
         <translation>Νέα οδοντιατρική επίσκεψη</translation>
     </message>
@@ -4884,12 +4896,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νέα περιοδοντική μέτρηση</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>New financial document</source>
-        <translation>Νέο οικονομικό παραστατικό</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Schedule new appointment</source>
         <translation>Προγραμματισμός νέου ραντεβού</translation>
     </message>
@@ -5348,7 +5355,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Νέο οικονομικό παραστατικό</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+8"/>
         <source>Schedule An Appointment</source>
         <translation>Προγραμματισμός ραντεβού</translation>
     </message>
@@ -5373,7 +5380,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Αποτελέσματα: </translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+100"/>
+        <location filename="../src/View/Widgets/SettingsDialog.cpp" line="+103"/>
         <location line="+8"/>
         <location line="+52"/>
         <source>Changes will take effect after restart</source>
@@ -5709,7 +5716,52 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Ρυθμίσεις</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+148"/>
+        <source>Required fields of a new patient</source>
+        <translation>Υποχρεωτικά πεδία νέου ασθενή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The fields marked with * must be filled in when a new patient is created</source>
+        <translation>Τα πεδία με * πρέπει να συμπληρωθούν κατά τη δημιουργία νέου ασθενή</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>First name</source>
+        <translation>Όνομα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last name</source>
+        <translation>Επώνυμο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Phone</source>
+        <translation>Τηλέφωνο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Address</source>
+        <translation>Διεύθυνση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Referring doctor</source>
+        <translation>Ιατρός Παραπομπής</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Date of birth</source>
+        <translation>Ημ. γέννησης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sex</source>
+        <translation>Φύλο</translation>
+    </message>
+    <message>
+        <location line="+25"/>
         <source>About QDento</source>
         <translation>Σχετικά με το QDento</translation>
     </message>
@@ -5941,7 +5993,7 @@ Use &quot;Open&quot; to view it with the program of the computer.</source>
         <translation>Περιοδοντική μέτρηση</translation>
     </message>
     <message>
-        <location filename="../src/View/Widgets/VisitView.cpp" line="+67"/>
+        <location filename="../src/View/Widgets/VisitView.cpp" line="+71"/>
         <source>Chronological number of the visit among the patient&apos;s visits</source>
         <translation>Αύξων αριθμός της επίσκεψης στο ιστορικό του ασθενούς</translation>
     </message>

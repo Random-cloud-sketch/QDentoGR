@@ -38,4 +38,20 @@ namespace GlobalSettings
 
 	CalendarAxis getCalendarAxis();
 	void setCalendarAxis(const CalendarAxis& axis);
+
+	//fields which must be filled in when a new patient is created ("required_fields" in config.json)
+	namespace RequiredField
+	{
+		inline constexpr const char* FirstName = "first_name";
+		inline constexpr const char* LastName = "last_name";
+		inline constexpr const char* Phone = "phone";
+		inline constexpr const char* Address = "address";
+		inline constexpr const char* ReferringDoctor = "referring_doctor";
+		inline constexpr const char* DateOfBirth = "date_of_birth";
+		inline constexpr const char* Gender = "gender";
+	}
+
+	//not configured yet: the fields which were already required (names and date of birth)
+	bool isFieldRequired(const std::string& field);
+	void setFieldRequired(const std::string& field, bool required);
 }

@@ -218,6 +218,31 @@ void GlobalSettings::setCalendarAxis(const CalendarAxis& axis)
     rewriteCfg(settings);
 }
 
+bool GlobalSettings::isFieldRequired(const std::string& field)
+{
+    auto settings = getSettingsAsJson();
+
+    if (settings.isMember("required_fields") &&
+        settings["required_fields"].isObject() &&
+        settings["required_fields"].isMember(field))
+    {
+        return settings["required_fields"][field].asBool();
+    }
+
+    return field == RequiredField::FirstName ||
+           field == RequiredField::LastName ||
+           field == RequiredField::DateOfBirth;
+}
+
+void GlobalSettings::setFieldRequired(const std::string& field, bool required)
+{
+    auto settings = getSettingsAsJson();
+
+    settings["required_fields"][field] = required;
+
+    rewriteCfg(settings);
+}
+
 bool GlobalSettings::isADANum()
 {
     return getSettingsAsJson()["is_ADA"].asBool();

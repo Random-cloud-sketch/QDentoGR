@@ -33,6 +33,26 @@ struct PatientFormDialog : public QDialog
 
     std::array<AbstractUIElement*, PatientField::size> patientFields;
 
+    //required fields of a new patient (configured in the settings)
+    struct RequiredInput
+    {
+        const char* key;
+        QLabel* label;
+        QWidget* widget;
+    };
+
+    std::vector<RequiredInput> requiredFields;
+    bool newPatient{ false };
+
+    bool isRequired(const char* key) const;
+    bool isEmpty(const RequiredInput& f) const;
+    bool birthDateEntered() const;
+    void updateRequiredIndicators();
+    bool validateRequiredFields();
+    void markFieldInvalid(QWidget* widget);
+    void clearFieldError(QWidget* widget);
+    void clearRequiredFieldErrors();
+
 public:
     Q_OBJECT
 
@@ -41,6 +61,8 @@ public:
     PatientFormDialog(PatientDialogPresenter& p, QWidget* parent = 0);
     ~PatientFormDialog();
 
+    //new patient: the required fields come from the settings (an existing patient keeps the usual checks)
+    void setNewPatientMode(bool newPatient);
     void setTitle(const std::string& title);
     void resetFields();
     void setPatientId(const std::string& id);

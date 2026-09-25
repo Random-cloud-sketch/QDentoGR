@@ -58,6 +58,9 @@ void PatientDialogPresenter::setView(PatientFormDialog* view)
 
 	view->setTitle(dialogTitle);
 
+	//the required fields of the settings apply only to a patient which is not saved yet
+	view->setNewPatientMode(rowid == 0);
+
 	view->setPatientId(patientId);
 
 	if (!m_patient.has_value()) return;
